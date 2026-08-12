@@ -60,6 +60,16 @@ def main():
         lines += ["> [!NOTE]",
                   "> これは **サンプルデータによるテスト実行** です。実データではありません。", ""]
 
+    # チャート画像は撮影失敗・サンプル実行時に存在しない。
+    # リンク切れの画像を貼らず、状況が分かる文言に差し替える
+    if os.path.exists(os.path.join(ddir, "charts_1h.jpg")):
+        charts_block = f"![charts]({base}/charts_1h.jpg)"
+    elif sample:
+        charts_block = "_サンプル実行ではチャートを撮影しないため画像はありません（本番実行では表示されます）。_"
+    else:
+        charts_block = ("> [!WARNING]\n"
+                        "> チャート画像の取得に失敗しました。投稿2にはレポート画像のみ添付してください。")
+
     lines += [
         f"検証結果: **{overall}** ／ モード: {audit.get('mode')} ／ 生成: {audit.get('verified_at_jst', '')}",
         "",
@@ -67,7 +77,7 @@ def main():
         f"![report]({base}/report_image.png)",
         "",
         "## 2. チャート画像（1H足・参考添付用）",
-        f"![charts]({base}/charts_1h.jpg)",
+        charts_block,
         "",
         f"## 3. X投稿1（コピー用｜加重文字数 {metric('I1')}）",
         "```text",

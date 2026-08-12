@@ -74,7 +74,12 @@ jobs:
         run: |
           git config user.name "wmr-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A outputs sources || true
+          # 存在するディレクトリのみを個別にstageする。
+          # 1回のgit addで存在しないパスを指定すると全体が失敗し、何もstageされない
+          # （サンプル実行ではfetchを行わないため sources/ が作られない）
+          for d in outputs sources; do
+            if [ -d "$d" ]; then git add -A "$d"; fi
+          done
           if git diff --cached --quiet; then
             echo "コミット対象なし"
           else
