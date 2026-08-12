@@ -22,7 +22,9 @@ from zoneinfo import ZoneInfo
 FORBIDDEN_JA = ["ビットコイン", "イーサリアム", "暗号資産", "暗号通貨", "仮想通貨",
                 "クリプト", "アルトコイン", "ステーブルコイン", "草コイン"]
 FORBIDDEN_EN = ["BTC", "ETH", "Uniswap", "DeFi", "NFT", "Solana", "XRP", "Dogecoin",
-                "USDT", "USDC", "Binance", "Coinbase"]
+                "USDT", "USDC", "Binance", "Coinbase",
+                "Bitcoin", "Ethereum", "crypto", "cryptocurrency", "cryptocurrencies",
+                "stablecoin", "stablecoins", "altcoin", "altcoins", "blockchain"]
 FORBIDDEN_PAIRS = ["USD/CAD", "USDCAD", "USD/CHF", "USDCHF", "NZD/USD", "NZDUSD",
                    "EUR/JPY", "EURJPY", "AUD/JPY", "AUDJPY", "US30", "US500", "US100",
                    "NAS100", "SPX500"]
@@ -34,6 +36,12 @@ PLACEHOLDERS = ["None", "null", "NaN", "undefined", "TBD", "XXX",
 
 def en_hit(token: str, text: str) -> bool:
     return re.search(rf"(?<![A-Za-z]){re.escape(token)}(?![A-Za-z])", text) is not None
+
+
+def en_hit_i(token: str, text: str) -> bool:
+    """G2専用。暗号通貨語は文頭・見出しで大文字になりうるため大小文字を無視して検出する"""
+    return re.search(rf"(?<![A-Za-z]){re.escape(token)}(?![A-Za-z])",
+                     text, re.IGNORECASE) is not None
 
 
 def weighted_len(s: str) -> int:
@@ -79,7 +87,7 @@ def main():
 
     # G2 暗号通貨語ゼロ
     hits = [w for w in FORBIDDEN_JA if w in all_text] + \
-           [w for w in FORBIDDEN_EN if en_hit(w, all_text)]
+           [w for w in FORBIDDEN_EN if en_hit_i(w, all_text)]
     gate("G2", "暗号通貨語の混入ゼロ", not hits, "検出: " + ", ".join(hits) if hits else "")
 
     # G3 対象5ペア限定
