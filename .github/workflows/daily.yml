@@ -1,0 +1,93 @@
+name: Westpac Morning Report
+
+on:
+  schedule:
+    # JST 8:00 / 8:20 / 8:40 の月〜金（UTCでは日〜木の23時台）
+    - cron: '0 23 * * 0-4'
+    - cron: '20 23 * * 0-4'
+    - cron: '40 23 * * 0-4'
+  workflow_dispatch:
+    inputs:
+      sample:
+        description: 'サンプルデータで動作テスト（Westpac取得・Claude APIを使わない）'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: wmr-daily
+  cancel-in-progress: false
+
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TZ: Asia/Tokyo
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      WMR_SAMPLE: ${{ github.event_name == 'workflow_dispatch' && inputs.sample }}
+      WMR_FINAL: ${{ github.event.schedule == '40 23 * * 0-4' }}
+      WMR_MANUAL: ${{ github.event_name == 'workflow_dispatch' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 本日分の生成済みチェック（重複ガード）
+        id: dup
+        run: |
+          DATE=$(date +%F)
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          if [ -f "outputs/$DATE/audit.json" ]; then
+            echo "done=true" >> "$GITHUB_OUTPUT"
+            echo "本日分（$DATE）は生成済みのためスキップ"
+          else
+            echo "done=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-python@v5
+        if: steps.dup.outputs.done == 'false'
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: 依存ライブラリ
+        if: steps.dup.outputs.done == 'false'
+        run: pip install -r requirements.txt
+
+      - name: 日本語フォント（画像レンダリング用）
+        if: steps.dup.outputs.done == 'false'
+        run: sudo apt-get update -q && sudo apt-get install -y -q fonts-noto-cjk fonts-noto-cjk-extra
+
+      - name: Playwright（実データ実行時のみ）
+        if: steps.dup.outputs.done == 'false' && env.WMR_SAMPLE != 'true'
+        run: python -m playwright install --with-deps chromium
+
+      - name: パイプライン実行
+        if: steps.dup.outputs.done == 'false'
+        id: run
+        run: python scripts/run_daily.py
+
+      - name: 生成物をコミット
+        if: steps.dup.outputs.done == 'false'
+        run: |
+          git config user.name "wmr-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A outputs sources || true
+          if git diff --cached --quiet; then
+            echo "コミット対象なし"
+          else
+            git commit -m "WMR ${{ steps.dup.outputs.date }}"
+            git pull --rebase origin ${{ github.ref_name }} || true
+            git push
+          fi
+
+      - name: 検収Issueを起票
+        if: steps.dup.outputs.done == 'false' && steps.run.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create \
+            --title "$(cat "${{ steps.run.outputs.title_path }}")" \
+            --body-file "${{ steps.run.outputs.body_path }}"

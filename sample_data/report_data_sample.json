@@ -1,0 +1,55 @@
+{
+  "date_jst": "2026-08-12",
+  "subtitle": "本日の市場テーマと通貨ペア分析",
+  "source_label": "Westpac IQ Morning Report",
+  "themes": [
+    {
+      "icon": "oil",
+      "title": "ホルムズ閉鎖継続・原油高",
+      "desc": "イランは補償を含む条件を堅持。\nWTI原油は83ドル台へ上昇、供給懸念が継続。",
+      "impact": "インフレ懸念",
+      "impact_dir": "up"
+    },
+    {
+      "icon": "market",
+      "title": "米CPI待ち・リスク資産は軟調",
+      "desc": "S&P500・NASDAQは下落。\n米CPI発表を前に米金利は小幅低下。",
+      "impact": "USD方向感はCPI次第",
+      "impact_dir": "flat"
+    },
+    {
+      "icon": "bank",
+      "title": "RBAは4.35%で据え置き",
+      "desc": "インフレ上振れ時の利上げ余地を明示。\n豪金融政策はタカ派姿勢を維持。",
+      "impact": "豪ドルの下支え",
+      "impact_dir": "up"
+    }
+  ],
+  "pairs_image": [
+    {
+      "pair": "USD/JPY",
+      "dir": "flat",
+      "label": "方向感は限定的",
+      "reason": "米CPI待ち。159円台で金利差と介入警戒が拮抗。",
+      "badge": "CPI FOCUS"
+    },
+    {
+      "pair": "XAU/USD",
+      "dir": "down",
+      "label": "やや下落",
+      "reason": "前日の急騰後に利益確定。原油高・中東リスクは下支え。",
+      "badge": "SAFE HAVEN"
+    },
+    {
+      "pair": "AUD/USD",
+      "dir": "up",
+      "label": "底堅い",
+      "reason": "RBAのタカ派的据え置きが豪ドルを支える。",
+      "badge": "RBA HAWKISH"
+    }
+  ],
+  "report_md": "# 2026年8月12日（水） Westpac IQ Morning Report\n\n## 1. ファンダメンタルズ・マクロ経済分析\n\n（サンプル）ホルムズ海峡の閉鎖が継続し、WTI原油は83ドル台へ上昇。供給懸念を背景にインフレ警戒が強まる一方、米CPI発表を控えて主要リスク資産は軟調に推移した。RBAは政策金利を4.35%で据え置き、インフレ上振れ時の追加利上げ余地を明示するタカ派姿勢を維持した。\n\n## 2. テクニカル分析と本日の展望\n\n- USD/JPY：159円台で金利差と介入警戒が拮抗。米CPI待ちで方向感は限定的。\n- AUD/USD：RBAのタカ派的据え置きが下支え。0.66台の攻防。\n- XAU/USD：急騰後の利益確定でやや反落。中東リスクが下値を支える。\n- EUR/USD：1.08近辺でもみ合い。CPI後のドル方向に追随しやすい。\n- GBP/USD：英指標待ち。1.27前後のレンジ推移。\n\n## 3. 本日の重要イベント\n\n| 時刻(JST) | 国 | イベント | 予想 | 前回 |\n|---|---|---|---|---|\n| 21:30 | 米国 | 消費者物価指数（CPI・7月） | +0.3% | +0.3% |\n\n出典: Westpac IQ Morning Report 2026/08/12",
+  "post1": "【8/12(水) 朝の為替市況】\n\n・ホルムズ閉鎖継続、WTI原油83ドル台へ上昇\n・米CPI発表待ちでリスク資産は軟調\n・RBAは4.35%据え置き、タカ派姿勢を維持\n\n#FX #為替 #市況 #ドル円",
+  "post2": "【通貨別分析 8/12】\n\n#USDJPY 159.45 → 方向感は限定的\n根拠：米CPI待ち。金利差と介入警戒が拮抗\n\n#AUDUSD 0.6612 ↑ 底堅い\n根拠：RBAタカ派据え置きが下支え\n\n#XAUUSD 3350 ↓ やや下落\n根拠：急騰後の利益確定。中東リスクは下支え\n\n#EURUSD 1.0820 → もみ合い\n根拠：CPI後のドル方向に追随\n\n#GBPUSD 1.2710 → レンジ\n根拠：英指標待ち\n\n出典: Westpac IQ Morning Report 2026/08/12\n#FX #為替 #ドル円 #ゴールド #GOLD #投資 #資産運用 #市況",
+  "pdf_url": "(sample)"
+}
