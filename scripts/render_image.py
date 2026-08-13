@@ -262,7 +262,7 @@ def render(data: dict, out_path: str):
     my = (top + bottom) // 2
     d.polygon([(mid_x, my - 12), (mid_x + 9, my), (mid_x, my + 12), (mid_x - 9, my)], fill=GOLD_LT)
 
-    # ---- 左：主要テーマ3件（文字大型化＋自動フィット）
+    # ---- 左：主要テーマ3件（枠幅を使い切るまで自動拡大）
     for i, th in enumerate(data["themes"][:3]):
         cy0 = top + i * (card_h + gap)
         cy1 = cy0 + card_h
@@ -274,25 +274,35 @@ def render(data: dict, out_path: str):
         tx = lx0 + 262
         t_max_w = lx1 - 34 - tx
 
-        f_title = fit("serif_bold", str(th.get("title", "")), t_max_w, 62, 44)
-        d.text((tx, cy0 + 26), th.get("title", ""), font=f_title, fill=WHITE)
+        # v3: 枠幅を使い切るまで自動拡大（上限あり・縦の収まりは影響行から自動調整）
+        title = str(th.get("title", ""))
+        t_size = 44
+        while t_size < 74 and font("serif_bold", t_size + 2).getlength(title) <= t_max_w:
+            t_size += 2
+        f_title = font("serif_bold", t_size)
+        d.text((tx, cy0 + 18), title, font=f_title, fill=WHITE)
 
         desc_lines = str(th.get("desc", "")).split("\n")[:2]
-        size = 46
-        while size > 32 and any(font("serif_reg", size).getlength(l) > t_max_w for l in desc_lines):
-            size -= 2
-        f_desc = font("serif_reg", size)
-        dy = cy0 + 118
+        d_size = 32
+        while d_size < 46 and all(font("serif_reg", d_size + 2).getlength(l) <= t_max_w
+                                  for l in desc_lines):
+            d_size += 2
+        f_desc = font("serif_reg", d_size)
+        dy = cy0 + 24 + t_size + 16
         for ln in desc_lines:
-            for wl in wrap(ln, f_desc, t_max_w, 1):
-                d.text((tx, dy), wl, font=f_desc, fill=BODY)
-            dy += int(size * 1.36)
-        under_y = dy + 8
-        d.line([(tx, under_y), (tx + int(t_max_w * 0.78), under_y)], fill=GOLD, width=2)
+            d.text((tx, dy), wrap(ln, f_desc, t_max_w, 1)[0], font=f_desc, fill=BODY)
+            dy += int(d_size * 1.34)
+        under_y = dy + 6
+        d.line([(tx, under_y), (lx1 - 34, under_y)], fill=GOLD, width=2)
 
         imp_text = f"影響：{th.get('impact', '')} "
-        f_imp = fit("serif_bold", imp_text + "↑", t_max_w, 48, 36)
-        iy = under_y + 16
+        i_size = 36
+        while i_size < 52 and font("serif_bold", i_size + 2).getlength(imp_text + "↑") <= t_max_w:
+            i_size += 2
+        while i_size > 34 and under_y + 12 + int(i_size * 1.18) > cy1 - 12:
+            i_size -= 2
+        f_imp = font("serif_bold", i_size)
+        iy = under_y + 12
         d.text((tx, iy), imp_text, font=f_imp, fill=GOLD_LT)
         ar, ac = impact_arrow_char(th.get("impact_dir", "flat"))
         d.text((tx + f_imp.getlength(imp_text) + 4, iy), ar, font=f_imp, fill=ac)
@@ -325,7 +335,10 @@ def render(data: dict, out_path: str):
         text_w = bx0 - 24 - tx
 
         lab = str(pr.get("label", ""))
-        f_lab = fit("serif_bold", lab, text_w, 60, 40)
+        l_size = 40
+        while l_size < 66 and font("serif_bold", l_size + 2).getlength(lab) <= text_w:
+            l_size += 2
+        f_lab = font("serif_bold", l_size)
         d.text((tx, cy0 + 40), lab, font=f_lab, fill=label_color(direction))
 
         f_rsn = font("serif_reg", 34)
