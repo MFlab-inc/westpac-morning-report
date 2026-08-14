@@ -116,8 +116,9 @@ def main():
     gate("G5", "出典表記（本文・投稿2）", ok5)
 
     # G6 規定ハッシュタグ
-    p1_missing = [t for t in ["#FX", "#為替", "#市況", "#ドル円"] if t not in p1]
-    p2_missing = [t for t in ["#FX", "#為替"] if t not in p2]
+    # ハッシュタグ本数のA/B検証中（A案=2個）。post1の2個目は日替わりの材料タグのため固定チェックしない
+    p1_missing = [t for t in ["#ドル円"] if t not in p1]
+    p2_missing = [t for t in ["#ドル円", "#為替"] if t not in p2]
     gate("G6", "規定ハッシュタグ", not p1_missing and not p2_missing,
          f"投稿1不足: {p1_missing} / 投稿2不足: {p2_missing}" if p1_missing or p2_missing else "")
 
