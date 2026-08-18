@@ -1,0 +1,339 @@
+19 August 2026
+MORNING REPORT
+Today's economic developments and market movements.
+Key themes Data snapshot
+Hopes that the Strait of FX Last 24 hrs Current Change AUS Interest Rate Swaps Last Change
+Hormuz would reopen soon TWI 65.9 -0.2% 30 day BBSY 4.36 0.00
+faded further after President AUD/USD 0.7087 -0.2% 90 day BBSY 4.55 0.00
+Trump confirmed that AUD/JPY 113.12 -0.1% 180 day BBSY 4.86 -0.01
+there are currently no talks AUD/GBP 0.5237 -0.2% 1 year swap 4.60 0.01
+between the US and Iran, AUD/NZD 1.2059 0.2% 2 year swap 4.58 0.02
+keeping crude oil on its recent AUD/EUR 0.6121 -0.2% 3 year swap 4.57 0.02
+upward trajectory. AUD/CNH 4.7815 -0.2% 4 year swap 4.59 0.03
+AUD/SGD 0.9059 -0.2% 5 year swap 4.63 0.03
+Concerns about rising debt
+AUD/HKD 5.5591 -0.2% 6 year swap 4.67 0.02
+used to fund AI expansion
+AUD/CAD 0.9846 0.0% 7 year swap 4.73 0.02
+sent semiconductor stocks
+EUR/USD 1.1578 0.0% 8 year swap 4.80 0.02
+lower, dragging major equity
+USD/JPY 159.60 0.1% 9 year swap 4.85 0.02
+benchmarks down.
+USD Index 99.64 0.0% 10 year swap 4.90 0.02
+Pressure in bond markets
+is also rising rapidly. Long- Equities Close Change Government Bond Yields Close Change
+dated bonds continue to S&P/ASX 200 9,070 0.0% Australia
+sell off amid concerns about S&P 500 7,692 -0.7% 3 year bond 4.59 0.04
+inflationary pressures from Japan Nikkei 67,461 -2.5% 10 year bond 5.10 0.05
+higher energy prices, the Hang Seng 25,471 0.1% United States
+persistence and frequency of Euro Stoxx 50 6,468 -1.0% 3-month T Bill 3.69 -0.01
+supply shocks in the current UK FTSE100 10,728 0.1% 2 year bond 4.17 0.00
+geopolitical climate, and VIX Index 15.84 4.3% 10 year bond 4.70 -0.02
+the sustainability of public Other (10 year yields)
+finances in major economies. Commodities Current Change Germany 3.26 0.04
+CRB Index 396.78 -0.1% Japan 2.96 0.04
+US Treasuries pared earlier
+Gold 4334.44 -1.8% UK 5.08 0.02
+losses and finished the
+Copper 13986 -1.2%
+day in the green, but major
+Oil (WTI futures) 84.94 0.5% Sydney Futures Exchange Current Change
+European government bonds
+Coal (coking) 225.50 0.7% 10 yr bond 5.08 -0.02
+recorded further losses.
+Coal (thermal) 134.25 0.1% 3 yr bond 4.58 -0.01
+Aussie yields also moved
+Iron Ore 96.55 0.9% 3 mth bill rate 4.51 0.01
+higher.
+ACCU 36.13 -4.3% SPI 200 8,976 -0.3%
+Data as at 7:40am AEST. Change is from the previous trading day (excluding the SFE, which is the change during the night
+session). Source: Bloomberg.
+Past performance is not a reliable indicator of future performance. The forecasts given above are predictive in character. Whilst every effort has been taken to ensure that the assumptions on which the forecasts are based are reasonable,
+the forecasts may be affected by incorrect assumptions or by known or unknown risks and uncertainties. The results ultimately achieved may differ substantially from these forecasts.
+1
+
+TODAY’S INSIGHTS
+Today’s key data and events
+Mantas Vanagas
+Senior Economist, Westpac Group Time Event Exp Prev
+P: +61 422 030 326 8:45 NZ PPI Q2 - 0.8%
+E: mantas.vanagas@westpac.com.au
+9:50 JP Machinery Orders Jun 7.2% -12.4%
+Financial Markets 11:30 AU Wage Price Index Q2 0.8% 0.8%
+11:30 AU Wage Price Index Q2 3.2% 3.3%
+Hopes that the Strait of Hormuz would reopen soon faded
+16:00 GB CPI Jul 2.9% 2.6%
+further after President Trump confirmed that there are
+04:00 FOMC July meeting minutes - -
+currently no talks between the US and Iran, following the
+expiry of the memorandum of understanding the two countries Times are AEST. All data forecasts are m/m or q/q and seasonally adjusted unless otherwise
+specified. Forecasts for Australian data are our forecasts and for other countries they are
+signed in June. Meanwhile, reports suggested that Iran had consensus forecasts.
+fired missiles into UAE territory, its first attack on the country
+International Data
+since May, pointing to an escalation in military activity.
+In equity markets, semiconductor stocks were again in the US housing starts surprised significantly to the downside,
+spotlight, as concerns about rising debt used to fund AI falling 12.4%mth in July. The data have been very volatile
+expansion sent major equity benchmarks lower. That weaker lately, but growth on a three-month basis has now dropped
+tone is also spilling into major bond markets, where investors into negative double digits and was the weakest in almost four
+already face a long list of concerns, such as inflationary years. High interest rates, affordability constraints and weak
+pressures from higher energy prices, the persistence and sentiment remain the key challenges for the US housing market.
+frequency of supply shocks in the current geopolitical climate,
+US industrial production maintained its upward trajectory,
+and the sustainability of public finances in major economies.
+with output rising 0.2%mth in July. In addition, June’s result was
+• Most major equity indices traded in the red. The S&P 500 revised higher to a 0.3%mth increase. The data highlighted
+fell 0.7%, registering a third consecutive daily loss. The diverging trends in consumer and business demand. Consistent
+tech sector was the weakest performer, down almost 2%, with recent signals from softer employment data and consumer
+with the semiconductor benchmark index falling 5%. The spending indicators, consumer goods production was down
+Euro Stoxx 50 made even bigger losses, down 1.0%. Asian 0.4%mth. Meanwhile, business equipment production remained
+markets also fell, with a downside surprise in Chinese strong, rising 0.8%mth, likely linked to increased business
+activity indicators weighing on sentiment. The ASX was investment in AI and other areas.
+little changed, as a spike in healthcare stocks offset losses
+The latest UK jobs data showed that labour market slack
+elsewhere.
+continued to rise, suggesting that weakening domestic
+• In bond markets, US Treasuries pared earlier losses and inflationary pressures are continuing to offset the upward
+finished the day in the green, with yields down 1-2bp at pressure on CPI from higher energy prices. The number of
+the longer end of the curve. The move did little to reverse payrolled employees declined for a fifth consecutive month,
+the increases seen over the past couple of months, during falling by 13k, while vacancies – an indicator of labour demand
+which the US 30Y yield rose by almost 40bp, while the short – also maintained a downward trend. The Labour Force Survey
+end remained little changed, anchored by broadly stable numbers, which have been less reliable of late, conveyed a
+expectations for Fed policy. similar message: headline three-month employment growth
+softened notably, and the three-month unemployment rate
+• Major government bonds in Europe made losses, with yields
+remained unchanged at 4.9%, contrary to expectations of
+remaining on an upward trend. In Germany, the 10Y yield
+a 0.1ppt decline. Against that backdrop, the wage growth
+rose 4bp to 3.26%, its highest level in fifteen years, with the
+impulse weakened further, with private sector regular wages
+new supply from yesterday’s 30Y auction and today’s 10Y
+rising by only 2.8%yr.
+bond auction adding to upward pressure on yields. UK Gilts
+followed a similar pattern, with 2bp increases in 10Y and The euro area ZEW survey of financial market experts
+30Y yields taking them to 5.08% and 5.83%, respectively. showed that the recovery this quarter is gathering pace. The
+The latter was just shy of the highest levels seen since the headline economic expectations indicator rose by 8pts to 31.4,
+late 1990s earlier this year. Aussie yields also headed higher, representing a sharp bounce back up from April’s trough of
+with the 10Y up 5bp and the 30Y gaining 7bp to 5.61%. -20.4 and leaving it above its long-term average of around 20.
+The current economic situation indicator rose even more sharply,
+• In FX markets, the DXY was unchanged at 99.64. The EUR
+up by 16.2pts to -21.5, also above its historical average.
+also held steady, while GBP and the yen depreciated slightly,
+each by 0.1%. The AUD weakened 0.2% to 0.7087. Local Data
+• Unfavourable headlines from the Middle East conflict kept The Westpac–Melbourne Institute Consumer Sentiment
+crude oil on its recent upward trajectory. However, the gains Index rose 6% to 88.9 in August. This is still a weak result
+were modest, with the active Brent and WTI contracts both and noticeably lower than the readings recorded last year (see
+up $0.5 to $91.4 and $84.9, respectively. here).
+Past performance is not a reliable indicator of future performance. The forecasts given above are predictive in character. Whilst every effort has been taken to ensure that the assumptions on which the forecasts are based are reasonable,
+the forecasts may be affected by incorrect assumptions or by known or unknown risks and uncertainties. The results ultimately achieved may differ substantially from these forecasts.
+WESTPAC ECONOMICS
+2
+
+Corporate Directory
+Westpac Economics / Australia Westpac Economics / New Zealand
+Sydney Auckland
+Level 19, 275 Kent Street Takutai on the Square
+Sydney NSW 2000 Level 8, 16 Takutai Square
+Australia Auckland, New Zealand
+E: economics@westpac.com.au E: economics@westpac.co.nz
+Luci Ellis Kelly Eckhold
+Chief Economist Westpac Group Chief Economist NZ
+E: luci.ellis@westpac.com.au E: kelly.eckhold@westpac.co.nz
+Matthew Hassan Michael Gordon
+Head of Australian Macro–Forecasting Senior Economist
+E: mhassan@westpac.com.au E: michael.gordon@westpac.co.nz
+Elliot Clarke Darren Gibbs
+Head of International Economics Senior Economist
+E: eclarke@westpac.com.au E: darren.gibbs@westpac.co.nz
+Satish Ranchhod
+Sian Fenner
+Senior Economist
+Head of Business and Industry Economics
+E: satish.ranchhod@westpac.co.nz
+E: sian.fenner@westpac.com.au
+Paul Clark
+Justin Smirk
+Industry Economist
+Senior Economist
+E: paul.clarke@westpac.co.nz
+E: jsmirk@westpac.com.au
+Pat Bustamante
+Senior Economist
+E: pat.bustamante@westpac.com.au Westpac Economics / Fiji
+Mantas Vanagas
+Suva
+Senior Economist
+1 Thomson Street
+E: mantas.vanagas@westpac.com.au
+Suva, Fiji
+Ryan Wells
+Shamal Chand
+Economist
+Senior Economist
+E: ryan.wells@westpac.com.au
+E: shamal.chand@westpac.com.au
+Illiana Jain
+Economist
+E: illiana.jain@westpac.com.au
+Neha Sharma
+Economist
+E: neha.sharma1@westpac.com.au
+Luka Belobrajdic
+Economist
+E: luka.belobrajdic@westpac.com.au
+westpaciq.com.au
+
+DISCLAIMER
+©2026 Westpac Banking Corporation ABN 33 007 457 141 (including with respect to a financial instrument, giving rise to potential
+where acting under any of its Westpac, St George, Bank of Melbourne conflicts of interest which may impact the performance of a financial
+or BankSA brands, collectively, “Westpac”). References to the “Westpac instrument. The Westpac Group may at any time transact or hold a
+Group” are to Westpac and its subsidiaries and includes the directors, position (including hedging and trading positions) for its own account
+employees and representatives of Westpac and its subsidiaries. or the account of a client in any financial instrument which may impact
+the performance of that financial instrument.
+Things you should know
+Author(s) disclaimer and declaration: The author(s) confirms that
+We respect your privacy: You can view the New Zealand Privacy (a) no part of his/her compensation was, is, or will be, directly or
+Policy here, or the Australian Group Privacy Statement here. indirectly, related to any views or (if applicable) recommendations
+Each time someone visits our site, data is captured so that we can expressed in this material; (b) this material accurately reflects his/her
+accurately evaluate the quality of our content and make improvements personal views about the financial products, companies or issuers (if
+for you. We may at times use technology to capture data about you to applicable) and is based on sources reasonably believed to be reliable
+help us to better understand you and your needs, including potentially and accurate; (c) to the best of the author’s knowledge, they are not in
+for the purposes of assessing your individual reading habits and receipt of inside information and this material does not contain inside
+interests to allow us to provide suggestions regarding other reading information; and (d) no other part of the Westpac Group has made any
+material which may be suitable for you. attempt to influence this material.
+This information, unless specifically indicated otherwise, is under Further important information regarding sustainability related
+copyright of the Westpac Group. None of the material, nor its content: This material may contain statements relating to
+contents, nor any copy of it, may be altered in any way, transmitted environmental, social and governance (ESG) topics. These are subject
+to, copied of distributed to any other party without the prior written to known and unknown risks, and there are significant uncertainties,
+permission of the Westpac Group. limitations, risks and assumptions in the metrics, modelling, data,
+scenarios, reporting and analysis on which the statements rely. In
+Disclaimer particular, these areas are rapidly evolving and maturing, and there
+are variations in approaches and common standards and practice, as
+This information has been prepared by Westpac and is intended well as uncertainty around future related policy and legislation. Some
+for information purposes only. It is not intended to reflect any material may include information derived from publicly available
+recommendation or financial advice and investment decisions should sources that have not been independently verified. No representation
+not be based on it. This information does not constitute an offer, a or warranty is made as to the accuracy, completeness or reliability
+solicitation of an offer, or an inducement to subscribe for, purchase or of the information. There is a risk that the analysis, estimates,
+sell any financial instrument or to enter into a legally binding contract. judgements, assumptions, views, models, scenarios or projections
+To the extent that this information contains any general advice, it has used may turn out to be incorrect. These risks may cause actual
+been prepared without taking into account your objectives, financial outcomes to differ materially from those expressed or implied. The
+situation or needs and before acting on it you should consider the ESG-related statements in this material do not constitute advice,
+appropriateness of the advice. Certain types of transactions, including nor are they guarantees or predictions of future performance, and
+those involving futures, options and high yield securities give rise to Westpac gives no representation, warranty or assurance (including
+substantial risk and are not suitable for all investors. We recommend as to the quality, accuracy or completeness of the statements). You
+that you seek your own independent legal or financial advice before should seek your own independent advice.
+proceeding with any investment decision.
+Additional country disclosures:
+This information may contain material provided by third parties.
+While such material is published with the necessary permission none Australia: Westpac holds an Australian Financial Services Licence (No.
+of Westpac or its related entities accepts any responsibility for the 233714). You can access Westpac’s Financial Services Guide here or
+accuracy or completeness of any such material. Although we have request a copy from your Westpac point of contact. To the extent that this
+made every effort to ensure this information is free from error, none information contains any general advice, it has been prepared without
+of Westpac or its related entities warrants the accuracy, adequacy taking into account your objectives, financial situation or needs and before
+or completeness of this information, or otherwise endorses it in acting on it you should consider the appropriateness of the advice.
+any way. Except where contrary to law, Westpac Group intend by
+this notice to exclude liability for this information. This information New Zealand: In New Zealand, Westpac Institutional Bank refers to
+is subject to change without notice and none of Westpac or its the brand under which products and services are provided by either
+related entities is under any obligation to update this information or Westpac (NZ division) or Westpac New Zealand Limited (company
+correct any inaccuracy which may become apparent at a later date. number 1763882), the New Zealand incorporated subsidiary of
+This information may contain or incorporate by reference forward Westpac (“WNZL”). Any product or service made available by WNZL
+looking statements. The words “believe”, “anticipate”, “expect”, does not represent an offer from Westpac or any of its subsidiaries
+“intend”, “plan”, “predict”, “continue”, “assume”, “positioned”, “may”, (other than WNZL). Neither Westpac nor its other subsidiaries
+“will”, “should”, “shall”, “risk” and other similar expressions that are guarantee or otherwise support the performance of WNZL in respect
+predictions of or indicate future events and future trends identify of any such product. WNZL is not an authorised deposit-taking
+forward-looking statements. These forward-looking statements institution for the purposes of Australian prudential standards. The
+include all matters that are not historical facts. Past performance is current disclosure statements for the New Zealand branch of Westpac
+not a reliable indicator of future performance, nor are forecasts of and WNZL can be obtained at www.westpac.co.nz.
+future performance. Whilst every effort has been taken to ensure that
+the assumptions on which any forecasts are based are reasonable, the Singapore: This material has been prepared and issued for
+forecasts may be affected by incorrect assumptions or by known or distribution in Singapore to institutional investors, accredited
+unknown risks and uncertainties. The ultimate outcomes may differ investors and expert investors (as defined in the applicable Singapore
+substantially from any forecasts. laws and regulations) only. Recipients of this material in Singapore
+should contact Westpac Singapore Branch in respect of any
+Conflicts of Interest: In the normal course of offering banking matters arising from, or in connection with, this material. Westpac
+products and services to its clients, the Westpac Group may act Singapore Branch holds a wholesale banking licence and is subject to
+in several capacities (including issuer, market maker, underwriter, supervision by the Monetary Authority of Singapore.
+distributor, swap counterparty and calculation agent) simultaneously
+Disclaimer continues overleaf
+Past performance is not a reliable indicator of future performance. The forecasts given above are predictive in character. Whilst every effort has been taken to ensure that the assumptions on which the forecasts are based are reasonable,
+the forecasts may be affected by incorrect assumptions or by known or unknown risks and uncertainties. The results ultimately achieved may differ substantially from these forecasts.
+WESTPAC ECONOMICS
+4
+
+DISCLAIMER
+Fiji: Unless otherwise specified, the products and services for The London branch of Westpac is registered at Companies House as
+Westpac Fiji are available from www.westpac.com.fj © Westpac a branch established in the United Kingdom (Branch No. BR000106).
+Banking Corporation ABN 33 007 457 141. This information does not Details about the extent of the regulation of Westpac’s London branch
+take your personal circumstances into account and before acting on it by the PRA are available from us on request.
+you should consider the appropriateness of the information for your
+financial situation. Westpac Banking Corporation ABN 33 007 457 This communication is not being made to or distributed to, and must
+141 is incorporated in NSW Australia and registered as a branch in not be passed on to, the general public in the United Kingdom. Rather,
+Fiji. The liability of its members is limited. this communication is being made only to and is directed at (a) those
+persons falling within the definition of Investment Professionals
+Papua New Guinea: Unless otherwise specified, the products and (set out in Article 19(5) of the Financial Services and Markets Act
+services for Westpac PNG are available from www.westpac.com. 2000 (Financial Promotion) Order 2005 (the “Order”)); (b) those
+pg © Westpac Banking Corporation ABN 33 007 457 141. This persons falling within the definition of high net worth companies,
+information does not take your personal circumstances into account unincorporated associations etc. (set out in Article 49(2)of the Order; (c)
+and before acting on it you should consider the appropriateness of the other persons to whom it may lawfully be communicated in accordance
+information for your financial situation. Westpac Banking Corporation with the Order or (d) any persons to whom it may otherwise lawfully
+ABN 33 007 457 141 is incorporated in NSW Australia. Westpac is be made (all such persons together being referred to as “relevant
+represented in Papua New Guinea by Westpac Bank - PNG - Limited. persons”). Any person who is not a relevant person should not act or
+The liability of its members is limited. rely on this communication or any of its contents. In the same way, the
+information contained in this communication is intended for “eligible
+U.S: Westpac operates in the United States of America as a federally counterparties” and “professional clients” as defined by the rules of
+licensed branch, regulated by the Office of the Comptroller of the the Financial Conduct Authority and is not intended for “retail clients”.
+Currency. Westpac is also registered with the US Commodity Futures Westpac expressly prohibits you from passing on the information in this
+Trading Commission (“CFTC”) as a Swap Dealer, but is neither communication to any third party.
+registered as, or affiliated with, a Futures Commission Merchant
+registered with the US CFTC. The services and products referenced European Economic Area (“EEA”): This material may be distributed
+above are not insured by the Federal Deposit Insurance Corporation to you by either: (i) Westpac directly, or (ii) Westpac Europe GmbH
+(“FDIC”). Westpac Capital Markets, LLC (‘WCM’), a wholly-owned (“WEG”) under a sub-licensing arrangement. WEG has not edited or
+subsidiary of Westpac, is a broker-dealer registered under the U.S. otherwise modified the content of this material. WEG is authorised
+Securities Exchange Act of 1934 (‘the Exchange Act’) and member of in Germany by the Federal Financial Supervision Authority (‘BaFin’)
+the Financial Industry Regulatory Authority (‘FINRA’). In accordance and subject to its regulation. WEG’s supervisory authorities are BaFin
+with APRA’s Prudential Standard 222 ‘Association with Related and the German Federal Bank (‘Deutsche Bundesbank’). WEG is
+Entities’, Westpac does not stand behind WCM other than as provided registered with the commercial register (‘Handelsregister’) of the local
+for in certain legal agreements between Westpac and WCM and court of Frankfurt am Main under registration number HRB 118483.
+obligations of WCM do not represent liabilities of Westpac. In accordance with APRA’s Prudential Standard 222 ‘Association
+with Related Entities’, Westpac does not stand behind WEG other
+This communication is provided for distribution to U.S. institutional than as provided for in certain legal agreements (a risk transfer, sub-
+investors in reliance on the exemption from registration provided by participation and collateral agreement) between Westpac and WEG
+Rule 15a-6 under the Exchange Act and is not subject to all of the and obligations of WEG do not represent liabilities of Westpac. Any
+independence and disclosure standards applicable to debt research product or service made available by WEG does not represent an
+reports prepared for retail investors in the United States. WCM is the offer from Westpac or any of its subsidiaries (other than WEG). All
+U.S. distributor of this communication and accepts responsibility for disclaimers set out with respect to Westpac apply equally to WEG.
+the contents of this communication. Transactions by U.S. customers of
+any securities referenced herein should be effected through WCM. All This communication is not intended for distribution to, or use by any
+disclaimers set out with respect to Westpac apply equally to WCM. If person or entity in any jurisdiction or country where such distribution
+you would like to speak to someone regarding any security mentioned or use would be contrary to local law or regulation.
+herein, please contact WCM on +1 212 389 1269. Investing in any
+non-U.S. securities or related financial instruments mentioned in this This communication contains general commentary, research, and
+communication may present certain risks. The securities of non-U.S. market colour. The communication does not constitute investment
+issuers may not be registered with, or be subject to the regulations advice. The material may contain an ‘investment recommendation’
+of, the SEC in the United States. Information on such non-U.S. and/or ‘information recommending or suggesting an investment’, both
+securities or related financial instruments may be limited. Non-U.S. as defined in Regulation (EU) No 596/2014 (including as applicable
+companies may not be subject to audit and reporting standards and in the United Kingdom) (“MAR”). In accordance with the relevant
+regulatory requirements comparable to those in effect in the United provisions of MAR, reasonable care has been taken to ensure that the
+States. The value of any investment or income from any securities material has been objectively presented and that interests or conflicts
+or related derivative instruments denominated in a currency other of interest of the sender concerning the financial instruments to which
+than U.S. dollars is subject to exchange rate fluctuations that may that information relates have been disclosed.
+have a positive or adverse effect on the value of or income from such
+securities or related derivative instruments. Investment recommendations must be read alongside the specific
+disclosure which accompanies them and the general disclosure which
+The author of this communication is employed by Westpac and is not can be found here. Such disclosure fulfils certain additional information
+registered or qualified as a research analyst, representative, or associated requirements of MAR and associated delegated legislation and by
+person of WCM or any other U.S. broker-dealer under the rules of accepting this communication you acknowledge that you are aware of
+FINRA, any other U.S. self-regulatory organisation, or the laws, rules or the existence of such additional disclosure and its contents.
+regulations of any State. Unless otherwise specifically stated, the views
+expressed herein are solely those of the author and may differ from the To the extent this communication comprises an investment
+information, views or analysis expressed by Westpac and/or its affiliates. recommendation it is classified as non-independent research. It has
+not been prepared in accordance with legal requirements designed
+UK: The London branch of Westpac is authorised in the United to promote the independence of investment research and therefore
+Kingdom by the Prudential Regulation Authority (PRA) and is subject constitutes a marketing communication. Further, this communication is
+to regulation by the Financial Conduct Authority (FCA) and limited not subject to any prohibition on dealing ahead of the dissemination of
+regulation by the PRA (Financial Services Register number: 124586). investment research.
+Past performance is not a reliable indicator of future performance. The forecasts given above are predictive in character. Whilst every effort has been taken to ensure that the assumptions on which the forecasts are based are reasonable,
+the forecasts may be affected by incorrect assumptions or by known or unknown risks and uncertainties. The results ultimately achieved may differ substantially from these forecasts.
+WESTPAC ECONOMICS
+5
