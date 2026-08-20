@@ -1,0 +1,81 @@
+{
+  "run_date": "2026-08-21",
+  "mode": "LIVE",
+  "overall": "FAIL",
+  "gates": [
+    {
+      "id": "G1",
+      "name": "日付整合",
+      "status": "PASS",
+      "detail": "date_jst=2026-08-21 / 本文に「2026年8月21日」/ 投稿2と本文に「2026/08/21」を要求"
+    },
+    {
+      "id": "G2",
+      "name": "暗号通貨語の混入ゼロ",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G3",
+      "name": "対象5ペア限定",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G4",
+      "name": "プレースホルダ残存なし",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G5",
+      "name": "出典表記（本文・投稿2）",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G6",
+      "name": "規定ハッシュタグ",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G7",
+      "name": "投稿にURLなし（Intent URL禁止）",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G8",
+      "name": "数値のPDF原文照合",
+      "status": "FAIL",
+      "detail": "未照合: 580（原文に存在しない数値）"
+    },
+    {
+      "id": "G9",
+      "name": "イベント時刻JST換算チェック",
+      "status": "PASS",
+      "detail": "原文候補['00:00', '08:45', '09:01', '09:30', '10:30', '16:00', '18:00', '18:30', '23:45'] / 本文['07:45', '08:01', '08:30', '09:30', '15:00', '17:00', '17:30', '22:45', '23:00']（不一致のため換算済みと判定）"
+    },
+    {
+      "id": "G10",
+      "name": "投稿2に「未確認」を含めない",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "I1",
+      "name": "post1 加重文字数",
+      "status": "INFO",
+      "detail": "343"
+    },
+    {
+      "id": "I2",
+      "name": "post2 加重文字数",
+      "status": "INFO",
+      "detail": "876"
+    }
+  ],
+  "warnings": [],
+  "verified_at_jst": "2026-08-21T08:27:50+09:00"
+}
