@@ -9,7 +9,7 @@ verify_report.py — 納品前の機械検証ゲート。結果は outputs/<date
   G9 イベント時刻JST換算チェック（原文AEST/AEDT時刻と本文時刻が完全一致＝未換算の疑い。liveのみ）
   G10 投稿2に「未確認」を含めない
 情報記録（不合格にはしない）:
-  X加重文字数（全角=2換算）… 280超は警告
+  X加重文字数（全角=2換算）… Xプレミアム運用のため上限警告なし
 
 exit codes: 0=PASS / 2=FAIL
 """
@@ -194,16 +194,12 @@ def main():
     gate("G10", "投稿2に「未確認」を含めない", ok10,
          "「未確認」を検出（現値が原文にないペアは現値部分を省略する形式にする）" if not ok10 else "")
 
-    # 情報: X加重文字数
+    # 情報: X加重文字数（Xプレミアム運用のため280字は制約にならず、上限警告は表示しない）
     for name, txt in (("post1", p1), ("post2", p2)):
         wl = weighted_len(txt)
-        info = {"metric": f"{name}_weighted_length", "value": wl}
-        if wl > 280:
-            info["note"] = "280超（Xの標準上限。プレミアム加入なら可。要確認）"
-            warnings.append(f"{name} の加重文字数が {wl}（280超）")
         gates.append({"id": "I1" if name == "post1" else "I2",
                       "name": f"{name} 加重文字数", "status": "INFO",
-                      "detail": f"{wl}" + ("（280超・要確認）" if wl > 280 else "")})
+                      "detail": f"{wl}"})
 
     overall = "PASS" if all(g["status"] != "FAIL" for g in gates) else "FAIL"
     audit = {
