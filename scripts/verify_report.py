@@ -46,6 +46,50 @@ def en_hit_i(token: str, text: str) -> bool:
                      text, re.IGNORECASE) is not None
 
 
+def expand_man_oku(text: str) -> str:
+    """日本語の「万」「億」表記の数値を、桁が連続した数字に展開する（G8専用）。
+    複合表記（例: "1万5800" → "15800"）と単純倍数（例: "5.8万" → "58000"、
+    "3億" → "300000000"）の両方に対応。複合を先に展開してから単純倍数を処理する。
+    """
+    text = re.sub(r"(\d+)億(\d+)万(\d+)",
+                  lambda m: str(int(m.group(1)) * 100_000_000 + int(m.group(2)) * 10_000 + int(m.group(3))), text)
+    text = re.sub(r"(\d+)億(\d+)万(?!\d)",
+                  lambda m: str(int(m.group(1)) * 100_000_000 + int(m.group(2)) * 10_000), text)
+    text = re.sub(r"(\d+)億(\d+)(?!万|億)",
+                  lambda m: str(int(m.group(1)) * 100_000_000 + int(m.group(2))), text)
+    text = re.sub(r"(\d+)万(\d+)(?!万|億)",
+                  lambda m: str(int(m.group(1)) * 10_000 + int(m.group(2))), text)
+
+    def _scale(mul):
+        def repl(m):
+            v = float(m.group(1)) * mul
+            return str(int(v)) if v == int(v) else str(v)
+        return repl
+
+    text = re.sub(r"(\d+(?:\.\d+)?)万", _scale(10_000), text)
+    text = re.sub(r"(\d+(?:\.\d+)?)億", _scale(100_000_000), text)
+    return text
+
+
+def num_variants(plain: str) -> set:
+    """整数の文字列表現から、PDF原文でありうる表記ゆれを生成する（G8専用）。
+    例: "15800" → {"15800", "15.8k", "15.8"}（千単位のk表記・その数字部分）。
+    小数を含む値（FXレート等）はそのまま1件のみ返す。
+    """
+    variants = {plain}
+    if plain.isdigit():
+        n = int(plain)
+        if n >= 1000 and n % 10 == 0:
+            k = n / 1000
+            k_str = f"{k:.2f}".rstrip("0").rstrip(".") or "0"
+            variants.add(k_str + "k")
+            # 小数を含む場合のみ末尾kなしも許容する（"50"のような裸の短い整数は
+            # 無関係な数値と偶然一致しやすいため、区別しやすい小数表記に限定する）
+            if "." in k_str:
+                variants.add(k_str)
+    return variants
+
+
 def weighted_len(s: str) -> int:
     """X の文字数換算の近似: CJK・全角=2、その他=1（URLは投稿禁止のため考慮不要）"""
     n = 0
@@ -140,14 +184,15 @@ def main():
             body = re.sub(r"\b\d{1,2}:\d{2}\b", " ", p2)          # 時刻を除外
             body = re.sub(rf"\b{date.month}/{date.day}\b", " ", body)  # 日付表記を除外
             body = body.replace(slash, " ")
-            nums = re.findall(r"\d{1,3}(?:,\d{3})*(?:\.\d+)?", body)
+            body = expand_man_oku(body)                          # 「1万5800」等を「15800」へ展開
+            nums = re.findall(r"\d+(?:,\d{3})*(?:\.\d+)?", body)  # 桁を途中で分断しない
             checked, missing = [], []
             for n in dict.fromkeys(nums):
                 plain = n.replace(",", "")
                 if "." not in plain and len(plain) < 2:
                     continue  # 箇条書き番号等は対象外
                 checked.append(plain)
-                if plain not in pdf_norm:
+                if not any(v in pdf_norm for v in num_variants(plain)):
                     missing.append(plain)
             gate("G8", "数値のPDF原文照合", not missing,
                  (f"未照合: {', '.join(missing)}（原文に存在しない数値）" if missing
