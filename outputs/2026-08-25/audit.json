@@ -49,7 +49,7 @@
       "id": "G8",
       "name": "数値のPDF原文照合",
       "status": "PASS",
-      "detail": "14個の数値を照合しすべて原文に存在"
+      "detail": "13個の数値を照合しすべて原文に存在"
     },
     {
       "id": "G9",
@@ -73,9 +73,9 @@
       "id": "I2",
       "name": "post2 加重文字数",
       "status": "INFO",
-      "detail": "722"
+      "detail": "714"
     }
   ],
   "warnings": [],
-  "verified_at_jst": "2026-08-25T08:24:20+09:00"
+  "verified_at_jst": "2026-08-25T09:32:50+09:00"
 }
