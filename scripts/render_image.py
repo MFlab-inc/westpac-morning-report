@@ -263,12 +263,21 @@ def render(data: dict, out_path: str):
     d.polygon([(mid_x, my - 12), (mid_x + 9, my), (mid_x, my + 12), (mid_x - 9, my)], fill=GOLD_LT)
 
     # ---- 左：主要テーマ3件（枠幅を使い切るまで自動拡大）
+    ICON_FALLBACK = ["market", "bank", "globe", "oil", "percent", "default"]
+    used_icons, theme_icons = set(), []
+    for th in data["themes"][:3]:
+        ic = str(th.get("icon", "default"))
+        if ic in used_icons:
+            ic = next((c for c in ICON_FALLBACK if c not in used_icons), "default")
+        used_icons.add(ic)
+        theme_icons.append(ic)
+
     for i, th in enumerate(data["themes"][:3]):
         cy0 = top + i * (card_h + gap)
         cy1 = cy0 + card_h
         d.rounded_rectangle([lx0, cy0, lx1, cy1], radius=18, fill=PANEL, outline=GOLD, width=2)
 
-        draw_icon(d, lx0 + 118, (cy0 + cy1) // 2, th.get("icon", "default"), s=152)
+        draw_icon(d, lx0 + 118, (cy0 + cy1) // 2, theme_icons[i], s=152)
         d.line([(lx0 + 228, cy0 + 32), (lx0 + 228, cy1 - 32)], fill=GOLD, width=2)
 
         tx = lx0 + 262
