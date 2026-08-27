@@ -2,10 +2,11 @@ name: Westpac Morning Report
 
 on:
   schedule:
-    # JST 8:00 / 8:20 / 8:40 の月〜金（UTCでは日〜木の23時台）
-    - cron: '0 23 * * 0-4'
-    - cron: '20 23 * * 0-4'
-    - cron: '40 23 * * 0-4'
+    # JST 8:03 / 8:23 / 8:43 の月〜金（UTCでは日〜木の23時台）。
+    # 毎時0分ちょうどは他ワークフローの集中で発火漏れが起きやすいため、分をずらしている。
+    - cron: '3 23 * * 0-4'
+    - cron: '23 23 * * 0-4'
+    - cron: '43 23 * * 0-4'
   workflow_dispatch:
     inputs:
       sample:
@@ -29,7 +30,7 @@ jobs:
       TZ: Asia/Tokyo
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       WMR_SAMPLE: ${{ github.event_name == 'workflow_dispatch' && inputs.sample }}
-      WMR_FINAL: ${{ github.event.schedule == '40 23 * * 0-4' }}
+      WMR_FINAL: ${{ github.event.schedule == '43 23 * * 0-4' }}
       WMR_MANUAL: ${{ github.event_name == 'workflow_dispatch' }}
     steps:
       - uses: actions/checkout@v4

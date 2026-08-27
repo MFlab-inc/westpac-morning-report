@@ -246,6 +246,16 @@ def main():
                       "name": f"{name} 加重文字数", "status": "INFO",
                       "detail": f"{wl}"})
 
+    # 情報: post1の「→」行の文字数超過（32字は目安のため、超過してもFAILにはしない）
+    over_lines = []
+    for i, ln in enumerate(p1.split("\n"), start=1):
+        if ln.startswith("→"):
+            content = ln[1:]
+            if len(content) > 32:
+                over_lines.append(f"{i}行目 {len(content)}字")
+    gates.append({"id": "I3", "name": "post1「→」行の文字数超過", "status": "INFO",
+                  "detail": "、".join(over_lines) if over_lines else "なし"})
+
     overall = "PASS" if all(g["status"] != "FAIL" for g in gates) else "FAIL"
     audit = {
         "run_date": date.isoformat(),
