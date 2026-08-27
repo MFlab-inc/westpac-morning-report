@@ -1,0 +1,64 @@
+name: Westpac Morning Report Watchdog
+
+on:
+  schedule:
+    # JST 10:35 月〜金（UTCでは同日1:35）
+    - cron: '35 1 * * 1-5'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 本日(JST)の日付を計算
+        id: jst
+        run: |
+          DATE=$(TZ=Asia/Tokyo date +%F)
+          SLASH=$(TZ=Asia/Tokyo date +%Y/%m/%d)
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          echo "slash=$SLASH" >> "$GITHUB_OUTPUT"
+
+      - name: 本日分の生成物があるか確認
+        id: check
+        run: |
+          if [ -f "outputs/${{ steps.jst.outputs.date }}/audit.json" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 未生成なら通知Issueを起票（重複起票防止）
+        if: steps.check.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_TITLE: "【未生成】${{ steps.jst.outputs.slash }} 本日分のIssueが立っていません"
+        run: |
+          EXISTING=$(gh issue list --state open --limit 100 --json title --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .title" | head -1)
+          if [ -n "$EXISTING" ]; then
+            echo "同名のopen Issueが既にあるためスキップ: $ISSUE_TITLE"
+            exit 0
+          fi
+
+          cat > /tmp/watchdog_issue_body.md <<'EOF'
+          > [!WARNING]
+          > 本日分の検収Issueがまだ起票されていません。
+
+          8:00 / 8:20 / 8:40 JST の定時実行（GitHub Actionsのスケジュールトリガー）が発火しなかった可能性があります。
+
+          ## 対応方法
+          1. リポジトリの **Actions** タブを開く
+          2. 左側のワークフロー一覧から **Westpac Morning Report** を選択
+          3. 右側の **Run workflow** ボタンをクリック
+          4. `sample` のチェックを外したまま（本番実行）、緑色の **Run workflow** ボタンを押す
+
+          数分で本日分の検収Issueが起票されます。このIssueは対応後にCloseしてください。
+          EOF
+
+          gh issue create --title "$ISSUE_TITLE" --body-file /tmp/watchdog_issue_body.md
