@@ -30,9 +30,13 @@ def main():
     ddir = os.path.join("outputs", diso)
 
     audit = json.load(open(os.path.join(ddir, "audit.json"), encoding="utf-8"))
+    report_data = json.load(open(os.path.join(ddir, "report_data.json"), encoding="utf-8"))
     p1 = open(os.path.join(ddir, "post1.txt"), encoding="utf-8").read().rstrip()
     p2 = open(os.path.join(ddir, "post2.txt"), encoding="utf-8").read().rstrip()
     md = open(os.path.join(ddir, "report.md"), encoding="utf-8").read().rstrip()
+
+    tag_variant = report_data.get("tag_variant", "")
+    tag_label = {"A": "A（2個）", "B": "B（3個）"}.get(tag_variant, "不明")
 
     sample = audit.get("mode") == "SAMPLE"
     overall = audit.get("overall", "FAIL")
@@ -71,7 +75,7 @@ def main():
                         "> チャート画像の取得に失敗しました。投稿2にはレポート画像のみ添付してください。")
 
     lines += [
-        f"検証結果: **{overall}** ／ モード: {audit.get('mode')} ／ 生成: {audit.get('verified_at_jst', '')}",
+        f"検証結果: **{overall}** ／ モード: {audit.get('mode')} ／ 生成: {audit.get('verified_at_jst', '')} ／ タグ方式: {tag_label}",
         "",
         "## 1. レポート画像（X投稿2に添付）",
         f"![report]({base}/report_image.png)",

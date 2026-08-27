@@ -21,6 +21,16 @@ API_URL = "https://api.anthropic.com/v1/messages"
 DEFAULT_MODEL = "claude-sonnet-4-6"
 REQUIRED_KEYS = ["date_jst", "themes", "pairs_image", "report_md", "post1", "post2"]
 
+TAG_RULE_A = ("post1の最終行は「#ドル円」＋その日の最重要材料タグ1個の計2個とする。"
+              "該当する材料がない日は「#ドル円 #為替」の2個とする。")
+TAG_RULE_B = ("post1の最終行は「#FX #ドル円」＋その日の最重要材料タグ1個の計3個とする。"
+              "該当する材料がない日は「#FX #ドル円 #為替」の3個とする。")
+
+
+def tag_variant_for(date: dt.date) -> str:
+    """ハッシュタグA/BテストのA/B判定。ISO週番号が偶数ならB、奇数ならA。"""
+    return "B" if date.isocalendar()[1] % 2 == 0 else "A"
+
 
 def log(msg):
     print(f"[generate_report] {msg}", flush=True)
@@ -96,9 +106,13 @@ def main():
     out_dir = os.path.join("outputs", date.isoformat())
     os.makedirs(out_dir, exist_ok=True)
 
+    tag_variant = tag_variant_for(date)
+    log(f"tag_variant: {tag_variant} (ISO week {date.isocalendar()[1]})")
+
     if args.sample:
         log("サンプルモード（API呼び出しなし）")
         data = load_sample(date)
+        data["tag_variant"] = tag_variant
         with open(os.path.join(out_dir, "sample_mode.flag"), "w") as f:
             f.write("1")
     else:
@@ -119,6 +133,7 @@ def main():
         for k, v in jdate(date).items():
             prompt = prompt.replace("{" + k + "}", v)
         prompt = prompt.replace("{PDF_TEXT}", pdf_text)
+        prompt = prompt.replace("{TAG_RULE}", TAG_RULE_B if tag_variant == "B" else TAG_RULE_A)
 
         model = os.environ.get("WMR_MODEL", DEFAULT_MODEL)
         log(f"model: {model} / prompt: {len(prompt)} chars")
@@ -145,6 +160,7 @@ def main():
         data["date_jst"] = date.isoformat()  # 日付は実行側で確定させる
         data["pdf_url"] = pdf_url
         data.setdefault("source_label", "Westpac IQ Morning Report")
+        data["tag_variant"] = tag_variant
 
     with open(os.path.join(out_dir, "report_data.json"), "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
