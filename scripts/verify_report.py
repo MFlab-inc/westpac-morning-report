@@ -30,6 +30,11 @@ FORBIDDEN_EN = ["BTC", "ETH", "Uniswap", "DeFi", "NFT", "Solana", "XRP", "Dogeco
 FORBIDDEN_PAIRS = ["USD/CAD", "USDCAD", "USD/CHF", "USDCHF", "NZD/USD", "NZDUSD",
                    "EUR/JPY", "EURJPY", "AUD/JPY", "AUDJPY", "US30", "US500", "US100",
                    "NAS100", "SPX500"]
+# 原文FXレート表のAUDクロス。対象5ペアの方向感を導出するための参照値として
+# report_mdでのみ使用を許可する（G3では検出対象から除外。post2では引き続き検出）。
+AUD_CROSS_EXEMPT = {"AUD/JPY", "AUDJPY", "AUD/GBP", "AUDGBP", "AUD/NZD", "AUDNZD",
+                    "AUD/EUR", "AUDEUR", "AUD/CNH", "AUDCNH", "AUD/SGD", "AUDSGD",
+                    "AUD/HKD", "AUDHKD", "AUD/CAD", "AUDCAD"}
 TARGET_PAIRS = {"USD/JPY", "AUD/USD", "XAU/USD", "EUR/USD", "GBP/USD"}
 PAIR_TAGS = ["#USDJPY", "#AUDUSD", "#XAUUSD", "#EURUSD", "#GBPUSD"]
 PLACEHOLDERS = ["None", "null", "NaN", "undefined", "TBD", "XXX",
@@ -137,7 +142,10 @@ def main():
     gate("G2", "暗号通貨語の混入ゼロ", not hits, "検出: " + ", ".join(hits) if hits else "")
 
     # G3 対象5ペア限定
-    bad = [w for w in FORBIDDEN_PAIRS if en_hit(w, md + "\n" + p2)]
+    # report_mdはAUDクロス（方向感導出の参照値）を許可、post2は全FORBIDDEN_PAIRSを検出する
+    bad_md = [w for w in FORBIDDEN_PAIRS if w not in AUD_CROSS_EXEMPT and en_hit(w, md)]
+    bad_p2 = [w for w in FORBIDDEN_PAIRS if en_hit(w, p2)]
+    bad = sorted(set(bad_md) | set(bad_p2))
     tags_missing = [t for t in PAIR_TAGS if t not in p2]
     img_pairs = {p.get("pair", "") for p in data.get("pairs_image", [])}
     img_bad = sorted(img_pairs - TARGET_PAIRS)
