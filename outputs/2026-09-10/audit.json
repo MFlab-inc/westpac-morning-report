@@ -1,7 +1,7 @@
 {
   "run_date": "2026-09-10",
   "mode": "LIVE",
-  "overall": "FAIL",
+  "overall": "PASS",
   "gates": [
     {
       "id": "G1",
@@ -18,8 +18,8 @@
     {
       "id": "G3",
       "name": "対象5ペア限定",
-      "status": "FAIL",
-      "detail": "対象外ペア検出: AUD/JPY"
+      "status": "PASS",
+      "detail": ""
     },
     {
       "id": "G4",
@@ -83,5 +83,5 @@
     }
   ],
   "warnings": [],
-  "verified_at_jst": "2026-09-10T10:01:11+09:00"
+  "verified_at_jst": "2026-09-10T10:57:44+09:00"
 }

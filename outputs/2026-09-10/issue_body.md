@@ -1,14 +1,10 @@
-> [!CAUTION]
-> 機械検証で不合格のゲートがあります。**このままXへ投稿しないでください。**
-> 下の検証結果を確認し、修正が必要な場合はこのIssueにコメントで指示してください。
-
-検証結果: **FAIL** ／ モード: LIVE ／ 生成: 2026-09-10T10:01:11+09:00 ／ タグ方式: A（2個）
+検証結果: **PASS** ／ モード: LIVE ／ 生成: 2026-09-10T10:57:44+09:00 ／ タグ方式: A（2個）
 
 ## 1. レポート画像（X投稿2に添付）
-![report](https://github.com/MFlab-inc/westpac-morning-report/raw/main/outputs/2026-09-10/report_image.png)
+![report](https://github.com//raw/main/outputs/2026-09-10/report_image.png)
 
 ## 2. チャート画像（1H足・参考添付用）
-![charts](https://github.com/MFlab-inc/westpac-morning-report/raw/main/outputs/2026-09-10/charts_1h.jpg)
+![charts](https://github.com//raw/main/outputs/2026-09-10/charts_1h.jpg)
 
 ## 3. X投稿1（コピー用｜加重文字数 525）
 ```text
@@ -113,7 +109,7 @@
 |---|---|---|
 | G1 日付整合 | ✅ PASS | date_jst=2026-09-10 / 本文に「2026年9月10日」/ 投稿2と本文に「2026/09/10」を要求 |
 | G2 暗号通貨語の混入ゼロ | ✅ PASS |  |
-| G3 対象5ペア限定 | ❌ FAIL | 対象外ペア検出: AUD/JPY |
+| G3 対象5ペア限定 | ✅ PASS |  |
 | G4 プレースホルダ残存なし | ✅ PASS |  |
 | G5 出典表記（本文・投稿2） | ✅ PASS |  |
 | G6 規定ハッシュタグ | ✅ PASS |  |
