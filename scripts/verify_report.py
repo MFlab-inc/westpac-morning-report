@@ -79,6 +79,7 @@ def expand_man_oku(text: str) -> str:
 def num_variants(plain: str) -> set:
     """整数の文字列表現から、PDF原文でありうる表記ゆれを生成する（G8専用）。
     例: "15800" → {"15800", "15.8k", "15.8"}（千単位のk表記・その数字部分）。
+    例: "15500000000" → {"15500000000", "15.5b", "15.5bn"}（10億単位）。
     小数を含む値（FXレート等）はそのまま1件のみ返す。
     """
     variants = {plain}
@@ -92,6 +93,15 @@ def num_variants(plain: str) -> set:
             # 無関係な数値と偶然一致しやすいため、区別しやすい小数表記に限定する）
             if "." in k_str:
                 variants.add(k_str)
+        # 100万単位（m/mn）・10億単位（b/bn）の表記ゆれ。k表記と異なり、裸の数値
+        # （単位記号なしの小数のみの表記）は他の無関係な数値と偶然一致しやすいため
+        # 一切対象に加えない（必ずm/mn/b/bnいずれかの単位記号付きのみ照合する）。
+        for scale, suffixes in ((1_000_000, ("m", "mn")), (1_000_000_000, ("b", "bn"))):
+            if n >= scale and n % 10 == 0:
+                v = n / scale
+                v_str = f"{v:.2f}".rstrip("0").rstrip(".") or "0"
+                for suf in suffixes:
+                    variants.add(v_str + suf)
     return variants
 
 
