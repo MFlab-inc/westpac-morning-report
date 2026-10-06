@@ -13,6 +13,10 @@ on:
         description: 'サンプルデータで動作テスト（Westpac取得・Claude APIを使わない）'
         type: boolean
         default: false
+      notify_now:
+        description: '時刻にかかわらず今すぐ通知する（未発行・エラー時にIssueを起票。手動で原因調査する時などにON）'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -31,7 +35,7 @@ jobs:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       WMR_SAMPLE: ${{ github.event_name == 'workflow_dispatch' && inputs.sample }}
       WMR_FINAL: ${{ github.event.schedule == '43 23 * * 0-4' }}
-      WMR_MANUAL: ${{ github.event_name == 'workflow_dispatch' }}
+      WMR_NOTIFY_NOW: ${{ github.event_name == 'workflow_dispatch' && inputs.notify_now }}
     steps:
       - uses: actions/checkout@v4
 
@@ -89,11 +93,15 @@ jobs:
             git push
           fi
 
-      - name: 検収Issueを起票
+      - name: 検収Issueを起票（重複起票防止）
         if: steps.dup.outputs.done == 'false' && steps.run.outputs.publish == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh issue create \
-            --title "$(cat "${{ steps.run.outputs.title_path }}")" \
-            --body-file "${{ steps.run.outputs.body_path }}"
+          TITLE="$(cat "${{ steps.run.outputs.title_path }}")"
+          EXISTING=$(gh issue list --state open --limit 100 --json title --jq ".[] | select(.title == \"$TITLE\") | .title" | head -1)
+          if [ -n "$EXISTING" ]; then
+            echo "同名のopen Issueが既にあるためスキップ: $TITLE"
+            exit 0
+          fi
+          gh issue create --title "$TITLE" --body-file "${{ steps.run.outputs.body_path }}"
