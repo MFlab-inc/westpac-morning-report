@@ -43,7 +43,9 @@ jobs:
         id: dup
         run: |
           DATE=$(date +%F)
+          SLASH=$(date +%Y/%m/%d)
           echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          echo "slash=$SLASH" >> "$GITHUB_OUTPUT"
           if [ -f "outputs/$DATE/audit.json" ]; then
             echo "done=true" >> "$GITHUB_OUTPUT"
             echo "本日分（$DATE）は生成済みのためスキップ"
@@ -94,6 +96,7 @@ jobs:
           fi
 
       - name: 検収Issueを起票（重複起票防止）
+        id: notify
         if: steps.dup.outputs.done == 'false' && steps.run.outputs.publish == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
@@ -105,3 +108,17 @@ jobs:
             exit 0
           fi
           gh issue create --title "$TITLE" --body-file "${{ steps.run.outputs.body_path }}"
+          echo "created_title=$TITLE" >> "$GITHUB_OUTPUT"
+
+      - name: 発行を確認できたら、当日の未発行/エラーIssueにコメントしてClose
+        if: steps.dup.outputs.done == 'false' && steps.run.outputs.publish == 'true' && startsWith(steps.notify.outputs.created_title, '【検収】')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SLASH: ${{ steps.dup.outputs.slash }}
+        run: |
+          STALE=$(gh issue list --state open --limit 100 --json number,title --jq ".[] | select(.title | test(\"^(【未発行】|【エラー】)$SLASH\")) | .number")
+          for N in $STALE; do
+            gh issue comment "$N" --body "発行を確認し、本日分の生成が完了しました。詳細は【検収】Issueをご確認ください。"
+            gh issue close "$N" --reason completed
+            echo "未発行/エラーIssue #$N をCloseしました"
+          done
