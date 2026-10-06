@@ -102,9 +102,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           TITLE="$(cat "${{ steps.run.outputs.title_path }}")"
-          EXISTING=$(gh issue list --state open --limit 100 --json title --jq ".[] | select(.title == \"$TITLE\") | .title" | head -1)
+          # --state all: Close済みでも同名Issueがあれば重複起票しない
+          # （休刊日の【未発行】を朝のうちにCloseした後、遅延した定時実行が
+          # 同じ内容を再起票するのを防ぐため）
+          EXISTING=$(gh issue list --state all --limit 100 --json title --jq ".[] | select(.title == \"$TITLE\") | .title" | head -1)
           if [ -n "$EXISTING" ]; then
-            echo "同名のopen Issueが既にあるためスキップ: $TITLE"
+            echo "同名のIssueが既にある（Close済み含む）ためスキップ: $TITLE"
             exit 0
           fi
           gh issue create --title "$TITLE" --body-file "${{ steps.run.outputs.body_path }}"

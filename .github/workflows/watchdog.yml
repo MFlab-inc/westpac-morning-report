@@ -48,17 +48,20 @@ jobs:
           ISSUE_TITLE: "【未生成】${{ steps.jst.outputs.slash }} 本日分のIssueが立っていません"
           SLASH: "${{ steps.jst.outputs.slash }}"
         run: |
-          EXISTING=$(gh issue list --state open --limit 100 --json title --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .title" | head -1)
+          # --state all: Close済みでも同名Issueがあれば重複起票しない
+          EXISTING=$(gh issue list --state all --limit 100 --json title --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .title" | head -1)
           if [ -n "$EXISTING" ]; then
-            echo "同名のopen Issueが既にあるためスキップ: $ISSUE_TITLE"
+            echo "同名のIssueが既にある（Close済み含む）ためスキップ: $ISSUE_TITLE"
             exit 0
           fi
 
           # daily.yml側が起票した【未発行】【エラー】Issueが既にないか念のため確認
           # （outputs/配下のファイルが何らかの理由で消えていても、Issue自体が残っていればそれで足りる）
-          UNPUB_EXISTING=$(gh issue list --state open --limit 100 --json title --jq ".[] | select(.title | test(\"^(【未発行】|【エラー】)$SLASH\")) | .title" | head -1)
+          # --state all: 休刊日の【未発行】を朝のうちにCloseした後、watchdogが
+          # 遅延して発火しても【未生成】を重複起票しないようにする
+          UNPUB_EXISTING=$(gh issue list --state all --limit 100 --json title --jq ".[] | select(.title | test(\"^(【未発行】|【エラー】)$SLASH\")) | .title" | head -1)
           if [ -n "$UNPUB_EXISTING" ]; then
-            echo "本日分の未発行/エラーIssueが既にあるためスキップ: $UNPUB_EXISTING"
+            echo "本日分の未発行/エラーIssueが既にある（Close済み含む）ためスキップ: $UNPUB_EXISTING"
             exit 0
           fi
 
