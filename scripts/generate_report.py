@@ -29,6 +29,22 @@ def log(msg):
     print(f"[generate_report] {msg}", flush=True)
 
 
+def tz_shift_hours(date: dt.date) -> int:
+    """原文（Westpac、Australia/Sydney）からJST（Asia/Tokyo）への換算時差（時間）。
+    豪州の夏時間（AEDT=UTC+11）中は2、非夏時間（AEST=UTC+10）中は1。
+    原文中の "Times are AEST."/"Times are AEDT." 表記は誤記のことがあるため
+    （実例: 2026/10/06は夏時間開始後にもかかわらず原文がAESTと誤記）、
+    zoneinfoの実際のタイムゾーンデータから当日の時差を計算し、原文の表記には
+    依存しない。
+    """
+    syd = ZoneInfo("Australia/Sydney")
+    tokyo = ZoneInfo("Asia/Tokyo")
+    noon = dt.datetime(date.year, date.month, date.day, 12, 0)
+    syd_offset = noon.replace(tzinfo=syd).utcoffset()
+    tokyo_offset = noon.replace(tzinfo=tokyo).utcoffset()
+    return int((syd_offset - tokyo_offset).total_seconds() // 3600)
+
+
 def jdate(d: dt.date):
     wd = "月火水木金土日"[d.weekday()]
     return {
@@ -123,6 +139,7 @@ def main():
             prompt = prompt.replace("{" + k + "}", v)
         prompt = prompt.replace("{PDF_TEXT}", pdf_text)
         prompt = prompt.replace("{TAG_RULE}", TAG_RULE)
+        prompt = prompt.replace("{TZ_SHIFT_HOURS}", str(tz_shift_hours(date)))
 
         model = os.environ.get("WMR_MODEL", DEFAULT_MODEL)
         log(f"model: {model} / prompt: {len(prompt)} chars")

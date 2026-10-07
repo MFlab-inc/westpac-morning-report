@@ -6,7 +6,8 @@ verify_report.py — 納品前の機械検証ゲート。結果は outputs/<date
 ゲート:
   G1 日付整合 / G2 暗号通貨語の混入ゼロ / G3 対象5ペア限定 / G4 プレースホルダ残存なし
   G5 出典表記 / G6 規定ハッシュタグ / G7 投稿にURLなし / G8 数値のPDF原文照合（liveのみ）
-  G9 イベント時刻JST換算チェック（原文AEST/AEDT時刻と本文時刻が完全一致＝未換算の疑い。liveのみ）
+  G9 イベント時刻JST換算チェック（原文時刻をzoneinfoベースの正しい時差で換算した
+     結果と本文イベント表が一致するか。liveのみ）
   G10 投稿2に「未確認」を含めない
 情報記録（不合格にはしない）:
   X加重文字数（全角=2換算）… Xプレミアム運用のため上限警告なし
@@ -39,6 +40,19 @@ TARGET_PAIRS = {"USD/JPY", "AUD/USD", "XAU/USD", "EUR/USD", "GBP/USD"}
 PAIR_TAGS = ["#USDJPY", "#AUDUSD", "#XAUUSD", "#EURUSD", "#GBPUSD"]
 PLACEHOLDERS = ["None", "null", "NaN", "undefined", "TBD", "XXX",
                 "{DATE", "{PDF", "{WEEKDAY", "YYYY/MM/DD", "lorem"]
+
+
+def tz_shift_hours(date: dt.date) -> int:
+    """原文（Westpac、Australia/Sydney）からJST（Asia/Tokyo）への換算時差（時間）。
+    generate_report.pyの同名関数と同じ計算（G9専用）。原文の"Times are AEST/AEDT."
+    表記には依存せず、zoneinfoの実際のタイムゾーンデータから計算する。
+    """
+    syd = ZoneInfo("Australia/Sydney")
+    tokyo = ZoneInfo("Asia/Tokyo")
+    noon = dt.datetime(date.year, date.month, date.day, 12, 0)
+    syd_offset = noon.replace(tzinfo=syd).utcoffset()
+    tokyo_offset = noon.replace(tzinfo=tokyo).utcoffset()
+    return int((syd_offset - tokyo_offset).total_seconds() // 3600)
 
 
 def en_hit(token: str, text: str) -> bool:
@@ -216,7 +230,8 @@ def main():
                  (f"未照合: {', '.join(missing)}（原文に存在しない数値）" if missing
                   else f"{len(checked)}個の数値を照合しすべて原文に存在"))
 
-    # G9 イベント時刻のJST換算チェック（AEST/AEDT未換算の疑い・liveのみ）
+    # G9 イベント時刻のJST換算チェック（原文時刻を正しい時差で換算した結果と
+    # 本文イベント表が一致するか・liveのみ）
     if sample:
         gates.append({"id": "G9", "name": "イベント時刻JST換算チェック", "status": "SKIP",
                       "detail": "サンプルモードのため対象外"})
@@ -237,20 +252,35 @@ def main():
                     window = window[:end_m.end()]
 
                 def times_in(text):
+                    # "-"（時刻なし）の行はこの正規表現にそもそもマッチしないため、
+                    # 比較対象から自然に除外される
                     out = set()
                     for h, m in re.findall(r"\b([0-2]?\d):([0-5]\d)\b", text):
                         if int(h) <= 23:
                             out.add(f"{int(h):02d}:{m}")
                     return out
 
+                def shift_times(times, shift):
+                    out = set()
+                    for t in times:
+                        h, m = t.split(":")
+                        out.add(f"{(int(h) - shift) % 24:02d}:{m}")
+                    return out
+
+                shift = tz_shift_hours(date)
                 src_times = times_in(window)
+                expected_times = shift_times(src_times, shift)
                 ev_m = re.search(r"##\s*3\.\s*本日の重要イベント(.*?)(?:\n##|\n出典|\Z)", md, re.DOTALL)
                 md_times = times_in(ev_m.group(1)) if ev_m else set()
-                suspicious = bool(src_times) and src_times == md_times
-                gate("G9", "イベント時刻JST換算チェック", not suspicious,
-                     (f"原文AEST/AEDT時刻{sorted(src_times)}と本文イベント表{sorted(md_times)}が完全一致"
-                      "＝JST換算されていない疑い" if suspicious
-                      else f"原文候補{sorted(src_times)} / 本文{sorted(md_times)}（不一致のため換算済みと判定）"))
+                ok9 = (not src_times) or expected_times == md_times
+                gate("G9", "イベント時刻JST換算チェック", ok9,
+                     (f"時差{shift}時間で換算した期待値{sorted(expected_times)}と"
+                      f"本文イベント表{sorted(md_times)}が一致"
+                      if ok9 else
+                      f"時差{shift}時間で換算した期待値{sorted(expected_times)}と"
+                      f"本文イベント表{sorted(md_times)}が不一致"
+                      f"（原文時刻{sorted(src_times)}。原文のAEST/AEDT表記は無視し"
+                      f"zoneinfoベースの時差{shift}時間を正としている）"))
 
     # G10 投稿2に「未確認」を含めない
     ok10 = "未確認" not in p2
