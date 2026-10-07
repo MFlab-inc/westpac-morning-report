@@ -37,6 +37,7 @@ def main():
     sample = audit.get("mode") == "SAMPLE"
     overall = audit.get("overall", "FAIL")
     base = f"https://github.com/{args.repo}/raw/{args.branch}/outputs/{diso}"
+    tree_base = f"https://github.com/{args.repo}/tree/{args.branch}/outputs/{diso}"
 
     if overall == "PASS":
         title = f"【検収】{slash} Westpac Morning Report"
@@ -71,9 +72,23 @@ def main():
                         "> チャート画像の取得に失敗しました。投稿2は画像なしで投稿してください"
                         "（レポート画像は投稿1に添付済みです）。")
 
+    materials = [
+        "## 本日の投稿素材",
+        f"- 生成物フォルダ: {tree_base}",
+        f"- レポート画像（投稿1に添付）: {base}/report_image.png",
+    ]
+    # チャート画像の取得に失敗した日（サンプル実行含む）は行を出さず、
+    # 上記「## 2. チャート画像」の案内文に従う
+    if os.path.exists(os.path.join(ddir, "charts_1h.jpg")):
+        materials.append(f"- チャート画像（投稿2に添付）: {base}/charts_1h.jpg")
+    materials.append("")
+
     lines += [
         f"検証結果: **{overall}** ／ モード: {audit.get('mode')} ／ 生成: {audit.get('verified_at_jst', '')}",
         "",
+    ]
+    lines += materials
+    lines += [
         "## 1. レポート画像（X投稿1に添付）",
         f"![report]({base}/report_image.png)",
         "",
@@ -117,7 +132,7 @@ def main():
         "- [ ] このIssueをCloseした（＝投稿完了の記録）",
         "",
         "---",
-        f"生成物: `outputs/{diso}/` ／ 元PDF: {json.load(open(os.path.join('sources', diso, 'meta.json'), encoding='utf-8')).get('pdf_url', '(不明)') if os.path.exists(os.path.join('sources', diso, 'meta.json')) else '（サンプルモードのためなし）'}",
+        f"生成物: [`outputs/{diso}/`]({tree_base}) ／ 元PDF: {json.load(open(os.path.join('sources', diso, 'meta.json'), encoding='utf-8')).get('pdf_url', '(不明)') if os.path.exists(os.path.join('sources', diso, 'meta.json')) else '（サンプルモードのためなし）'}",
         "修正したい場合はこのIssueにコメントを残し、翌日以降の改善に反映します（フェーズ2で再生成コマンドに対応予定）。",
     ]
 
