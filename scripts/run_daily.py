@@ -4,10 +4,22 @@
 run_daily.py — 日次パイプラインのオーケストレータ（GitHub Actionsから呼び出し）。
 
 環境変数:
-  WMR_SAMPLE = "true" でサンプルモード（Westpac取得・API・チャート撮影をスキップ）
-  WMR_FINAL  = "true" で当日の最終試行（未発行・エラーをIssueで通知する）
-  WMR_MANUAL = "true" で手動実行（最終試行と同様に必ず結果を通知する）
-  WMR_DATE   = 対象日の上書き（YYYY-MM-DD、通常は未設定）
+  WMR_SAMPLE     = "true" でサンプルモード（Westpac取得・API・チャート撮影をスキップ）
+  WMR_FINAL      = "true" で当日の最終試行（未発行・エラーをIssueで通知する）
+  WMR_NOTIFY_NOW = "true" で、時刻にかかわらず必ず通知する（人が手動実行時に明示的にONにする）
+  WMR_DATE       = 対象日の上書き（YYYY-MM-DD、通常は未設定）
+
+  通知（Issue起票候補とする）はJST 8:40以降の試行、WMR_FINAL、WMR_NOTIFY_NOWの
+  いずれかが真の場合のみ行う。Cloudflare Dispatcher由来のworkflow_dispatch
+  （8:00/8:20 JST）はこれらのいずれにも該当しないため、通知候補とせず
+  サイレントにリトライする。
+
+  重複ガードはaudit.json（＝生成済み）の有無のみで行う。本日分を既に
+  【未発行】【エラー】で通知済みであっても、取得の再試行（定時実行・
+  Dispatcher実行・手動実行のいずれも）は止めない。発行が遅れているだけの
+  日に、後続の試行で正常に生成できるようにするため。実際に同じ内容の
+  Issueが重複して起票されるのを防ぐのは、呼び出し元のdaily.yml側
+  （gh issue listでの同名チェック）の役割とする。
 
 GITHUB_OUTPUT に publish / date / title_path / body_path を書き出す。
 このスクリプト自体は原則 exit 0（インフラ異常時のみ非0）。
@@ -26,6 +38,13 @@ PY = sys.executable
 
 def env_true(name):
     return os.environ.get(name, "").strip().lower() in ("true", "1", "yes")
+
+
+def after_840_jst():
+    """JST 8:40以降かどうか（最後のscheduled cron 8:43より前・Cloudflare Dispatcherの
+    8:00/8:20より後の、十分に試行が出揃ったであろう時刻を通知の下限とする）"""
+    now = dt.datetime.now(ZoneInfo("Asia/Tokyo"))
+    return (now.hour, now.minute) >= (8, 40)
 
 
 def log(msg):
@@ -77,21 +96,23 @@ def prune_old(days=60):
 
 def main():
     sample = env_true("WMR_SAMPLE")
-    final = env_true("WMR_FINAL") or env_true("WMR_MANUAL")
+    notify_now = env_true("WMR_NOTIFY_NOW")
+    final = env_true("WMR_FINAL") or notify_now or after_840_jst()
     date = (dt.date.fromisoformat(os.environ["WMR_DATE"]) if os.environ.get("WMR_DATE")
             else dt.datetime.now(ZoneInfo("Asia/Tokyo")).date())
     diso = date.isoformat()
     slash = date.strftime("%Y/%m/%d")
     ddir = os.path.join("outputs", diso)
-    log(f"date={diso} sample={sample} final_or_manual={final}")
+    log(f"date={diso} sample={sample} final_or_notify_now_or_after_840={final}")
 
-    # 重複ガード（同日の後続cronは何もしない）
+    # 重複ガード（生成済みの日だけ何もしない。未発行・エラー通知済みでも
+    # 取得の再試行は止めない。発行遅れの日に後続試行で拾えるようにするため）
     if os.path.exists(os.path.join(ddir, "audit.json")):
         log("本日分は生成済み。スキップします")
         gh_output(publish="false", date=diso)
         return 0
 
-    notify = final  # 未発行・エラー通知は最終試行/手動時のみ
+    notify = final  # 未発行・エラー通知は最終試行/8:40以降/手動時のみ
 
     if not sample:
         rc, tail = run("fetch_westpac.py", "--date", diso)

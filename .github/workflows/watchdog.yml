@@ -25,24 +25,43 @@ jobs:
           echo "date=$DATE" >> "$GITHUB_OUTPUT"
           echo "slash=$SLASH" >> "$GITHUB_OUTPUT"
 
-      - name: 本日分の生成物があるか確認
+      - name: 本日分の生成物・通知状況を確認
         id: check
         run: |
-          if [ -f "outputs/${{ steps.jst.outputs.date }}/audit.json" ]; then
+          DATE="${{ steps.jst.outputs.date }}"
+          if [ -f "outputs/$DATE/audit.json" ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
+          # daily.yml側が既に【未発行】【エラー】を通知済みなら、watchdogは出番がない
+          if [ -f "outputs/$DATE/issue_title.txt" ]; then
+            echo "notice_exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "notice_exists=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: 未生成なら通知Issueを起票（重複起票防止）
-        if: steps.check.outputs.exists == 'false'
+        if: steps.check.outputs.exists == 'false' && steps.check.outputs.notice_exists == 'false'
         env:
           GH_TOKEN: ${{ github.token }}
           ISSUE_TITLE: "【未生成】${{ steps.jst.outputs.slash }} 本日分のIssueが立っていません"
+          SLASH: "${{ steps.jst.outputs.slash }}"
         run: |
-          EXISTING=$(gh issue list --state open --limit 100 --json title --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .title" | head -1)
+          # --state all: Close済みでも同名Issueがあれば重複起票しない
+          EXISTING=$(gh issue list --state all --limit 100 --json title --jq ".[] | select(.title == \"$ISSUE_TITLE\") | .title" | head -1)
           if [ -n "$EXISTING" ]; then
-            echo "同名のopen Issueが既にあるためスキップ: $ISSUE_TITLE"
+            echo "同名のIssueが既にある（Close済み含む）ためスキップ: $ISSUE_TITLE"
+            exit 0
+          fi
+
+          # daily.yml側が起票した【未発行】【エラー】Issueが既にないか念のため確認
+          # （outputs/配下のファイルが何らかの理由で消えていても、Issue自体が残っていればそれで足りる）
+          # --state all: 休刊日の【未発行】を朝のうちにCloseした後、watchdogが
+          # 遅延して発火しても【未生成】を重複起票しないようにする
+          UNPUB_EXISTING=$(gh issue list --state all --limit 100 --json title --jq ".[] | select(.title | test(\"^(【未発行】|【エラー】)$SLASH\")) | .title" | head -1)
+          if [ -n "$UNPUB_EXISTING" ]; then
+            echo "本日分の未発行/エラーIssueが既にある（Close済み含む）ためスキップ: $UNPUB_EXISTING"
             exit 0
           fi
 
