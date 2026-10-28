@@ -55,6 +55,48 @@ def tz_shift_hours(date: dt.date) -> int:
     return int((syd_offset - tokyo_offset).total_seconds() // 3600)
 
 
+def find_event_table_window(src_text: str, window_size: int = 2000):
+    """原文から「Today's key data and events」のイベント表ブロックを抜き出す（G9専用）。
+    見出しは"and events"まで含めて厳密に一致させる。これより短く"Today's key data"
+    だけで探すと、原文の要約文中にある類似の文（例: "ahead of today's key data
+    and central bank decisions"）を見出しと取り違え、本来のイベント表より前で
+    窓を切り出してしまう（実例: 2026-10-28）。
+    見つからない場合はNoneを返す。
+    """
+    head_m = re.search(r"Today.{0,2}s\s+key\s+data\s+and\s+events", src_text, re.IGNORECASE)
+    if not head_m:
+        return None
+    window = src_text[head_m.start(): head_m.start() + window_size]
+    end_m = re.search(r"Times are AE[SD]T\.", window)
+    if end_m:
+        window = window[:end_m.end()]
+    return window
+
+
+def times_in(text: str) -> set:
+    """テキスト中の時刻表記（H:MM）をすべて抽出する（G9専用）。
+    "-"（時刻なし）の行はこの正規表現にそもそもマッチしないため、比較対象から
+    自然に除外される。境界判定は\\b（Unicode単語境界）ではなく前後に数字が
+    無いことで行う。「翌0:00」のように時刻の直前が日本語の文字（Unicodeの
+    単語構成文字）の場合、\\bではそこが境界と認識されず時刻を読み落とす
+    （実例: 2026-10-22）。
+    """
+    out = set()
+    for h, m in re.findall(r"(?<!\d)([0-2]?\d):([0-5]\d)(?!\d)", text):
+        if int(h) <= 23:
+            out.add(f"{int(h):02d}:{m}")
+    return out
+
+
+def shift_times(times: set, shift: int) -> set:
+    """時刻集合の各値から時差shift時間を引く（24時間でラップ。G9専用）。"""
+    out = set()
+    for t in times:
+        h, m = t.split(":")
+        out.add(f"{(int(h) - shift) % 24:02d}:{m}")
+    return out
+
+
 def en_hit(token: str, text: str) -> bool:
     return re.search(rf"(?<![A-Za-z]){re.escape(token)}(?![A-Za-z])", text) is not None
 
@@ -241,32 +283,11 @@ def main():
             gate("G9", "イベント時刻JST換算チェック", False, "PDF抽出テキストが見つからない")
         else:
             src_text = open(src_path, encoding="utf-8").read()
-            head_m = re.search(r"Today.{0,2}s\s+key\s+data", src_text, re.IGNORECASE)
-            if not head_m:
+            window = find_event_table_window(src_text)
+            if window is None:
                 gate("G9", "イベント時刻JST換算チェック", True,
                      "原文に「Today's key data」ブロックが見つからず対象外（構成変更の可能性。手動確認推奨）")
             else:
-                window = src_text[head_m.start(): head_m.start() + 2000]
-                end_m = re.search(r"Times are AE[SD]T\.", window)
-                if end_m:
-                    window = window[:end_m.end()]
-
-                def times_in(text):
-                    # "-"（時刻なし）の行はこの正規表現にそもそもマッチしないため、
-                    # 比較対象から自然に除外される
-                    out = set()
-                    for h, m in re.findall(r"\b([0-2]?\d):([0-5]\d)\b", text):
-                        if int(h) <= 23:
-                            out.add(f"{int(h):02d}:{m}")
-                    return out
-
-                def shift_times(times, shift):
-                    out = set()
-                    for t in times:
-                        h, m = t.split(":")
-                        out.add(f"{(int(h) - shift) % 24:02d}:{m}")
-                    return out
-
                 shift = tz_shift_hours(date)
                 src_times = times_in(window)
                 expected_times = shift_times(src_times, shift)
