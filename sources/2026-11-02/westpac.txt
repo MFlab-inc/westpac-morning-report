@@ -1,145 +1,155 @@
-31 August 2026
+2 November 2026
 MORNING REPORT
 Today's economic developments and market movements.
 Key themes Data snapshot
-All eyes on Friday were on FX Last 24 hrs Current Change AUS Interest Rate Swaps Last Change
-Kevin Warsh’s first address to TWI 66.4 0.2% 30 day BBSY 4.36 0.00
-the Jackson Hole Symposium. AUD/USD 0.7159 -0.4% 90 day BBSY 4.60 0.02
-His comments indicated AUD/JPY 114.61 0.1% 180 day BBSY 4.93 0.01
-willingness to act in order to AUD/GBP 0.5289 0.0% 1 year swap 4.72 0.01
-bring US inflation back to the AUD/NZD 1.2093 0.2% 2 year swap 4.70 0.02
-Fed’s target. AUD/EUR 0.6183 0.2% 3 year swap 4.67 0.01
-AUD/CNH 4.8185 -0.3% 4 year swap 4.68 0.00
-Following the speech, the fed
-AUD/SGD 0.9122 -0.2% 5 year swap 4.70 -0.01
-funds futures curve repriced
-AUD/HKD 5.6128 -0.4% 6 year swap 4.75 -0.01
-the probability of a hike at
-AUD/CAD 0.9958 -0.1% 7 year swap 4.81 0.00
-the next FOMC meeting on
-EUR/USD 1.1579 -0.6% 8 year swap 4.86 0.00
-16 September from around a
-USD/JPY 160.09 0.4% 9 year swap 4.91 0.00
-third to more than a half. US
-USD Index 99.70 0.5% 10 year swap 4.96 -0.01
-Treasuries sold off sharply.
-The September FOMC Equities Close Change Government Bond Yields Close Change
-decision will depend on the S&P/ASX 200 9,092 0.6% Australia
-economic data flow before S&P 500 7,712 -0.2% 3 year bond 4.66 -0.01
-the policy meeting, including Japan Nikkei 66,406 0.4% 10 year bond 5.10 0.01
-this Friday’s US labour market Hang Seng 25,585 0.1% United States
-data for August, where Euro Stoxx 50 6,486 0.9% 3-month T Bill 3.72 0.04
-payrolls are expected to UK FTSE100 10,824 0.3% 2 year bond 4.34 0.11
-bounce back by 55k (Westpac VIX Index 14.43 -0.6% 10 year bond 4.72 0.04
-forecast 70k) after a 23k drop Other (10 year yields)
-in July. Commodities Current Change Germany 3.28 0.03
-CRB Index 406.36 0.0% Japan 2.93 0.03
-In Australia this week,
-Gold 4455.11 -3.1% UK 5.06 0.03
-the June quarter National
-Copper 14294 0.1%
-Accounts on Wednesday, and
-Oil (WTI futures) 83.40 -0.2% Sydney Futures Exchange Current Change
-the partial indicators leading
-Coal (coking) 237.00 -0.6% 10 yr bond 5.11 0.02
-up to them, will take centre
-Coal (thermal) 142.00 0.7% 3 yr bond 4.69 0.03
-stage. We expect GDP to
-Iron Ore 98.95 0.7% 3 mth bill rate 4.60 0.02
-increase by 0.2%qtr.
-ACCU 36.13 -4.3% SPI 200 9,009 -0.4%
-Data as at 7:20am AEST. Change is from the previous trading day (excluding the SFE, which is the change during the night
+Sentiment was downbeat
+FX Last 24 hrs Current Change AUS Interest Rate Swaps Last Change
+to end the week as US tech
+TWI 65.2 -0.3% 30 day BBSY 4.78 0.01
+earnings disappointed market
+AUD/USD 0.7030 0.0% 90 day BBSY 4.95 -0.01
+expectations. Reports of
+AUD/JPY 110.79 -0.1% 180 day BBSY 5.30 0.00
+potential further US strikes
+AUD/GBP 0.5260 0.1% 1 year swap 4.97 -0.01
+on Iran added to the risk-off
+AUD/NZD 1.2475 0.0% 2 year swap 4.88 -0.02
+tone. Elsewhere, the BoJ left
+AUD/EUR 0.6301 0.2% 3 year swap 4.83 -0.03
+its policy rate unchanged.
+AUD/CNH 4.6754 -0.1% 4 year swap 4.84 -0.03
+AUD/SGD 0.8986 -0.1% 5 year swap 4.86 -0.03
+Global equities moved lower
+AUD/HKD 5.5147 0.0% 6 year swap 4.90 -0.04
+as concerns around the AI
+AUD/CAD 0.9823 -0.1% 7 year swap 4.95 -0.04
+trade intensified, with US
+EUR/USD 1.1158 -0.2% 8 year swap 5.00 -0.04
+technology stocks and tech-
+USD/JPY 157.49 -0.1% 9 year swap 5.04 -0.04
+exposed Asian markets
+USD Index 101.88 -0.2% 10 year swap 5.08 -0.04
+bearing the brunt of declines.
+Safe-haven demand Equities Close Change Government Bond Yields Close Change
+supported US Treasuries, S&P/ASX 200 8,908 0.2% Australia
+although higher oil prices S&P 500 7,580 -1.8% 3 year bond 4.81 -0.05
+capped gains, while markets Japan Nikkei 63,290 -2.1% 10 year bond 5.12 -0.05
+price an 80% probability of Hang Seng 23,294 1.5% United States
+a hike at this week’s RBA Euro Stoxx 50 6,131 -1.2% 3-month T Bill 3.98 -0.01
+meeting. UK FTSE100 10,730 0.1% 2 year bond 4.59 -0.01
+VIX Index 19.42 12.9% 10 year bond 4.93 -0.01
+The US dollar eased
+Other (10 year yields)
+modestly, while the AUD was
+Commodities Current Change Germany 3.32 -0.03
+little changed and the yen
+CRB Index 411.10 0.0% Japan 2.78 -0.06
+gained after the BoJ signalled
+Gold 3874.62 -3.7% UK 5.28 -0.01
+upside risks to inflation.
+Copper 14154 -1.4%
+Oil prices advanced on the Oil (WTI futures) 104.12 2.1% Sydney Futures Exchange Current Change
+prospect of further US strikes Coal (coking) 264.00 0.6% 10 yr bond 5.14 0.01
+on Iran, with Brent posting Coal (thermal) 154.95 1.5% 3 yr bond 4.81 0.00
+its highest weekly close since Iron Ore 91.05 -0.7% 3 mth bill rate 4.77 0.00
+the conflict began, while ACCU 36.13 -4.3% SPI 200 8,914 0.0%
+Data as at 7:00am AEST. Change is from the previous trading day (excluding the SFE, which is the change during the night
+higher oil prices and inflation
 session). Source: Bloomberg.
+concerns weighed heavily on
+gold.
 Past performance is not a reliable indicator of future performance. The forecasts given above are predictive in character. Whilst every effort has been taken to ensure that the assumptions on which the forecasts are based are reasonable,
 the forecasts may be affected by incorrect assumptions or by known or unknown risks and uncertainties. The results ultimately achieved may differ substantially from these forecasts.
 1
 
 TODAY’S INSIGHTS
 Today’s key data and events
-Mantas Vanagas
-Senior Economist, Westpac Group Time Event Exp Prev
-P: +61 422 030 326
-11:00 AU MI Inflation Gauge Aug - 4.0%
-E: mantas.vanagas@westpac.com.au
-11:00 NZ ANZ Business Confidence Aug - 56.1pts
-Financial Markets 11:30 AU Business Indicators Q2 2.0% -1.3%
-All eyes on Friday were on Kevin Warsh’s first address 11:30 AU Inventories Q2 0.5% 0.5%
-to the Jackson Hole Symposium. The Fed Chair used the 11:30 AU Private Sector Credit Jul 0.7% 0.8%
-opportunity to emphasise the Fed’s commitment to its 2% 11:30 CN Manufacturing PMI Aug 49.5pts 49.2pts
-price stability objective and maximum employment, before
-11:30 CN Non-Manufacturing PMI Aug 49.4pts 49.0pts
-assessing the current state of the US economy. Most attention
-0:30 US Dallas Fed Manufacturing Aug 1.6pts 1.3pts
-was on his concluding comments, where he made clear that
-the Committee “must be confident that underlying inflation Times are AEST. All data forecasts are m/m or q/q and seasonally adjusted unless otherwise
-specified. Forecasts for Australian data are our forecasts and for other countries they are
-is moving to our objective, clearly and at sufficient speed”.
-consensus forecasts.
-“Otherwise, we have work to do.” – suggesting where the
-FOMC’s assessment of risks lay and its willingness to act weekend struck a more constructive tone and suggested
-more willingness to make compromises in the conflict with
-Following the speech, the fed funds futures curve repriced
-the US. “Taking an all-or-nothing approach will not yield
-the probability of a hike at the next FOMC meeting on 16
-results,” he said. Over the weekend, crude markets were also
-September from around a third to more than a half. Much will
-digesting President Trump’s announcement that the US had
-hinge on the economic data flow before the policy meeting,
-reached a deal with Venezuela to take majority control of its
-including this Friday’s US labour market data for August,
-oil reserves. In other markets, higher US yields pulled gold
-where payrolls are expected to bounce back by 55k (Westpac
-prices lower, down more than 3%.
-forecast 70k) after a 23k drop in July.
-International Data
-In Australia this week, the June quarter National Accounts on
-Wednesday, and the partial indicators leading up to them, will
-US University of Michigan consumer sentiment was little
-take centre stage. We expect GDP to increase by 0.2%qtr.
-changed in the final estimate for August at 51.7, up slightly
-from the prior month but still near the historic low for the
-• Results across major equity markets on Friday were mixed.
-series. Current conditions and expectations both remained
-The S&P500 lost 0.2% on the back of higher interest rate
-abnormally weak, despite an improvement in near-term inflation
-expectations, and as the tech sector pared back the optimism
-expectations. The one-year indicator stepped back from 4.4%yr
-seen after NVIDIA’s earnings announcement earlier last
-to 4.0%yr, while five-year expectations were unchanged at
-week. European stocks, trading ahead of Warsh’s speech,
-3.3%yr – a benign rate relative to the history of the series.
-made gains across the board, with the Euro Stoxx 50 up
-0.9%. Japanese stocks also gained, while Chinese markets The US Bureau of Labour Statistics announced a preliminary
-were lower and the South Korean Kospi fell 1.8%. Meanwhile, benchmark revision for historical nonfarm payrolls data. As at
-the Australian ASX 200 was up 0.6%, paring losses from the March 2026, the level was revised 79k lower. This contrasted
-prior two days. with the market’s expectation for a positive net revision of
-183k, but was only a fraction of the prior year’s -911k revision.
-• US Treasuries sold off sharply following Warsh’s comments.
-Unlike in 2025, nonfarm payrolls in 2026 have experienced
-The front end of the yield curve jumped by 11–12bp. The 10Y
-steady downward revisions to the prior two months, limiting the
-yield rose 4bp to 4.72%, close to the top of its recent range.
-scope for a large downward revision. The final estimate will be
-Other major government bonds followed suit, with 10Y Bund,
-published in early 2027.
-Gilt and JGB yields all 3bp higher. Aussie yields eased slightly
-at the front end on Friday, but futures are pointing to an The European Commission economic confidence edged up
-increase at the market open today as local markets catch up from 97.1 in July to 98.4 in August, the highest level since the
-with global trends. start of the year, suggesting improving euro area economic
-momentum this quarter. Consumer confidence, meanwhile,
-• In currency markets, the DXY appreciated 0.5%, its biggest
-was confirmed at -15.5, up 0.4pts from the prior month and
-one-day gain since mid-June. Other major currencies lost
-5pts from the trough in April, broadly in line with its five-year
-ground – the EUR was down 0.6%, while GBP and JPY
-average.
-depreciated by 0.4%. The AUD followed a similar pattern,
-also down 0.4% to 0.7157.
-• In commodity markets, crude was little changed, with Brent
-and WTI trading at $89.3 and $83.4 respectively. News
-headlines suggested the additional US sanctions announced
-against Iran at the beginning of last week has had little
-impact, while comments from Iran’s President over the
+Luka Belobrajdic
+Economist, Westpac Group
+Time Event Exp Prev
+P: +61 403 657 603
+E: luka.belobrajdic@westpac.com.au 11:00 AU MI Inflation Gauge Oct - 4.8%
+11:30 AU Dwelling Approvals Sep 2.0% -6.1%
+Financial Markets 11:30 JP S&P Global Mfg. PMI Oct Final - 53.3pts
+Sentiment was downbeat to end the week as US tech earnings 12:45 CN RatingDog Manufacturing PMI Oct 52pts 52.1pts
+disappointed market expectations, accelerating the rotation 20:00 EZ S&P Global Mfg. PMI Oct Final 52.4pts 52.4pts
+out of the AI trade. Oil prices advanced as markets positioned
+20:30 GB S&P Manufacturing PMI Oct Final 52.8pts 52.8pts
+for the prospect of further US strikes on Iran, with reports that
+1:45 US S&P Manufacturing PMI Oct Final 56pts 56pts
+a senior commander had briefed President Trump on military
+options. President Trump has repeatedly signalled he may 2:00 US ISM Manufacturing Oct 54.5pts 54.5pts
+resume strikes against Iran following the midterms. Adding to 2:00 US Construction Spending Sep 0.4% 0.9%
+market turmoil, an estimated $6.3bn in funds was reportedly
+Times are AEST. All data forecasts are m/m or q/q and seasonally adjusted unless otherwise
+stolen from Binance in a hack attributed to North Korea. specified. Forecasts for Australian data are our forecasts and for other countries they are
+Elsewhere, the Bank of Japan left its policy rate unchanged at consensus forecasts.
+1.25%, as widely expected.
+US$119/bbl. Gold fell sharply as higher oil prices fuelled
+inflation concerns, losing 3.7% and ending the week well
+• US equities moved sharply lower as markets were
+below US$4,000/oz. Copper and aluminium also weakened
+disappointed by Amazon’s earnings and a weaker-than-
+amid the broader tech sell-off, falling 1.4% and 0.3%
+expected revenue outlook from Intel. The S&P 500 fell 1.8%
+respectively, while iron ore declined 0.7%.
+on Friday, leaving the index 0.6% lower over the week. The
+NASDAQ bore the brunt of the decline, falling 2.9%, while International Data
+the Dow Jones lost 1.1%. The VIX rose 12.9%. European
+equities were also generally weaker, with the Euro Stoxx 50 The US Employment Cost Index grew 0.8% in Q3 as expected,
+down 1.2%, while the FTSE 100 managed a 0.1% gain. a touch below the Q2 gain of 0.9%. In Q3, wages & salaries rose
+0.7% while benefit costs increased 0.9%. In the private sector,
+• Disappointment around US tech earnings weighed on the
+wages & salaries gained 0.8% as benefit costs lifted 0.9%,
+outlook for semiconductor demand, sending tech-exposed
+broadly in line with Q2. Public sector outcomes were weaker
+Asian equities lower. The KOSPI bore the brunt of the risk-off
+in Q3 at 0.6% and 0.7% for wages & salaries and benefits
+sentiment, falling 3.5%, while the Nikkei 225 declined 2.1%.
+respectively following two strong quarters in Q1 and Q2.
+The Hang Seng bucked the trend, gaining 1.5%. Locally, the
+ASX 200 rose 0.2%, taking its weekly gain to 1.3%. FOMC members Barkin advocated for further rate hikes: “The
+direction of travel is pretty straightforward — the question,
+• US Treasuries found some support from safe-haven demand,
+though, is pace. A gradual approach is a good way to go, and
+although higher oil prices capped the rally. Both the 2-year
+we’ll see what we learn over the next period of time”. Logan
+and 10-year Treasury yields fell 1bp. Futures markets
+said: “It remains clear to me, given the current outlook, that the
+remain somewhat cautious around further Fed tightening
+FOMC needs to implement at least two more 25-basis-point
+in 2026, with the probability of a December hike sitting at
+rate increases,” adding, the Fed should then pause to assess
+73%, taking the implied year-end fed funds rate to 4.06%.
+economic and financial developments. Musalem said: “I judge
+Following the BoJ’s decision to leave rates unchanged, the
+that additional firming of monetary policy will be necessary, and
+10-year JGB yield fell 6bps.
+soon…incremental adjustments made earlier are usually less
+• Australian government bond yields tracked the previous disruptive than larger and abrupt actions taken later”.
+day’s rally in global bonds, with both the 3-year and 10-year
+Euro Area GDP growth surprised to the upside in Q3,
+yields falling 5bps. Swap markets price the probability of a
+registering a 0.4% gain in the flash estimate (consensus 0.2%).
+hike at this week’s RBA meeting at 80%, while a December
+Annual growth edged up to 1.3%yr as a result. Amongst the
+move is seen as near certain, taking the implied year-end
+core nations, growth was concentrated in Spain (0.6%), with
+cash rate to 4.85%.
+activity only up 0.2% in Germany, flat in Italy and down 0.1%
+• The US dollar eased modestly on Friday, with the DXY down in France. Ireland saw another strong result, a 5.5% gain in
+0.2%. The AUD was little changed against the greenback Q3 extending Q2’s 10.2% increase, offsetting the decline
+at 0.7030, while the euro fell 0.2% and sterling gained experienced through Q4 2025 and Q1 2026.
+0.1%. The yen also rose 0.1% against the USD after the BoJ
+The Euro Area unemployment rate was revised up to 6.5% in
+signalled upside risks to inflation.
+August and unchanged in September. The current level is just
+• Oil prices advanced ahead of the weekend as markets above the record low for the series.
+positioned for the prospect of further US strikes on Iran Local Data
+following the midterm elections. Brent rose 2.4% to
+US$118/bbl, its highest weekly close since the start of the Private sector credit grew 0.6%mth in September, with
+conflict. WTI gained 2.1% to US$104/bbl, while Dated housing credit growth easing, led by investor credit, while
+Brent traded close to the front-month futures contract at business credit remained relatively resilient (see here).
 Past performance is not a reliable indicator of future performance. The forecasts given above are predictive in character. Whilst every effort has been taken to ensure that the assumptions on which the forecasts are based are reasonable,
 the forecasts may be affected by incorrect assumptions or by known or unknown risks and uncertainties. The results ultimately achieved may differ substantially from these forecasts.
 WESTPAC ECONOMICS
