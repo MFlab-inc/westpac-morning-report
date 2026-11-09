@@ -1,55 +1,64 @@
-10 September 2026
+10 November 2026
 MORNING REPORT
 Today's economic developments and market movements.
 Key themes Data snapshot
-Tensions continued to FX Last 24 hrs Current Change AUS Interest Rate Swaps Last Change
-escalate between the US and TWI 66.4 0.2% 30 day BBSY 4.42 0.02
-Iran overnight as strikes were AUD/USD 0.7220 0.0% 90 day BBSY 4.67 0.01
-exchanged on military assets AUD/JPY 110.89 -0.3% 180 day BBSY 5.02 0.01
-throughout in the region. AUD/GBP 0.5328 0.0% 1 year swap 4.84 0.05
-The absence of discussions AUD/NZD 1.2369 0.2% 2 year swap 4.86 0.07
-and Iran’s claims of being AUD/EUR 0.6205 0.0% 3 year swap 4.85 0.07
-ready for a more intense war AUD/CNH 4.8420 0.0% 4 year swap 4.86 0.08
-continues to concern markets. AUD/SGD 0.9129 0.0% 5 year swap 4.89 0.08
-AUD/HKD 5.6618 0.0% 6 year swap 4.93 0.08
-Brent jumped 3.8% overnight,
-AUD/CAD 0.9967 0.2% 7 year swap 4.97 0.07
-rising above the US$101/bbl
-EUR/USD 1.1637 0.1% 8 year swap 5.02 0.07
-level, nearing US$102/bbl.
-USD/JPY 153.58 -0.3% 9 year swap 5.06 0.07
-Stocks sold off across the
-USD Index 98.79 0.0% 10 year swap 5.10 0.06
-US and Europe against this
-weaker risk backdrop, with
+Risk sentiment rebounded
+FX Last 24 hrs Current Change AUS Interest Rate Swaps Last Change
+at the start of the week,
+TWI 64.0 0.0% 30 day BBSY 4.86 0.00
+unwinding some of the
+AUD/USD 0.6927 0.9% 90 day BBSY 4.99 0.00
+deterioration seen late last
+AUD/JPY 109.34 0.5% 180 day BBSY 5.32 0.00
+week as tentative signs of
+AUD/GBP 0.5155 0.2% 1 year swap 4.93 0.02
+diplomatic progress between
+AUD/NZD 1.2299 -0.7% 2 year swap 4.79 0.01
+the US and Iran helped
+AUD/EUR 0.6173 0.2% 3 year swap 4.71 0.01
+restore a more positive tone.
+AUD/CNH 4.6201 0.8% 4 year swap 4.70 0.01
+AUD/SGD 0.8857 0.6% 5 year swap 4.72 0.01
+Share markets bounced
+AUD/HKD 5.4323 0.9% 6 year swap 4.75 0.01
+across much of the globe,
+AUD/CAD 0.9780 0.8% 7 year swap 4.80 0.00
+with the S&P 500 and
+EUR/USD 1.1221 0.7% 8 year swap 4.84 0.00
+NASDAQ gaining 2.7% and
+USD/JPY 157.83 -0.4% 9 year swap 4.89 0.00
+3.0% respectively, the latter
+USD Index 101.66 -0.6% 10 year swap 4.92 0.00
+shaking off a 4.6% fall in
+NVIDIA shares.
 Equities Close Change Government Bond Yields Close Change
-Asian stocks likely to follow
-S&P/ASX 200 8,911 -0.1% Australia
-this price action weaker this
-S&P 500 7,636 -0.5% 3 year bond 4.82 0.04
-morning.
-Japan Nikkei 65,143 -0.2% 10 year bond 5.21 0.02
-US Treasury announced that Hang Seng 25,275 -0.2% United States
-it will purchase up to $6bn Euro Stoxx 50 6,312 -1.6% 3-month T Bill 3.80 0.02
-of longer-dated government UK FTSE100 10,670 -1.3% 2 year bond 4.43 0.04
-debt in its bond buyback VIX Index 16.46 4.7% 10 year bond 4.84 0.05
-program. The target size Other (10 year yields)
-fell short of some analysts’ Commodities Current Change Germany 3.44 0.08
-estimates, adding to selling CRB Index 423.11 0.8% Japan 2.89 -0.01
-pressures already in place Gold 4398.65 1.0% UK 5.26 0.09
-due to surging oil prices. Copper 14768 0.4%
-Oil (WTI futures) 96.05 3.2% Sydney Futures Exchange Current Change
-The 10-year Treasury yield
-Coal (coking) 274.00 -0.7% 10 yr bond 5.27 0.06
-rose 5bps to another fresh
-Coal (thermal) 151.10 0.0% 3 yr bond 4.88 0.06
-cycle high, while the 10-year
-Iron Ore 99.00 -1.5% 3 mth bill rate 4.63 0.01
-Bund and Gilt yields are at
-ACCU 36.13 -4.3% SPI 200 8,816 -1.0%
-their highest since 2011 and
-Data as at 7:00am AEST. Change is from the previous trading day (excluding the SFE, which is the change during the night
-2007, respectively. session). Source: Bloomberg.
+Oil prices fell sharply on S&P/ASX 200 9,030 0.1% Australia
+reports pointing to diplomatic S&P 500 7,575 2.7% 3 year bond 4.68 0.01
+advances between the US Japan Nikkei 58,776 2.3% 10 year bond 5.00 0.02
+and Iran, sending Brent 6.4% Hang Seng 24,449 -0.1% United States
+lower to US$92.0/bbl. Euro Stoxx 50 6,290 1.9% 3-month T Bill 4.03 0.03
+UK FTSE100 10,783 1.0% 2 year bond 4.56 0.04
+The US dollar started the
+VIX Index 19.68 -23.2% 10 year bond 4.87 0.01
+week on a softer footing, with
+Other (10 year yields)
+the DXY falling 0.6% and
+Commodities Current Change Germany 3.26 0.01
+giving back Friday’s gains,
+CRB Index 386.13 -1.0% Japan 2.67 0.01
+while the Aussie jumped
+Gold 4144.22 1.8% UK 5.13 -0.02
+0.9% to around USD0.6930
+Copper 13896 0.9%
+to reverse much of its late-
+Oil (WTI futures) 86.18 -5.1% Sydney Futures Exchange Current Change
+week sell-off.
+Coal (coking) 253.00 -0.8% 10 yr bond 5.00 -0.02
+Coal (thermal) 136.75 -3.1% 3 yr bond 4.67 0.00
+Iron Ore 92.85 -0.3% 3 mth bill rate 4.77 0.00
+ACCU 36.13 -4.3% SPI 200 9,133 1.1%
+Data as at 7:30am AEST. Change is from the previous trading day (excluding the SFE, which is the change during the night
+session). Source: Bloomberg.
 Past performance is not a reliable indicator of future performance. The forecasts given above are predictive in character. Whilst every effort has been taken to ensure that the assumptions on which the forecasts are based are reasonable,
 the forecasts may be affected by incorrect assumptions or by known or unknown risks and uncertainties. The results ultimately achieved may differ substantially from these forecasts.
 1
@@ -57,67 +66,72 @@ the forecasts may be affected by incorrect assumptions or by known or unknown ri
 TODAY’S INSIGHTS
 Today’s key data and events
 Ryan Wells
-Economist, Westpac Group
-Time Event Exp Prev
+Economist, Westpac Group Time Event Exp Prev
 P: +61 401 423 628
-11:00 AU MI Inflation Expectations – 4.9%
+10:30 AU WBC-MI Consumer Sentiment Nov - 80.4pts
 E: ryan.wells@westpac.com.au
-22:15 EZ ECB Policy Decision (Deposit Rate) 2.25% 2.50%
-Financial Markets 22:30 US Initial Jobless Claims 5/09/2026 205k 206k
-22:30 US PPI Aug 0.4% 0.0%
-Tensions continued to escalate between the US and Iran
-0:00 US Existing Home Sales Aug -1.6% -1.7%
-overnight after Iran attempted to strike a US Navy warship, to
-which the US retaliated by striking five Iranian energy tankers, 0:00 US Wholesale Inventories Jul Final 1.3% 1.3%
-to which Iran responded by targeting US airbases in the region, Times are AEST. All data forecasts are m/m or q/q and seasonally adjusted unless otherwise
-alongside Navy and commercial ships. Iran have since stated specified. Forecasts for Australian data are our forecasts and for other countries they are
+10:30 JP Household Spending Sep -3.0% -3.1%
+Financial Markets 10:50 JP Current Account Balance Sep ¥3300b ¥4062b
+11:30 AU NAB Business Conditions Oct - -1pts
+• Share markets continued to rebound from the sharp sell-off
+22:00 US NFIB Small Business Optimism Oct 97.9pts 97.9pts
+late last week across most of the globe, coinciding with a
+- CN Trade Balance Oct US$125.9b US$133.5b
+fall in oil prices. In the US, the S&P 500 gained 2.7% while
+the tech-heavy Nasdaq managed to lift 3.0% despite the 0:30 US CPI Oct 0.3% 0.6%
+4.6% slide in Nvidia shares following reports of CEO Jensen Times are AEST. All data forecasts are m/m or q/q and seasonally adjusted unless otherwise
+Huang had an affair with a suspected Chinese spy. specified. Forecasts for Australian data are our forecasts and for other countries they are
 consensus forecasts.
-that they are ready for a more intense war and are ready to
-escalate further. These developments, together with the • Crude oil prices surged overnight as tensions between the US
-absence of discussions between the US and Iran and open- and Iran continued to escalate, with few signs of any let-up
-ended delays in the formalisation of an agreement between near-term strikes are exchanged on military and other shipping
-Iran and Oman regarding management of the Strait of Hormuz, assets in the region. Brent and WTI rose 3.8% and 3.2% to
-continue to concern market participants. US$96.1/bbl and US$101.7/bbl respectively.
-• Share markets were mostly in the red as surging oil prices once • Metals generally moved higher, with LME copper rising 0.4%
-again weakened risk sentiment. The S&P 500 (–0.5%), Dow to US$14,768/mt, another fresh record high as physical supply
-Jones (–0.8%) and NASDAQ (–0.6%) all continued to extend tightens and uncertainty around the US’ plans for tariffs
-recent losses. Stocks were hit harder in Europe, as a –1.6% persist. Gold managed to rise 1.0% to around the US$4,400/oz
-fall in the Euro Stoxx 50 more than wiped out a recent run of mark, with the higher global yield backdrop capping the extent
-modest gains. London’s FTSE 100 also dropped –1.3%. of gains.
-• Moves across Asian share markets were modest but are likely International Data
-to weaken further today given the price action overnight. Tokyo
-and Hong Kong will be coming off small declines yesterday, In China, the CPI was in line with expectations for August, rising
-both down –0.2%, while Shanghai gained 0.3%. The ASX 200 from 0.5%yr to 0.8%yr, while the measure excluding food and
-edged –0.1% lower yesterday, but futures markets are clearly energy ticked slightly higher from 0.9%yr to 1.0%yr. The PPI
-pointing to a weaker open this morning. meanwhile surprise to the upside, lifting from 3.5%yr to 3.8%yr.
-Overall, the lift in producer prices is still relatively contained,
-• Treasuries extended its losses overnight after the US Treasury
-and evidence of material pass-through to consumers remains
-announced that it will purchase up to $6bn of longer-dated
-fairly limited at this stage.
-government debt in its bond buyback program. The target size
-fell short of some analysts’ estimates, adding to the selling
-pressures already in place due to growing inflation concerns
-amid surging oil prices.
-• The 2Y and 10Y treasury yields rose 4bps and 5bps to 4.43%
-and 4.84% respectively, the latter rising to another fresh cycle
-high. Pricing for the Fed remains little-changed, with a rate
-hike next week seen at a 60% chance, though at least two rate
-hikes are fully priced in by early 2027.
-• Global yields followed the US higher, with the 10Y Bund up
-8bps to its highest yield since 2011, while the 10Y gilt rose
-9bps to its highest yield since 2007. Aussie government yields
-also rose strongly overnight, futures yields on the 3Y and 10Y
-both up 6bps. Market pricing for an RBA rate hike September
-has inched closer to a 70% chance, with a November move
-fully priced in.
-• The USD was broadly unchanged overnight, the DXY index
-steady at around 98.8, though there were some offsetting
-moves in the crosses. The Yen appreciated 0.3% versus the
-greenback, continuing to firm after Monday’s rally. The Euro
-also eked out a 0.1% gain, but these moves were offset by
-losses for the CAD, SEK and CHF, leaving the index flat. The
-Aussie dollar held steady at north of USD0.72.
+• • Across the pond, the Euro Stoxx 50 (+1.9%) and London’s
+FTSE 100 (+1.0%) both posted solid gains. Asia was
+International Data
+somewhat mixed: Tokyo started to bounce-back from the
+prolonged sell-off last week (+2.3%), Shanghai was broadly
+In the US, the NY Fed’s 1-year inflation expectations measure
+flat while Hong Kong edged slightly lower (–0.1%). The ASX
+was essentially unchanged at 3.91% in October, a higher-than-
+200 inched 0.1% higher, but following the action overnight,
+expected result given expectations were for a slight cooling.
+futures markets are pointing to a solid open this morning.
+The FOMC’s Goolsbee and Barkin spoke overnight with a
+• Treasuries received less appetite at the start of the week focus on upside inflation risks, with Goolsbee highlighting
+amid the broader rebound in risk sentiment and lower oil particular concerns over services inflation and the inflationary
+prices, seeing the curve bear steepen as the 2-year yield consequences of the rapid buildout of AI infrastructure.
+rose 4bps to 4.56% while the 10-year yield rose 1bp to
+In the Euro Area, November’s Sentix investor confidence index
+4.87%. However, that is not to say that markets have grown
+edged slightly lower from 2.7 to 2.4, well above the historic
+any less confident on the prospect of FOMC rate hikes near-
+average and among the strongest readings in the past four
+term, with 21bps now priced in for December (vs. 19bps
+years.
+prior) and the first fully priced in hike now occurring in
+January (vs. March prior).
+• Yields were little changed elsewhere, with the 10Y Bund
+and JGB each up 1bp while the 10Y Gilt slipped 2bps.
+ACGBs sold off during local trading, but those moves were
+largely given back in futures trading overnight. In any case,
+market pricing remains consistent with an RBA that has
+likely finished tightening, with no hikes or cuts pencilled in
+over the forward profile.
+• The USD started the week on a softer footing, the DXY
+slipping 0.6% to trade around 101.6, effectively unwinding
+Friday’s rally. All G10 currencies rose against the greenback.
+The Euro and Sterling rose 0.7% and 0.6% overnight
+respectively, while the Yen rose 0.4%, continuing to trade
+the fairly tight range that has persisted since early October.
+The Aussie dollar also jumped 0.9% to around USD0.6930,
+reversing the sell-off late last week which saw the Aussie
+fall to its lowest since March.
+• Crude oil prices moved sharply lower after numerous
+reports (many still unconfirmed) that were broadly indicative
+of diplomatic advances between the US and Iran covering
+key sticking points like control over the Strait of Hormuz,
+uranium enrichment and frozen funds. Brent fell 6.4% to
+US$92.0/bbl. The rebound in risk sentiment buoyed LME
+copper, which rose 0.9% to US$13,896/mt. Gold meanwhile
+continued its modest recovery from last week, with prices
+up 1.4% to around US$4,130/oz.
 Past performance is not a reliable indicator of future performance. The forecasts given above are predictive in character. Whilst every effort has been taken to ensure that the assumptions on which the forecasts are based are reasonable,
 the forecasts may be affected by incorrect assumptions or by known or unknown risks and uncertainties. The results ultimately achieved may differ substantially from these forecasts.
 WESTPAC ECONOMICS
