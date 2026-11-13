@@ -189,8 +189,11 @@ GBP_DIRECT_RE = re.compile(
     rf"\b(?:sterling|pound)\b"
     rf"(?P<gap1>(?:\s+\w+){{0,3}}?)"
     rf"\s+(?P<dir>{GBP_UP_WORDS}|{GBP_DOWN_WORDS}|{GBP_FLAT_WORDS})\b"
-    rf"(?P<gap2>(?:\s+\w+){{0,3}}?)"
-    rf"(?:\s*\(?(?P<pct>[+-]?\d+(?:\.\d+)?)\s*%\)?)?",
+    # gap2と%をまとめて1つの省略可能な単位にする（%単独を省略可能にすると、
+    # 0語でも%無しで即座に成立してしまい、2〜3語先に%がある場合でもgap2が
+    # 広がらない。「%まで到達する」ことをこの単位全体の条件にすることで、
+    # 近くに%がある場合は正しく広がる）
+    rf"(?:(?P<gap2>(?:\s+\w+){{0,3}}?)\s*\(?(?P<pct>[+-]?\d+(?:\.\d+)?)\s*%\)?)?",
     re.IGNORECASE)
 # %。AUD/USD・AUD/GBPとも原文は小数点1桁までの丸めのため、差が小さい日は丸め誤差で
 # 符号が反転しうる（実例: 2026-09-23・2026-11-02）。この範囲はGBP/USDを判定しない。
@@ -221,15 +224,21 @@ def gbp_direct_statement(src_text: str):
     """原文にポンド（sterling/pound）自身の上昇・下落・横ばいの直接記述があれば
     (向き, 一致箇所の文字列) を返す（G11専用）。見つからなければ (None, None)。
     westpac.txtは2段組のPDF抽出で行が混ざり、1つの文として完結しないことが多い
-    （例: 他通貨と動詞・%を共有する "the euro and sterling both gained 0.1%." や、
+    （例: 他通貨と動詞・%を共有する "the euro and\\nsterling both gained 0.1%." や、
     "pound losing 0.4% and 0.2% respectively" のように%が複数並ぶ）。誤って他通貨の
-    数値をポンドの値として取り違えないよう、方向語の前後に他通貨名や"and"・
-    "respectively" が無く、方向語の直後に%が明確に1つだけ続く場合に限って採用する。
-    それ以外（あいまい・%が見つからない）は見送り、呼び出し側でAUD/USD・AUD/GBPからの
+    数値をポンドの値として取り違えないよう、方向語の前後だけでなく一致箇所の前後
+    各40字も含めて他通貨名や"and"・"respectively" が無く、方向語の直後に%が
+    明確に1つだけ続く場合に限って採用する（"pound losing 0.4% and 0.2%
+    respectively"は、%の直後に続く"and 0.2%"・"respectively"が一致箇所の外に
+    出るため、一致箇所内だけを見る判定では取り違えを防げない）。それ以外
+    （あいまい・%が見つからない）は見送り、呼び出し側でAUD/USD・AUD/GBPからの
     計算に委ねる。
     """
     for m in GBP_DIRECT_RE.finditer(src_text):
-        gap1, gap2 = m.group("gap1"), m.group("gap2")
+        gap1 = m.group("gap1")
+        # gap2・pctは%まで到達した場合のみ値を持つ単位の内側にあるため、
+        # %が近くに無い日は両方ともNone（空文字ではない）になる
+        gap2 = m.group("gap2") or ""
         word = m.group("dir")
         if re.fullmatch(GBP_UP_WORDS, word, re.IGNORECASE):
             direction = "up"
@@ -237,9 +246,15 @@ def gbp_direct_statement(src_text: str):
             direction = "down"
         else:
             direction = "flat"
-        if re.search(GBP_OTHER_CCY, gap1, re.IGNORECASE) or re.search(GBP_OTHER_CCY, gap2, re.IGNORECASE):
+        start, end = m.span()
+        context_before = src_text[max(0, start - 40):start]
+        context_after = src_text[end:end + 40]
+        if (re.search(GBP_OTHER_CCY, gap1, re.IGNORECASE) or re.search(GBP_OTHER_CCY, gap2, re.IGNORECASE)
+                or re.search(rf"{GBP_OTHER_CCY}\s+and\s*$", context_before, re.IGNORECASE)):
             continue
-        if "and" in gap1.lower() or "respectively" in (gap1 + gap2).lower():
+        if ("and" in gap1.lower() or "respectively" in (gap1 + gap2).lower()
+                or "respectively" in context_after.lower()
+                or re.match(r"\s*and\s+[+-]?\d", context_after, re.IGNORECASE)):
             continue
         if direction != "flat" and m.group("pct") is None:
             continue
@@ -281,10 +296,11 @@ def expected_pair_directions(src_text: str) -> dict:
 
 def post2_pair_dir(p2: str, pair: str):
     """post2.txt中の該当ペアのタグ行から矢印の向きを読む（G11専用）。
-    現値の記載がある行（例: "#USDJPY 158.32 →"）・無い行（例: "#GBPUSD ↑"）の
-    どちらにも対応する。
+    現値の記載がある行（例: "#USDJPY 158.32 →"・単位が値に直接続く
+    "#USDJPY 159.85円 →"・"#XAUUSD 4,026.47ドル →"）・無い行（例:
+    "#GBPUSD ↑"）のいずれにも対応する。
     """
-    m = re.search(rf"{re.escape(PAIR_TAG[pair])}\s+(?:[\d.,]+\s+)?([↑↓→])", p2)
+    m = re.search(rf"{re.escape(PAIR_TAG[pair])}\s+(?:[\d.,]+(?:円|ドル)?\s+)?([↑↓→])", p2)
     return ARROW_TO_DIR.get(m.group(1)) if m else None
 
 
