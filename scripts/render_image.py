@@ -1,18 +1,28 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-render_image.py — Westpac IQ Morning Report 16:9 レポート画像レンダラー（Pillow製・決定論的）v2
+render_image.py — Westpac IQ Morning Report 16:9 レポート画像レンダラー（Pillow製・決定論的）v3
 
-v2の変更（2026-08-13 ユーザーフィードバック反映）:
-- ヘッダーを圧縮しカード領域を拡大（余白削減）
-- 左テーマカードの文字を大型化＋枠内自動フィット（title/desc/impactすべて）
-- 背景を上下グラデーションにして濃淡を付与、パネルとの明暗差を強調
-- 方向感ラベルを方向色（上昇=緑/下落=水色/横ばい=白）で着色
-- 折り返しで数値・英単語を途中分割しない（0.7062 が「0.706/2」に割れる問題の修正）
+v3（2026-11-20 リニューアル「案A2」）:
+- 明朝体 → 太いゴシック体（Noto Sans CJK JP の Black／Bold／Medium）。
+  スマホのタイムラインでは画像が約1/4以下に縮むため、細い線・小さい文字をやめる
+- 構成を「要点だけ」に絞る:
+    ヘッダー（日付・朝の為替市況）
+    大見出し（report_data.headline。金のグラデーション・極太）
+    補足2行（themes[0].desc）＋ 赤い注目バッジ（report_data.alert）
+    数値ボックス3つ（pairs_image の3ペア。レートと変化率は原文の表から読み取る）
+    そのほかの要点2つ（themes[1]・themes[2] のタイトルと影響）
+    フッター（出典・数値の出所）
+- レートと変化率はAIの出力を使わず、原文（sources/<date>/westpac.txt）の表から
+  プログラムが直接読み取る。表に数値がないペア（例: GBP/USD）は方向ラベルを大きく表示する
+- headline／alert が無い場合は、themes[0].title を見出しにし、バッジを描かない
+  （検証ゲートG12がFAILにする）
 
 使い方:
-  python scripts/render_image.py --data outputs/2026-08-13/report_data.json \
-                                 --out  outputs/2026-08-13/report_image.png
+  python scripts/render_image.py --data outputs/2026-11-20/report_data.json \\
+                                 --out  outputs/2026-11-20/report_image.png \\
+                                 [--source sources/2026-11-20/westpac.txt]
+  --source を省略した場合は sources/<date_jst>/westpac.txt を探す。
 """
 import argparse
 import datetime as dt
@@ -25,54 +35,96 @@ from PIL import Image, ImageDraw, ImageFont
 
 # ---------------------------------------------------------------- 基本設定
 W, H = 2560, 1440
-BG_TOP  = (12, 27, 51)    # #0C1B33 上端（やや明るい紺）
-BG_BOT  = (4, 8, 18)      # #040812 下端（ほぼ黒に近い紺）
-PANEL   = "#0F1F3C"       # カード（背景より一段明るい紺＝濃淡）
-GOLD    = "#C9A227"
-GOLD_LT = "#E3B93B"
-WHITE   = "#F5F5F7"
-BODY    = "#DDE2EE"
-GREEN   = "#4CAF50"
-BLUE    = "#7EB3E8"
-RED     = "#E05252"
+M = 110                       # 左右の余白
+BG_TOP = (11, 26, 51)         # 背景グラデーション上端（紺）
+BG_BOT = (4, 9, 20)           # 下端（ほぼ黒に近い紺）
+PANEL = (16, 33, 63)          # ボックス
+EDGE = (40, 62, 100)          # ボックスの枠線
+GOLD = (232, 185, 49)
+GOLD_HI, GOLD_LO = (255, 224, 130), (214, 158, 28)   # 見出しの金グラデーション
+WHITE = (255, 255, 255)
+SUB = (196, 207, 226)         # 補助テキスト
+MUTED = (140, 156, 186)       # 注記
+UP = (52, 209, 122)           # 上昇＝緑
+DOWN = (90, 169, 255)         # 下落＝青
+FLAT = (230, 234, 242)        # 横ばい＝白
+ALERT = (226, 46, 46)         # 注目バッジ＝赤（バッジ以外には使わない）
 
-FONT_CANDIDATES = {
-    "serif_bold": [
-        ("/usr/share/fonts/opentype/noto/NotoSerifCJK-Bold.ttc", 0),
-        ("/usr/share/fonts/opentype/noto/NotoSerifCJKjp-Bold.otf", 0),
-        ("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc", 0),
-    ],
-    "serif_reg": [
-        ("/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc", 0),
-        ("/usr/share/fonts/opentype/noto/NotoSerifCJKjp-Regular.otf", 0),
-        ("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc", 0),
-    ],
+HEADLINE_FONT_MAX = 168
+ALERT_TOP_LABEL = "注目"
+FOOTER_NOTE = "数値・変化率は Westpac IQ 掲載値"
+NO_RATE_NOTE = "レートは原文の表に掲載なし"
+
+# 原文の表の行ラベル（表に無いペアは載せない）
+TABLE_LABEL = {"USD/JPY": "USD/JPY", "AUD/USD": "AUD/USD", "EUR/USD": "EUR/USD",
+               "XAU/USD": "Gold"}
+JP_NAME = {"USD/JPY": "ドル円", "AUD/USD": "豪ドル", "EUR/USD": "ユーロドル",
+           "XAU/USD": "金", "GBP/USD": "ポンドドル"}
+
+# ---------------------------------------------------------------- フォント
+FONT_DIRS = ["/usr/share/fonts/opentype/noto", "/usr/share/fonts/truetype/noto",
+             "/usr/share/fonts/noto-cjk", "/usr/share/fonts/opentype/noto-cjk"]
+FONT_FILES = {
+    # fonts-noto-cjk-extra が無い環境では Bold／Regular に落とす
+    "black": ["NotoSansCJK-Black.ttc", "NotoSansCJKjp-Black.otf",
+              "NotoSansCJK-Bold.ttc", "NotoSansCJKjp-Bold.otf"],
+    "bold": ["NotoSansCJK-Bold.ttc", "NotoSansCJKjp-Bold.otf"],
+    "medium": ["NotoSansCJK-Medium.ttc", "NotoSansCJKjp-Medium.otf",
+               "NotoSansCJK-Regular.ttc", "NotoSansCJKjp-Regular.otf",
+               "NotoSansCJK-Bold.ttc"],
 }
 _font_cache = {}
+_face_index_cache = {}
+
+
+def _jp_face_index(path: str) -> int:
+    """.ttc の中から日本語（JP）の書体番号を探す。見つからなければ0"""
+    if path in _face_index_cache:
+        return _face_index_cache[path]
+    idx = 0
+    if path.endswith(".ttc"):
+        for i in range(10):
+            try:
+                fam = ImageFont.truetype(path, 12, index=i).getname()[0]
+            except Exception:
+                break
+            if fam.endswith(" JP"):
+                idx = i
+                break
+    _face_index_cache[path] = idx
+    return idx
 
 
 def font(kind: str, size: int) -> ImageFont.FreeTypeFont:
     key = (kind, size)
     if key in _font_cache:
         return _font_cache[key]
-    last_err = None
-    for path, idx in FONT_CANDIDATES[kind]:
-        if os.path.exists(path):
-            try:
-                f = ImageFont.truetype(path, size, index=idx)
+    for name in FONT_FILES[kind]:
+        for d in FONT_DIRS:
+            path = os.path.join(d, name)
+            if os.path.exists(path):
+                f = ImageFont.truetype(path, size, index=_jp_face_index(path))
                 _font_cache[key] = f
                 return f
-            except Exception as e:  # pragma: no cover
-                last_err = e
-    raise RuntimeError(f"日本語フォントが見つかりません（fonts-noto-cjk-extra を導入してください）: {last_err}")
+    raise RuntimeError("日本語フォント（Noto Sans CJK）が見つかりません。"
+                       "fonts-noto-cjk と fonts-noto-cjk-extra を導入してください")
 
 
-def fit(kind: str, text: str, max_w: int, start: int, minimum: int) -> ImageFont.FreeTypeFont:
-    """textがmax_wに収まる最大サイズのフォントを返す（start→minimumへ2pxずつ縮小）"""
+def fit(kind: str, text: str, max_w: float, start: int, minimum: int) -> ImageFont.FreeTypeFont:
+    """textがmax_wに収まる最大サイズ（start→minimumへ2pxずつ縮小）。minimumでも収まらなければminimum"""
     size = start
     while size > minimum and font(kind, size).getlength(text) > max_w:
         size -= 2
     return font(kind, size)
+
+
+def ellipsize(text: str, f: ImageFont.FreeTypeFont, max_w: float) -> str:
+    """幅に収まらなければ末尾を「…」で省略する（最後の安全策）"""
+    if f.getlength(text) <= max_w:
+        return text
+    while text and f.getlength(text + "…") > max_w:
+        text = text[:-1]
+    return text + "…"
 
 
 # ---------------------------------------------------------------- テキスト補助
@@ -108,15 +160,45 @@ def wrap(text: str, f: ImageFont.FreeTypeFont, max_w: int, max_lines: int) -> li
     return lines
 
 
-def draw_spaced(d, xy, text, f, fill, spacing=0, anchor_center_w=None):
-    total = sum(f.getlength(c) for c in text) + spacing * max(0, len(text) - 1)
-    x, y = xy
-    if anchor_center_w is not None:
-        x = x + (anchor_center_w - total) / 2
-    for c in text:
-        d.text((x, y), c, font=f, fill=fill)
-        x += f.getlength(c) + spacing
-    return total
+def split_two_lines(text: str, f: ImageFont.FreeTypeFont, max_w: int) -> list:
+    """1行に収まらない見出しを、中央に近い助詞（で・に・が・を・、）の直後で2行に分ける。
+    適当な位置が無ければトークン単位の折り返し（最大2行・超過は「…」）"""
+    if f.getlength(text) <= max_w:
+        return [text]
+    cands = [i + 1 for i, ch in enumerate(text) if ch in "でにがを、" and 0 < i < len(text) - 2]
+    cands = [i for i in cands if f.getlength(text[:i]) <= max_w and f.getlength(text[i:]) <= max_w]
+    if cands:
+        i = min(cands, key=lambda k: abs(k - len(text) / 2))
+        return [text[:i], text[i:]]
+    return wrap(text, f, max_w, 2)
+
+
+# ---------------------------------------------------------------- 原文の表
+def table_quote(src_text: str, pair: str):
+    """原文の表の「LABEL 値 変化%」の行から (値の文字列, 変化率の文字列) を返す。
+    表に無いペア・行が見つからない場合は None。値・変化率は原文の表記のまま使い、
+    丸め直さない（金の値だけ桁区切りのカンマを補う）。"""
+    label = TABLE_LABEL.get(pair)
+    if not label or not src_text:
+        return None
+    m = re.search(rf"\b{re.escape(label)}\s+([\d,]+(?:\.\d+)?)\s+([+-]?\d+(?:\.\d+)?)%", src_text)
+    if not m:
+        return None
+    value, pct = m.group(1), m.group(2)
+    if "," not in value:
+        ip, _, dp = value.partition(".")
+        if len(ip) >= 4:
+            value = f"{int(ip):,}" + (f".{dp}" if dp else "")
+    return value, pct
+
+
+def pct_direction(pct: str) -> str:
+    v = float(pct)
+    return "up" if v > 0 else "down" if v < 0 else "flat"
+
+
+def dir_color(direction: str):
+    return {"up": UP, "down": DOWN}.get(direction, FLAT)
 
 
 # ---------------------------------------------------------------- 装飾
@@ -130,27 +212,53 @@ def gradient_bg() -> Image.Image:
     return img
 
 
-def ornament_rule(d, y, x0=60, x1=W - 60):
-    cx = (x0 + x1) // 2
+def gradient_text(img: Image.Image, x: int, baseline: int, text: str, f: ImageFont.FreeTypeFont):
+    """金の縦グラデーションで文字を描く（baseline＝文字のベースライン位置）"""
+    l, t, r, b = f.getbbox(text)
+    mask = Image.new("L", (max(1, r), max(1, b)), 0)
+    ImageDraw.Draw(mask).text((0, 0), text, font=f, fill=255)
+    grad = Image.new("RGB", mask.size)
+    gd = ImageDraw.Draw(grad)
+    for yy in range(mask.size[1]):
+        k = max(0, yy - t) / max(1, b - t)
+        gd.line([(0, yy), (mask.size[0], yy)],
+                fill=tuple(int(GOLD_HI[i] + (GOLD_LO[i] - GOLD_HI[i]) * k) for i in range(3)))
+    img.paste(grad, (x, baseline - f.getmetrics()[0]), mask)
 
-    def diamond(x, r, fill=GOLD):
-        d.polygon([(x, y - r), (x + r, y), (x, y + r), (x - r, y)], fill=fill)
 
-    d.line([(x0 + 16, y), (cx - 110, y)], fill=GOLD, width=3)
-    d.line([(cx + 110, y), (x1 - 16, y)], fill=GOLD, width=3)
-    diamond(x0 + 6, 8)
-    diamond(x1 - 6, 8)
-    diamond(cx, 13, GOLD_LT)
-    diamond(cx - 56, 7)
-    diamond(cx + 56, 7)
-    for sgn in (-1, 1):
-        d.line([(cx + sgn * 94, y - 5), (cx + sgn * 66, y - 5)], fill=GOLD, width=2)
-        d.line([(cx + sgn * 94, y + 5), (cx + sgn * 66, y + 5)], fill=GOLD, width=2)
+def triangle(d, x, cy, size, direction, color):
+    """▲▼▶ を図形で描く（フォントの字形より輪郭がくっきりする）"""
+    h = size
+    if direction == "up":
+        d.polygon([(x, cy + h * 0.45), (x + h, cy + h * 0.45), (x + h / 2, cy - h * 0.45)], fill=color)
+    elif direction == "down":
+        d.polygon([(x, cy - h * 0.45), (x + h, cy - h * 0.45), (x + h / 2, cy + h * 0.45)], fill=color)
+    else:
+        d.polygon([(x + h * 0.1, cy - h * 0.45), (x + h * 0.1, cy + h * 0.45), (x + h * 0.95, cy)],
+                  fill=color)
+
+
+def alert_badge(img: Image.Image, right_x: int, top_y: int, text: str, angle: float = -4):
+    """赤い斜めの注目バッジ。右端right_x・上端top_yに置き、(幅, 高さ)を返す"""
+    f1 = font("bold", 36)
+    f2 = fit("black", text, 760 - 90, 58, 40)
+    text = ellipsize(text, f2, 760 - 90)
+    w = int(max(f1.getlength(ALERT_TOP_LABEL), f2.getlength(text))) + 90
+    h = 168
+    b = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    bd = ImageDraw.Draw(b)
+    bd.rounded_rectangle([0, 0, w - 1, h - 1], radius=18, fill=ALERT + (255,))
+    bd.rounded_rectangle([10, 10, w - 11, h - 11], radius=12, outline=(255, 255, 255, 230), width=4)
+    bd.text((w / 2, 46), ALERT_TOP_LABEL, font=f1, fill=WHITE, anchor="mm")
+    bd.text((w / 2, 110), text, font=f2, fill=WHITE, anchor="mm")
+    rb = b.rotate(angle, resample=Image.BICUBIC, expand=True)
+    img.paste(rb, (right_x - rb.width, top_y), rb)
+    return rb.width, rb.height
 
 
 # ---------------------------------------------------------------- アイコン（金地・背景色で抜き）
 def draw_icon(d, cx, cy, kind, s=150):
-    g, bg = GOLD_LT, "#0F1F3C"
+    g, bg = GOLD, PANEL
     if kind == "oil":
         bw, bh = int(s * 0.68), int(s * 0.84)
         x0, y0 = cx - bw // 2, cy - bh // 2
@@ -199,193 +307,133 @@ def draw_icon(d, cx, cy, kind, s=150):
         d.line([(cx - r, cy), (cx + r, cy)], fill=g, width=int(s * 0.035))
         d.arc([cx - r, cy - int(r * 1.55), cx + r, cy + int(r * 0.45)], 25, 155, fill=g, width=int(s * 0.035))
     elif kind == "percent":
-        d.text((cx, cy), "%", font=font("serif_bold", int(s * 0.95)), fill=g, anchor="mm")
+        d.text((cx, cy), "%", font=font("black", int(s * 0.95)), fill=g, anchor="mm")
     else:
         r = int(s * 0.40)
         d.polygon([(cx, cy - r), (cx + r, cy), (cx, cy + r), (cx - r, cy)], outline=g, width=int(s * 0.05))
         d.polygon([(cx, cy - r // 2), (cx + r // 2, cy), (cx, cy + r // 2), (cx - r // 2, cy)], fill=g)
 
 
-# ---------------------------------------------------------------- 矢印
-def big_arrow(d, cx, cy, direction):
-    if direction == "up":
-        color, flip = GREEN, 1
-    elif direction == "down":
-        color, flip = BLUE, -1
-    else:
-        sw, sl, hw, hl = 48, 96, 116, 76
-        d.rectangle([cx - (sl + hl) // 2, cy - sw // 2, cx + (sl + hl) // 2 - hl, cy + sw // 2], fill=WHITE)
-        x0 = cx + (sl + hl) // 2 - hl
-        d.polygon([(x0, cy - hw // 2), (x0, cy + hw // 2), (cx + (sl + hl) // 2, cy)], fill=WHITE)
-        return
-    sw, sl, hw, hl = 50, 100, 122, 80
-    total = sl + hl
-    tip_y = cy - flip * total // 2
-    base_y = tip_y + flip * hl
-    tail_y = cy + flip * total // 2
-    d.polygon([(cx - hw // 2, base_y), (cx + hw // 2, base_y), (cx, tip_y)], fill=color)
-    d.rectangle([cx - sw // 2, min(base_y, tail_y), cx + sw // 2, max(base_y, tail_y)], fill=color)
-
-
-def impact_arrow_char(direction):
-    return {"up": ("↑", GREEN), "down": ("↓", RED), "flat": ("→", GOLD_LT)}.get(direction, ("→", GOLD_LT))
-
-
-def label_color(direction):
-    return {"up": GREEN, "down": BLUE, "flat": WHITE}.get(direction, WHITE)
+def theme_icons(themes: list) -> list:
+    """3テーマのアイコンを重複しないように決める（プロンプト違反で重複した場合の保険）"""
+    fallback = ["market", "bank", "globe", "oil", "percent", "default"]
+    used, out = set(), []
+    for th in themes:
+        ic = str(th.get("icon", "default"))
+        if ic in used:
+            ic = next((c for c in fallback if c not in used), "default")
+        used.add(ic)
+        out.append(ic)
+    return out
 
 
 # ---------------------------------------------------------------- 描画本体
-def render(data: dict, out_path: str):
+def render(data: dict, out_path: str, src_text: str = None):
     img = gradient_bg()
     d = ImageDraw.Draw(img)
 
     date = dt.date.fromisoformat(data["date_jst"])
     wd = "月火水木金土日"[date.weekday()]
-    title = f"{date.year}年{date.month}月{date.day}日（{wd}）　Westpac IQ Morning Report"
-    subtitle = data.get("subtitle", "本日の市場テーマと通貨ペア分析")
+    src_label = data.get("source_label", "Westpac IQ Morning Report")
+    themes = list(data.get("themes", []))[:3]
+    while len(themes) < 3:
+        themes.append({"title": "", "desc": "", "impact": "", "impact_dir": "flat"})
+    icons = theme_icons(themes)
 
-    # ヘッダー（圧縮版）
-    ornament_rule(d, 36)
-    d.text((W // 2, 116), title, font=font("serif_bold", 68), fill=WHITE, anchor="mm")
-    draw_spaced(d, (0, 168), subtitle, font("serif_bold", 46), GOLD_LT, spacing=9, anchor_center_w=W)
-    ornament_rule(d, 252)
+    # ---- ヘッダー
+    f_head = font("black", 62)
+    date_txt = f"{date.month}/{date.day}（{wd}）"
+    d.text((M, 136), date_txt, font=f_head, fill=GOLD, anchor="ls")
+    d.text((M + f_head.getlength(date_txt) + 26, 136), "朝の為替市況", font=f_head, fill=WHITE, anchor="ls")
+    d.text((W - M, 132), src_label, font=font("bold", 40), fill=SUB, anchor="rs")
+    d.rectangle([M, 168, W - M, 172], fill=GOLD)
 
-    # レイアウト枠（カード領域を拡大）
-    top, bottom, gap = 288, 1352, 24
-    card_h = (bottom - top - 2 * gap) // 3
-    lx0, lx1 = 50, 1238
-    rx0, rx1 = 1322, 2510
-    mid_x = 1280
+    # ---- 大見出し（headline。無ければテーマ1のタイトル）
+    headline = str(data.get("headline") or themes[0].get("title", "")).strip()
+    fh = fit("black", headline, W - 2 * M, HEADLINE_FONT_MAX, 96)
+    gradient_text(img, M, 360, ellipsize(headline, fh, W - 2 * M), fh)
 
-    d.line([(mid_x, top), (mid_x, bottom)], fill=GOLD, width=2)
-    my = (top + bottom) // 2
-    d.polygon([(mid_x, my - 12), (mid_x + 9, my), (mid_x, my + 12), (mid_x - 9, my)], fill=GOLD_LT)
+    # ---- 注目バッジ（alert。無ければ描かない）＋補足2行（テーマ1の説明）
+    alert = str(data.get("alert") or "").strip()
+    bw = 0
+    if alert:
+        bw, _ = alert_badge(img, W - M + 6, 392, alert)
+    sub_w = W - 2 * M - (bw + 40 if bw else 0)
+    sub_lines = [l.strip() for l in str(themes[0].get("desc", "")).split("\n") if l.strip()][:2]
+    if sub_lines:
+        fs = font("bold", 52)
+        for l in sub_lines:
+            fs = min(fs, fit("bold", l, sub_w, 52, 40), key=lambda f: f.size)
+        for i, l in enumerate(sub_lines):
+            d.text((M, 464 + i * 68), ellipsize(l, fs, sub_w), font=fs, fill=WHITE, anchor="ls")
 
-    # ---- 左：主要テーマ3件（枠幅を使い切るまで自動拡大）
-    ICON_FALLBACK = ["market", "bank", "globe", "oil", "percent", "default"]
-    used_icons, theme_icons = set(), []
-    for th in data["themes"][:3]:
-        ic = str(th.get("icon", "default"))
-        if ic in used_icons:
-            ic = next((c for c in ICON_FALLBACK if c not in used_icons), "default")
-        used_icons.add(ic)
-        theme_icons.append(ic)
+    # ---- 数値ボックス3つ（その日の主役ペア）
+    top, bh, gap = 640, 360, 40
+    bw3 = (W - 2 * M - gap * 2) // 3
+    for i, pr in enumerate(list(data.get("pairs_image", []))[:3]):
+        pair = str(pr.get("pair", ""))
+        x0 = M + i * (bw3 + gap)
+        quote = table_quote(src_text, pair)
+        direction = pct_direction(quote[1]) if quote else str(pr.get("dir", "flat"))
+        c = dir_color(direction)
+        d.rounded_rectangle([x0, top, x0 + bw3, top + bh], radius=22, fill=PANEL, outline=EDGE, width=2)
+        d.rounded_rectangle([x0, top, x0 + bw3, top + 14], radius=7, fill=c)
+        d.text((x0 + 44, top + 92), JP_NAME.get(pair, pair), font=font("bold", 56), fill=WHITE, anchor="ls")
+        d.text((x0 + bw3 - 44, top + 90), pair, font=font("medium", 38), fill=MUTED, anchor="rs")
+        label = str(pr.get("label", ""))
+        if quote:
+            value, pct = quote
+            d.text((x0 + 44, top + 238), value, font=fit("black", value, bw3 - 88, 150, 90),
+                   fill=WHITE, anchor="ls")
+            triangle(d, x0 + 46, top + 300, 48, direction, c)
+            pct_txt = f"{pct.lstrip('+-')}%"
+            f_pct = font("black", 72)
+            d.text((x0 + 110, top + 326), pct_txt, font=f_pct, fill=c, anchor="ls")
+            lab_w = bw3 - 44 - (110 + f_pct.getlength(pct_txt) + 30)
+            f_lab = fit("bold", label, lab_w, 60, 36)
+            d.text((x0 + bw3 - 44, top + 324), ellipsize(label, f_lab, lab_w), font=f_lab,
+                   fill=c, anchor="rs")
+        else:  # 表に数値が無いペアは方向ラベルを大きく表示
+            triangle(d, x0 + 46, top + 190, 80, direction, c)
+            lab_w = bw3 - 150 - 44
+            f_lab = fit("black", label, lab_w, 96, 56)
+            d.text((x0 + 150, top + 190), ellipsize(label, f_lab, lab_w), font=f_lab, fill=c, anchor="lm")
+            d.text((x0 + 46, top + 300), NO_RATE_NOTE, font=font("medium", 34), fill=MUTED, anchor="lm")
 
-    for i, th in enumerate(data["themes"][:3]):
-        cy0 = top + i * (card_h + gap)
-        cy1 = cy0 + card_h
-        d.rounded_rectangle([lx0, cy0, lx1, cy1], radius=18, fill=PANEL, outline=GOLD, width=2)
-
-        draw_icon(d, lx0 + 118, (cy0 + cy1) // 2, theme_icons[i], s=152)
-        d.line([(lx0 + 228, cy0 + 32), (lx0 + 228, cy1 - 32)], fill=GOLD, width=2)
-
-        tx = lx0 + 262
-        t_max_w = lx1 - 34 - tx
-
-        # v3: 枠幅を使い切るまで自動拡大（上限あり・縦の収まりは影響行から自動調整）
+    # ---- そのほかの要点（テーマ2・3）
+    ty = top + bh + 28
+    d.text((M, ty), "そのほかの要点", font=font("bold", 40), fill=GOLD)
+    cy0 = ty + 58
+    ch, cg = 1330 - cy0, 40
+    cw = (W - 2 * M - cg) // 2
+    for i, th in enumerate(themes[1:3]):
+        x0 = M + i * (cw + cg)
+        d.rounded_rectangle([x0, cy0, x0 + cw, cy0 + ch], radius=20, fill=PANEL, outline=EDGE, width=2)
+        draw_icon(d, x0 + 120, cy0 + ch // 2, icons[i + 1], s=min(130, ch - 70))
+        tx, tw = x0 + 240, cw - 290
         title = str(th.get("title", ""))
-        t_size = 44
-        while t_size < 74 and font("serif_bold", t_size + 2).getlength(title) <= t_max_w:
-            t_size += 2
-        f_title = font("serif_bold", t_size)
-        d.text((tx, cy0 + 18), title, font=f_title, fill=WHITE)
-
-        desc_lines = str(th.get("desc", "")).split("\n")[:2]
-        d_size = 32
-        while d_size < 46 and all(font("serif_reg", d_size + 2).getlength(l) <= t_max_w
-                                  for l in desc_lines):
-            d_size += 2
-        f_desc = font("serif_reg", d_size)
-        dy = cy0 + 24 + t_size + 16
-        for ln in desc_lines:
-            d.text((tx, dy), wrap(ln, f_desc, t_max_w, 1)[0], font=f_desc, fill=BODY)
-            dy += int(d_size * 1.34)
-        under_y = dy + 6
-        d.line([(tx, under_y), (lx1 - 34, under_y)], fill=GOLD, width=2)
-
-        imp_text = f"影響：{th.get('impact', '')} "
-        i_size = 36
-        while i_size < 52 and font("serif_bold", i_size + 2).getlength(imp_text + "↑") <= t_max_w:
-            i_size += 2
-        while i_size > 34 and under_y + 12 + int(i_size * 1.18) > cy1 - 12:
-            i_size -= 2
-        f_imp = font("serif_bold", i_size)
-        iy = under_y + 12
-        d.text((tx, iy), imp_text, font=f_imp, fill=GOLD_LT)
-        ar, ac = impact_arrow_char(th.get("impact_dir", "flat"))
-        d.text((tx + f_imp.getlength(imp_text) + 4, iy), ar, font=f_imp, fill=ac)
-
-    # ---- 右：重要通貨ペア3件
-    ALL_PAIRS = ["USD/JPY", "AUD/USD", "XAU/USD", "EUR/USD", "GBP/USD"]
-    fit_targets = ALL_PAIRS + [str(p.get("pair", "")) for p in data["pairs_image"][:3]]
-    pair_x = rx0 + 26
-    max_pair_w = (rx0 + 388) - pair_x - 18
-    pair_size = 78
-    while pair_size > 50 and any(
-            font("serif_bold", pair_size).getlength(t) > max_pair_w for t in fit_targets):
-        pair_size -= 2
-    f_pair = font("serif_bold", pair_size)
-
-    for i, pr in enumerate(data["pairs_image"][:3]):
-        cy0 = top + i * (card_h + gap)
-        cy1 = cy0 + card_h
-        ccy = (cy0 + cy1) // 2
-        d.rounded_rectangle([rx0, cy0, rx1, cy1], radius=18, fill=PANEL, outline=GOLD, width=2)
-
-        d.text((pair_x, ccy), pr.get("pair", ""), font=f_pair, fill=WHITE, anchor="lm")
-        d.line([(rx0 + 388, cy0 + 32), (rx0 + 388, cy1 - 32)], fill=GOLD, width=2)
-
-        direction = pr.get("dir", "flat")
-        big_arrow(d, rx0 + 478, ccy, direction)
-
-        tx = rx0 + 578
-        bx0 = rx1 - 232
-        text_w = bx0 - 24 - tx
-
-        lab = str(pr.get("label", ""))
-        l_size = 40
-        while l_size < 66 and font("serif_bold", l_size + 2).getlength(lab) <= text_w:
-            l_size += 2
-        f_lab = font("serif_bold", l_size)
-        d.text((tx, cy0 + 40), lab, font=f_lab, fill=label_color(direction))
-
-        f_rsn = font("serif_reg", 34)
-        ry = cy0 + 148
-        for ln in wrap(pr.get("reason", ""), f_rsn, text_w, 3):
-            d.text((tx, ry), ln, font=f_rsn, fill=BODY)
-            ry += 48
-
-        # バッジ（金二重枠・自動縮小）
-        bx1 = rx1 - 26
-        bh = 150
-        by0, by1 = ccy - bh // 2, ccy + bh // 2
-        d.rounded_rectangle([bx0, by0, bx1, by1], radius=12, outline=GOLD, width=3)
-        d.rounded_rectangle([bx0 + 7, by0 + 7, bx1 - 7, by1 - 7], radius=8, outline=GOLD, width=1)
-        words = str(pr.get("badge", "")).split()
-        blines = [" ".join(words)] if len(words) <= 1 else [
-            " ".join(words[: max(1, len(words) // 2)]),
-            " ".join(words[max(1, len(words) // 2):]),
-        ]
-        inner_w = (bx1 - bx0) - 34
-        size = 36
-        while size > 24:
-            fb = font("serif_bold", size)
-            if all(fb.getlength(l) <= inner_w for l in blines):
-                break
-            size -= 2
-        f_bdg = font("serif_bold", size)
-        bcx = (bx0 + bx1) // 2
-        if len(blines) == 1:
-            d.text((bcx, ccy), blines[0], font=f_bdg, fill=GOLD_LT, anchor="mm")
+        ft = fit("black", title, tw, 58, 50)
+        if ft.getlength(title) <= tw:
+            lines, i_size = [title], 46
         else:
-            d.text((bcx, ccy - 25), blines[0], font=f_bdg, fill=GOLD_LT, anchor="mm")
-            d.text((bcx, ccy + 25), blines[1], font=f_bdg, fill=GOLD_LT, anchor="mm")
+            ft = font("black", 52)
+            lines, i_size = split_two_lines(title, ft, tw), 44
+        lh = int(ft.size * 1.3)
+        block = lh * len(lines) + 24 + i_size
+        yy = cy0 + (ch - block) // 2 - 8
+        for ln in lines:
+            d.text((tx, yy), ln, font=ft, fill=WHITE)
+            yy += lh
+        arr = {"up": "↑", "down": "↓"}.get(th.get("impact_dir"), "→")
+        imp = f"影響：{th.get('impact', '')} {arr}"
+        f_imp = fit("bold", imp, tw, i_size, 34)
+        d.text((tx, yy + 24), ellipsize(imp, f_imp, tw), font=f_imp, fill=GOLD)
 
-    # フッター（出典）
-    src = data.get("source_label", "Westpac IQ Morning Report")
-    footer = f"出典: {src} {date.strftime('%Y/%m/%d')}"
-    d.text((W - 60, H - 46), footer, font=font("serif_bold", 40), fill=GOLD_LT, anchor="rm")
+    # ---- フッター
+    d.rectangle([M, 1352, W - M, 1354], fill=EDGE)
+    f_ft = font("medium", 34)
+    d.text((M, 1372), f"出典: {src_label} {date.strftime('%Y/%m/%d')}", font=f_ft, fill=MUTED)
+    d.text((W - M - f_ft.getlength(FOOTER_NOTE), 1372), FOOTER_NOTE, font=f_ft, fill=MUTED)
 
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
     img.save(out_path, "PNG")
@@ -396,10 +444,19 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", required=True, help="report_data.json のパス")
     ap.add_argument("--out", required=True, help="出力PNGパス")
+    ap.add_argument("--source", default=None,
+                    help="原文テキスト（westpac.txt）のパス。省略時は sources/<date_jst>/westpac.txt")
     args = ap.parse_args()
     with open(args.data, encoding="utf-8") as f:
         data = json.load(f)
-    render(data, args.out)
+    src_path = args.source or os.path.join("sources", str(data.get("date_jst", "")), "westpac.txt")
+    src_text = None
+    if os.path.exists(src_path):
+        with open(src_path, encoding="utf-8") as f:
+            src_text = f.read()
+    else:
+        print(f"[render_image] 原文テキストなし（{src_path}）: 数値ボックスは方向ラベルのみ表示")
+    render(data, args.out, src_text)
 
 
 if __name__ == "__main__":
