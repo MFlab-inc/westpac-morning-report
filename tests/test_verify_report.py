@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 test_verify_report.py — G9（イベント時刻JST換算チェック）・G11（通貨ペア方向感照合）
-のregex回帰テスト。
+のregex回帰テストと、G12（画像の見出し・注目バッジ）のテスト。
 
 実行: python3 -I tests/test_verify_report.py
 （pytest等の追加依存を避け、標準ライブラリのunittestのみを使う）
@@ -252,6 +252,45 @@ class G11RealDataRegressionTest(unittest.TestCase):
     def test_2026_10_19_passes(self):
         mismatches = self._mismatches("2026-10-19")
         self.assertEqual(mismatches, [], f"2026-10-19は全ペア一致するはず: {mismatches}")
+
+
+class G12ImageTextTest(unittest.TestCase):
+    """G12: 画像の見出し（headline）・注目バッジ（alert）の有無・文字数・数値の原文照合"""
+    SRC = "Gold fell 3.3% to below US$3,800/oz for the first time since September 2025."
+
+    def test_ok_without_source(self):
+        data = {"headline": "タカ派FOMCで利上げ観測", "alert": "金 3,800ドル割れ"}
+        self.assertEqual(vr.image_text_issues(data), [])
+
+    def test_ok_numbers_in_source(self):
+        data = {"headline": "タカ派FOMCで利上げ観測", "alert": "金 3,800ドル割れ"}
+        self.assertEqual(vr.image_text_issues(data, self.SRC), [])
+
+    def test_missing_fields(self):
+        issues = vr.image_text_issues({"headline": " ", "alert": None})
+        self.assertEqual(len(issues), 2, issues)
+
+    def test_too_long(self):
+        data = {"headline": "あ" * (vr.HEADLINE_MAX + 1), "alert": "い" * (vr.ALERT_MAX + 1)}
+        issues = vr.image_text_issues(data)
+        self.assertEqual(len(issues), 2, issues)
+
+    def test_limits_are_inclusive(self):
+        data = {"headline": "あ" * vr.HEADLINE_MAX, "alert": "い" * vr.ALERT_MAX}
+        self.assertEqual(vr.image_text_issues(data), [])
+
+    def test_number_not_in_source(self):
+        data = {"headline": "タカ派FOMCで利上げ観測", "alert": "金 3,900ドル割れ"}
+        issues = vr.image_text_issues(data, self.SRC)
+        self.assertTrue(any("3900" in i for i in issues), issues)
+
+    def test_real_2026_11_19_source(self):
+        src_path = os.path.join(REPO_ROOT, "sources", "2026-11-19", "westpac.txt")
+        if not os.path.exists(src_path):
+            self.skipTest("2026-11-19 のデータがこの環境には存在しない")
+        src_text = open(src_path, encoding="utf-8").read()
+        data = {"headline": "タカ派FOMCで利上げ観測", "alert": "金 3,800ドル割れ"}
+        self.assertEqual(vr.image_text_issues(data, src_text), [])
 
 
 if __name__ == "__main__":

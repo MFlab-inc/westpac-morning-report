@@ -12,6 +12,8 @@ verify_report.py — 納品前の機械検証ゲート。結果は outputs/<date
   G11 通貨ペアの方向感（↑↓→）が原文の数値と一致するか（post2・report.md見出し・
      pairs_image。GBP/USDは原文の直接記述、無ければAUD/USD・AUD/GBPからの計算。
      liveのみ）
+  G12 画像の見出し・注目バッジ（report_dataのheadline・alertが空でないか、文字数が
+     上限以内か、含まれる数値が原文に存在するか。数値の照合はliveのみ）
 情報記録（不合格にはしない）:
   X加重文字数（全角=2換算）… Xプレミアム運用のため上限警告なし
 
@@ -322,6 +324,40 @@ def pairs_image_pair_dir(data: dict, pair: str):
     return None
 
 
+# G12: 画像の見出し・注目バッジ
+# プロンプトの上限は見出し14文字・バッジ12文字。ここでは画像が崩れずに描ける
+# 上限（見出しは文字を縮めて1行に収まる18文字、バッジは14文字）を超えたときだけ
+# FAILにする（AIが1〜2文字超過しただけの日に毎回FAILにしないため）。
+HEADLINE_MAX = 18
+ALERT_MAX = 14
+
+
+def image_text_issues(data: dict, src_text=None) -> list:
+    """report_dataのheadline・alertの問題点を文字列のリストで返す（G12専用）。
+    空なら問題なし。src_textを渡した場合（liveのみ）は、含まれる数値が原文に
+    あるかもG8と同じ方法（カンマ除去・表記ゆれ許容）で照合する。
+    """
+    issues = []
+    pdf_norm = src_text.replace(",", "") if src_text is not None else None
+    for key, name, limit in (("headline", "見出し", HEADLINE_MAX),
+                             ("alert", "注目バッジ", ALERT_MAX)):
+        v = str(data.get(key) or "").strip()
+        if not v:
+            issues.append(f"{name}（{key}）が空")
+            continue
+        if len(v) > limit:
+            issues.append(f"{name}「{v}」が{len(v)}文字（上限{limit}文字）")
+        if pdf_norm is None:
+            continue
+        for n in dict.fromkeys(re.findall(r"\d+(?:,\d{3})*(?:\.\d+)?", expand_man_oku(v))):
+            plain = n.replace(",", "")
+            if "." not in plain and len(plain) < 2:
+                continue  # 1桁の整数は無関係な数値と偶然一致しやすいため対象外（G8と同じ）
+            if not any(x in pdf_norm for x in num_variants(plain)):
+                issues.append(f"{name}「{v}」の数値 {plain} が原文にない")
+    return issues
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--date", default=None)
@@ -482,6 +518,19 @@ def main():
                  "; ".join(mismatches11) if mismatches11 else
                  f"{len(expected11)}ペアの向きが原文と一致（判定対象外: "
                  f"{', '.join(sorted(TARGET_PAIRS - expected11.keys())) or 'なし'}）")
+
+    # G12 画像の見出し・注目バッジ（有無・文字数。数値の原文照合はliveのみ）
+    src_text12 = None
+    if not sample:
+        src_path12 = os.path.join("sources", date.isoformat(), "westpac.txt")
+        if os.path.exists(src_path12):   # 無い場合はG8・G11がFAILにする
+            src_text12 = open(src_path12, encoding="utf-8").read()
+    issues12 = image_text_issues(data, src_text12)
+    gate("G12", "画像の見出し・注目バッジ", not issues12,
+         "; ".join(issues12) if issues12 else
+         f"見出し{len(str(data.get('headline')).strip())}文字・"
+         f"バッジ{len(str(data.get('alert')).strip())}文字"
+         + ("（数値は原文と照合済み）" if src_text12 is not None else "（数値の照合はliveのみ）"))
 
     # 情報: X加重文字数（Xプレミアム運用のため280字は制約にならず、上限警告は表示しない）
     for name, txt in (("post1", p1), ("post2", p2)):

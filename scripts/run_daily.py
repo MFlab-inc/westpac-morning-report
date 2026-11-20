@@ -158,7 +158,9 @@ def main():
     steps = [
         ("generate_report.py", ["--date", diso] + (["--sample"] if sample else [])),
         ("render_image.py", ["--data", f"{ddir}/report_data.json",
-                             "--out", f"{ddir}/report_image.png"]),
+                             "--out", f"{ddir}/report_image.png",
+                             # 数値ボックスのレート・変化率は原文の表から読む（サンプル実行時は無し）
+                             "--source", os.path.join("sources", diso, "westpac.txt")]),
     ]
     for script, sargs in steps:
         rc, tail = run(script, *sargs)
