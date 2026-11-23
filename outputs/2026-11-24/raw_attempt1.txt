@@ -1,0 +1,282 @@
+I'll work through this systematically before generating the JSON.
+
+**Step 1: Extract key data from the original text**
+
+**FX Data:**
+- AUD/USD: 0.6627, 0.0% change
+- AUD/JPY: 105.33, +0.3%
+- AUD/GBP: 0.5084, +0.5%
+- EUR/USD: 1.0903, -0.6%
+- USD/JPY: 158.95, +0.2%
+- USD Index: 104.36, +0.5%
+
+**Direction analysis:**
+- USD/JPY: +0.2% → UP (ドル高・円安)
+- AUD/USD: 0.0% → FLAT
+- XAU/USD (Gold): 3644.35, +3.0% → UP
+- EUR/USD: 1.0903, -0.6% → DOWN
+- GBP/USD: No direct quote. AUD/USD: 0.0%, AUD/GBP: +0.5% → GBP/USD ≈ 0.0% - (+0.5%) = -0.5% → DOWN. Original text also confirms "sterling fell 0.4%"
+
+**Equities:**
+- S&P 500: 7,229, +4.6%
+- NASDAQ: +6.3% (mentioned in text)
+- Dow Jones: +3.0%
+- Euro Stoxx 50: 6,074, +2.2%
+- FTSE 100: 10,481, +1.3%
+- ASX 200: 8,571, -0.3%
+- Nikkei: 56,437, -5.1% (closed)
+- KOSPI: -3.3%
+- Hang Seng: 22,384, -0.1%
+- VIX: 27.48, -23.4%
+
+**Bonds:**
+- US 2yr: 4.66, +0.01 (+1bp)
+- US 10yr: 4.92, -0.03 (-3bp)
+- AU 3yr: 4.52, -0.04 (-4bp)
+- AU 10yr: 4.91, -0.04 (-4bp)
+- Germany 10yr: 3.29, -0.02
+- Japan 10yr: 2.80, 0.00
+- UK 10yr: 5.21, -0.03
+
+**Commodities:**
+- Gold: 3644.35, +3.0%
+- WTI: 80.02, -4.1%
+- Brent: -3.7% to US$89.2/bbl
+- Copper: 12490, +2.7%
+- Coal (coking): 248.50, -0.8%
+- Coal (thermal): 148.95, +1.2%
+- Iron Ore: 88.80, +0.3%
+- CRB Index: 369.76, -0.5%
+- Aluminium: +1.1% (text only)
+- ACCU: 36.13, -4.3%
+
+**International Data (must all be included in ## 1):**
+1. US S&P Global manufacturing PMI: 54.9→54.5 in November (as expected)
+2. US S&P Global services PMI: 56.1→54.7 (disappointed)
+3. Chicago National Activity Index: +0.05→-0.06 in October
+4. Euro Area S&P Global manufacturing PMI: 52.7→52.9 in November
+5. Euro Area S&P Global services PMI: 51.4→51.2
+6. UK S&P Global manufacturing PMI: broadly unchanged at 52.7
+7. UK S&P Global services PMI: 52.8→52.0
+
+**Local Data:**
+- NZ Q3 retail sales: +2.2%qtr (stronger than expected)
+
+**Events table (Times are AEST, subtract 2 hours for JST):**
+- 11:30 AEST → 09:30 JST: JP S&P Global Mfg. PMI Nov Prel. - 53.3pts
+- 11:30 AEST → 09:30 JST: JP S&P Global Services PMI Nov Prel. - 51.7pts
+- 1:00 AEST → 23:00 JST (前日): US FHFA House Prices Sep 0.2% 0.3%
+- 1:00 AEST → 23:00 JST (前日): US S&P/CS Home Price Index Sep 0.2% 0.3%
+- 2:00 AEST → 0:00 JST (翌日? No - wait)
+
+Wait: these times are AEST. The report is dated 24 November 2026. The events are for "today" (24 November). Times in AEST:
+- 11:30 AEST = 09:30 JST (same day, 24 Nov)
+- 1:00 AEST = 23:00 JST (previous day, 23 Nov) → (前日)
+- 2:00 AEST = 0:00 JST → this is midnight, which is the start of 24 Nov JST, so it's 0:00 on 24 Nov JST (not 翌日)
+
+Wait, let me reconsider. The report is for 24 November. Events at 1:00 AEST on 24 Nov = 23:00 JST on 23 Nov (前日). Events at 2:00 AEST on 24 Nov = 0:00 JST on 24 Nov (no suffix needed, it's exactly midnight start of 24 Nov).
+
+Actually 2:00 AEST - 2h = 0:00 JST on 24 Nov. This is the start of 24 Nov, so no suffix needed.
+
+Sorted by JST:
+1. 23:00(前日) - US FHFA House Prices Sep
+2. 23:00(前日) - US S&P/CS Home Price Index Sep
+3. 0:00 - US Richmond Fed Manufacturing Nov
+4. 0:00 - US Consumer Confidence Nov
+5. 09:30 - JP S&P Global Mfg. PMI Nov Prel.
+6. 09:30 - JP S&P Global Services PMI Nov Prel.
+
+**Step 2: Themes**
+
+Theme 1: Nvidia CEO復帰でAI株急騰 (S&P500 +4.6%, NASDAQ +6.3%)
+Theme 2: 原油続落・金反発 (WTI -4.1%, Brent -3.7%, Gold +3.0%)
+Theme 3: 米PMI混在・12月利上げ観測再燃 (services PMI disappointed, Dec rate hike priced)
+
+**Step 3: pairs_image - select 3 most important**
+1. USD/JPY (up, +0.2%, DXY +0.5%)
+2. XAU/USD (up, +3.0%, gold first gain in over a week)
+3. EUR/USD (down, -0.6%, euro lost 0.6%)
+
+**Step 4: Self-check on direction consistency**
+
+USD/JPY: +0.2% → UP ↑ → consistent
+AUD/USD: 0.0% → FLAT → consistent
+XAU/USD: +3.0% → UP ↑ → consistent
+EUR/USD: -0.6% → DOWN ↓ → consistent
+GBP/USD: sterling fell 0.4% (direct statement in text) → DOWN ↓ → consistent
+
+**Step 5: Check International Data count**
+Original International Data section has:
+1. US S&P Global manufacturing PMI (54.9→54.5, as expected)
+2. US S&P Global services PMI (56.1→54.7, disappointed)
+3. Chicago National Activity Index (+0.05→-0.06)
+4. Euro Area manufacturing PMI (52.7→52.9)
+5. Euro Area services PMI (51.4→51.2)
+6. UK manufacturing PMI (broadly unchanged at 52.7)
+7. UK services PMI (52.8→52.0)
+= 7 indicators. Must include all 7 in ## 1.
+
+**Step 6: Check themes icons - must be different**
+Theme 1: market (AI stocks rally)
+Theme 2: oil (oil/gold)
+Theme 3: percent (PMI/rate hike)
+All different ✓
+
+**Step 7: headline and alert**
+headline: "Nvidia CEO復帰でAI株急騰" = 13文字 ✓ (within 14)
+alert: "S&P500 4.6%高" = 10文字 ✓ (within 12)
+
+Wait, let me count: S&P500 4.6%高 = S(1)&(2)P(3)5(4)0(5)0(6) (7)4(8).(9)6(10)%(11)高(12) = 12文字 ✓
+
+**Step 8: Check post1/post2 for US$/bbl/oz etc.**
+Must use ドル format throughout.
+
+**Step 9: Check pairs_image reason ≤42 chars**
+
+Let me now draft the full JSON.
+
+**report_md draft:**
+
+## 1. ファンダメンタルズ・マクロ経済分析
+
+NvidiaのCEOにジェンセン・ファン氏が復帰したとの報道を受け、米国・欧州株式が大幅上昇した。S&P500は7日続落から反転し4.6%高、NASDAQは6.3%上昇、ダウ平均は3.0%上昇した。欧州ではユーロ・ストックス50が2.2%高、FTSE100が1.3%高となった。一方、アジア株式は前週末の米国株急落を受けて下落し、KOSPIは3.3%安（韓国当局の市場安定化措置発表後に下げ幅縮小）、ハンセン指数は0.1%安。日本市場は休場。ASX200は0.3%安と8日続落となった。
+
+米国債市場では、リスク資産への需要回復を背景に短期債利回りが上昇し、2年債利回りは1bp上昇の4.66%となった。一方、原油価格の一段の軟化を背景に長期債は続伸し、10年債利回りは3bp低下の4.92%となった。先物市場では12月のFRBによる利上げへの期待が再構築され、年末のフェデラルファンズ金利の織り込みは4.14%となり、2027年3月の追加利上げも織り込まれた。豪州国債利回りも低下し、3年債・10年債ともに4bp低下した。スワップ市場はRBAの利上げサイクルが終了したとの見方を維持しており、2027年8月までの利下げを完全に織り込んでいる。
+
+経済指標面では、米国のS&Pグローバル製造業PMIが11月に54.9から54.5へ小幅低下し、予想どおりの結果となった。一方、サービスPMIは56.1から54.7へ低下し、予想を下回った。両指数とも堅調な経済成長と整合的な水準にある。シカゴ連銀全米活動指数は10月に+0.05から-0.06へ低下し、GDPがトレンド近辺で推移していることと整合的な結果となった。ユーロ圏では製造業PMIが52.7から52.9へ小幅上昇した一方、サービスPMIは51.4から51.2へ低下した。英国では製造業PMIが11月に52.7とほぼ横ばいとなったが、サービスPMIは52.8から52.0へ低下した。ニュージーランドでは第3四半期の小売売上高が前期比2.2%増と予想を上回る結果となった。
+
+原油価格は一段と軟化し、Brentは3.7%安の89.2ドル/バレルとなり90ドルを下回った。WTIは4.1%安の80.0ドル/バレルとなった。金は1週間以上ぶりの上昇となり3.0%高の3,644.35ドル/オンスとなった。銅は2.7%高、アルミニウムは1.1%高、鉄鉱石は0.3%高となった。
+
+## 2. テクニカル分析と本日の展望
+
+**USD/JPY ― 上昇（↑）**
+現値158.95。DXYが0.5%上昇する中、円は対ドルで0.2%下落した。米2年債利回りは1bp上昇の4.66%、米10年債利回りは3bp低下の4.92%となった。先物市場では12月のFRBによる利上げへの期待が再構築されており、年末フェデラルファンズ金利の織り込みは4.14%となっている。
+
+**AUD/USD ― 横ばい（→）**
+現値0.6627。AUD/USDは前日比0.0%と横ばいとなった。DXYが0.5%上昇する中、豪ドルは主要通貨の中で相対的に底堅い動きを示した。豪州国債利回りは3年債・10年債ともに4bp低下した。スワップ市場はRBAの利上げサイクルが終了したとの見方を維持している。
+
+**XAU/USD ― 上昇（↑）**
+現値3,644.35。金は1週間以上ぶりの上昇となり、3.0%高となった。原油価格が一段と軟化する中、銅が2.7%高、アルミニウムが1.1%高となるなど産業用金属も反発した。米10年債利回りは3bp低下の4.92%となった。
+
+**EUR/USD ― 下落（↓）**
+現値1.0903。ユーロは対ドルで0.6%下落した。DXYが0.5%上昇する中、ユーロ圏のサービスPMIが51.4から51.2へ低下するなど、経済指標が弱含んだ。ユーロ圏製造業PMIは52.7から52.9へ小幅上昇した。
+
+**GBP/USD ― 下落（↓）**
+原文のFXレート表にGBP/USDの現値の記載なし。原文に「sterling fell 0.4%」と直接記載されており、ポンドは対ドルで0.4%下落した。英国のサービスPMIは52.8から52.0へ低下した。英10年債利回りは3bp低下の5.21%となった。
+
+Now let me check all direction consistencies:
+- USD/JPY: ## 2 says 上昇(↑), pairs_image dir=up, post2 ↑ ✓
+- AUD/USD: ## 2 says 横ばい(→), pairs_image not selected (only 3 pairs selected: USD/JPY, XAU/USD, EUR/USD), post2 → ✓
+- XAU/USD: ## 2 says 上昇(↑), pairs_image dir=up, post2 ↑ ✓
+- EUR/USD: ## 2 says 下落(↓), pairs_image dir=down, post2 ↓ ✓
+- GBP/USD: ## 2 says 下落(↓), not in pairs_image, post2 ↓ ✓
+
+**Check pairs_image reasons (≤42 chars):**
+1. USD/JPY: "DXY+0.5%、米2年債+1bp、12月利上げ観測再燃" = let me count: D(1)X(2)Y(3)+(4)0(5).(6)5(7)%(8)、(9)米(10)2(11)年(12)債(13)+(14)1(15)b(16)p(17)、(18)1(19)2(20)月(21)利(22)上(23)げ(24)観(25)測(26)再(27)燃(28) = 28文字 ✓
+2. XAU/USD: "1週間以上ぶりの上昇、原油軟化の中で金属全般反発" = 1(1)週(2)間(3)以(4)上(5)ぶ(6)り(7)の(8)上(9)昇(10)、(11)原(12)油(13)軟(14)化(15)の(16)中(17)で(18)金(19)属(20)全(21)般(22)反(23)発(24) = 24文字 ✓
+
+Wait - "原油軟化の中で金属全般反発" - is this asserting causation? The original says gold posted its first gain in over a week, rising 3.0%, and copper rallied 2.7% alongside the broader recovery in AI sentiment. The text says "Gold posted its first gain in over a week, rising 3.0%. Copper rallied 2.7% alongside the broader recovery in AI sentiment." So the reason for copper is AI sentiment recovery. For gold, no explicit reason given. Let me revise to avoid causation for gold.
+
+"1週間以上ぶりの上昇、銅も2.7%高" = 1(1)週(2)間(3)以(4)上(5)ぶ(6)り(7)の(8)上(9)昇(10)、(11)銅(12)も(13)2(14).(15)7(16)%(17)高(18) = 18文字 ✓
+
+3. EUR/USD: "ユーロ0.6%安、DXY+0.5%、サービスPMI低下" = ユ(1)ー(2)ロ(3)0(4).(5)6(6)%(7)安(8)、(9)D(10)X(11)Y(12)+(13)0(14).(15)5(16)%(17)、(18)サ(19)ー(20)ビ(21)ス(22)P(23)M(24)I(25)低(26)下(27) = 27文字 ✓
+
+But wait - "サービスPMI低下" - is this asserting causation for EUR/USD decline? The original says "the euro lost 0.6%" and separately mentions the PMI data. The original doesn't explicitly link the PMI to the EUR decline. Let me revise to just state facts without implying causation.
+
+"ユーロ0.6%安、DXY+0.5%、ユーロ圏サービスPMI低下" = ユ(1)ー(2)ロ(3)0(4).(5)6(6)%(7)安(8)、(9)D(10)X(11)Y(12)+(13)0(14).(15)5(16)%(17)、(18)ユ(19)ー(20)ロ(21)圏(22)サ(23)ー(24)ビ(25)ス(26)P(27)M(28)I(29)低(30)下(31) = 31文字 ✓
+
+**Check headline (≤14 chars):**
+"Nvidia CEO復帰でAI株急騰" = N(1)v(2)i(3)d(4)i(5)a(6) (7)C(8)E(9)O(10)復(11)帰(12)で(13)A(14)I(15)株(16)急(17)騰(18) = 18文字 → TOO LONG
+
+Let me try: "AI株急騰・原油続落" = A(1)I(2)株(3)急(4)騰(5)・(6)原(7)油(8)続(9)落(10) = 10文字 ✓
+
+But wait - "急騰" - is this appropriate? The original says "rallied sharply" and S&P500 +4.6%, NASDAQ +6.3%. This is a very large single-day move, so "急騰" seems appropriate here.
+
+alert: "S&P500 4.6%高" = S(1)&(2)P(3)5(4)0(5)0(6) (7)4(8).(9)6(10)%(11)高(12) = 12文字 ✓
+
+**Check themes:**
+Theme 1: icon=market, title="Nvidia CEO復帰でAI株急騰" = N(1)v(2)i(3)d(4)i(5)a(6) (7)C(8)E(9)O(10)復(11)帰(12)で(13)A(14)I(15)株(16)急(17)騰(18) = 18文字 ✓ (exactly 18, within limit)
+
+Theme 2: icon=oil, title="原油続落・金1週間ぶり反発" = 原(1)油(2)続(3)落(4)・(5)金(6)1(7)週(8)間(9)ぶ(10)り(11)反(12)発(13) = 13文字 ✓
+
+Theme 3: icon=percent, title="米PMI混在・12月利上げ観測再燃" = 米(1)P(2)M(3)I(4)混(5)在(6)・(7)1(8)2(9)月(10)利(11)上(12)げ(13)観(14)測(15)再(16)燃(17) = 17文字 ✓
+
+**Check themes desc (18-24 chars per line):**
+
+Theme 1 desc:
+Line 1: "S&P500が4.6%高、NASDAQ6.3%高と急反発" = S(1)&(2)P(3)5(4)0(5)0(6)が(7)4(8).(9)6(10)%(11)高(12)、(13)N(14)A(15)S(16)D(17)A(18)Q(19)6(20).(21)3(22)%(23)高(24)と(25)急(26)反(27)発(28) = 28文字 → too long
+
+Let me try: "S&P500が4.6%高と7日続落から反転" = S(1)&(2)P(3)5(4)0(5)0(6)が(7)4(8).(9)6(10)%(11)高(12)と(13)7(14)日(15)続(16)落(17)か(18)ら(19)反(20)転(21) = 21文字 ✓
+"NASDAQ6.3%高、欧州株も大幅上昇" = N(1)A(2)S(3)D(4)A(5)Q(6)6(7).(8)3(9)%(10)高(11)、(12)欧(13)州(14)株(15)も(16)大(17)幅(18)上(19)昇(20) = 20文字 ✓
+
+Theme 2 desc:
+Line 1: "Brentが3.7%安の89.2ドルと90ドル割れ" = B(1)r(2)e(3)n(4)t(5)が(6)3(7).(8)7(9)%(10)安(11)の(12)8(13)9(14).(15)2(16)ド(17)ル(18)と(19)9(20)0(21)ド(22)ル(23)割(24)れ(25) = 25文字 → too long
+
+"Brent3.7%安で90ドルを下回る" = B(1)r(2)e(3)n(4)t(5)3(6).(7)7(8)%(9)安(10)で(11)9(12)0(13)ド(14)ル(15)を(16)下(17)回(18)る(19) = 19文字 ✓
+"金は1週間以上ぶりに3.0%高で反発" = 金(1)は(2)1(3)週(4)間(5)以(6)上(7)ぶ(8)り(9)に(10)3(11).(12)0(13)%(14)高(15)で(16)反(17)発(18) = 18文字 ✓
+
+Theme 3 desc:
+Line 1: "米サービスPMIが56.1から54.7へ低下" = 米(1)サ(2)ー(3)ビ(4)ス(5)P(6)M(7)I(8)が(9)5(10)6(11).(12)1(13)か(14)ら(15)5(16)4(17).(18)7(19)へ(20)低(21)下(22) = 22文字 ✓
+"先物市場で12月利上げ観測が再構築" = 先(1)物(2)市(3)場(4)で(5)1(6)2(7)月(8)利(9)上(10)げ(11)観(12)測(13)が(14)再(15)構(16)築(17) = 17文字 → slightly short but acceptable
+
+Actually 17 is below 18. Let me adjust:
+"先物市場が12月利上げを再度織り込む" = 先(1)物(2)市(3)場(4)が(5)1(6)2(7)月(8)利(9)上(10)げ(11)を(12)再(13)度(14)織(15)り(16)込(17)む(18) = 18文字 ✓
+
+**Check themes impact (≤12 chars):**
+Theme 1: "リスク資産反発" = 7文字 ✓, impact_dir=up
+Theme 2: "原油安・金反発" = 7文字 ✓, impact_dir=down (oil down, but gold up... mixed. The theme is about oil decline primarily, so down)
+
+Actually the theme is "原油続落・金1週間ぶり反発" - mixed. Let me set impact_dir=flat since it's mixed, or focus on the dominant theme. The title says both oil down and gold up. I'll use impact_dir=flat.
+
+Theme 3: "ドル高・利上げ観測" = 9文字 ✓, impact_dir=up (for USD)
+
+**Check post1 format:**
+
+```
+【11/24(火) 朝の為替市況】
+
+■Nvidia CEO復帰
+→S&P500が4.6%高と7日続落から反転
+→NASDAQは6.3%高、ダウ平均は3.0%高
+→欧州ではユーロ・ストックス50が2.2%高
+
+■原油・金
+→Brentが3.7%安の89.2ドルと90ドルを下回る
+→WTIは4.1%安の80.0ドル
+→金は1週間以上ぶりに3.0%高で反発
+
+■米PMI・利上げ観測
+→米サービスPMIが56.1から54.7へ低下
+→製造業PMIは54.9から54.5へ低下（予想どおり）
+→先物市場が12月利上げを再度織り込む
+
+#ドル円 #米PMI
+```
+
+Wait - "Nvidia CEO復帰" = N(1)v(2)i(3)d(4)i(5)a(6) (7)C(8)E(9)O(10)復(11)帰(12) = 12文字 → too long for headline (4-8 chars). Let me use "Nvidia株" or "AI株急騰" for the keyword.
+
+Actually the spec says "見出しは記事の主語となる固有名詞・指標名で、4〜8文字". Let me count:
+"AI株急騰" = 5文字 ✓
+"原油・金" = 4文字 ✓
+"米PMI" = 4文字 ✓
+
+But "Nvidia CEO復帰" is the main topic. Let me use "Nvidia" = 6文字 ✓
+
+Actually "Nvidia" = N(1)v(2)i(3)d(4)i(5)a(6) = 6文字 ✓
+
+For the hashtag: The main material is the Nvidia/AI stock rally. The most relevant hashtag would be... the spec says "最重要材料タグ1個". The main economic material here is the PMI data or the rate hike expectations. Let me use #米PMI since that's the economic indicator discussed.
+
+Actually looking at the post1 content, the main themes are Nvidia/AI stocks, oil/gold, and PMI/rate hike. The most important economic indicator material is the PMI. So #米PMI is appropriate.
+
+**Check post2:**
+
+```
+【通貨別分析 11/24】
+
+#USDJPY 158.95 ↑ ドル高・円安
+根拠：円は対ドルで0.2%下落。DXYは0.5%上昇し、先物市場では12月のFRBによる利上げ観測が再構築された。
+
+#AUDUSD 0.6627 → 横ばい
+根拠：AUD/USDは前日比0.0%と横ばい。DXYが0.5%上昇する中、豪ドルは主要通貨の中で相対的に底堅い動きとなった。
+
+#XAUUSD 3644.35 ↑ 
