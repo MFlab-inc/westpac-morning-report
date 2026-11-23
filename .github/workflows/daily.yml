@@ -4,6 +4,10 @@ on:
   schedule:
     # JST 8:03 / 8:23 / 8:43 の月〜金（UTCでは日〜木の23時台）。
     # 毎時0分ちょうどは他ワークフローの集中で発火漏れが起きやすいため、分をずらしている。
+    # ※実際の朝の起動は Cloudflare Workers の wmr-dispatcher（別リポジトリ）が
+    #   JST 7:40 / 8:00 / 8:20 / 8:40 に workflow_dispatch で行う（2026-11-24〜）。
+    #   このschedule は4〜5時間遅れて発火することが多く（2026年10〜11月の実績）、
+    #   発行が大幅に遅れた日の予備としてだけ残している。
     - cron: '3 23 * * 0-4'
     - cron: '23 23 * * 0-4'
     - cron: '43 23 * * 0-4'
@@ -46,7 +50,11 @@ jobs:
           SLASH=$(date +%Y/%m/%d)
           echo "date=$DATE" >> "$GITHUB_OUTPUT"
           echo "slash=$SLASH" >> "$GITHUB_OUTPUT"
-          if [ -f "outputs/$DATE/audit.json" ]; then
+          # 前の回の生成中に次の回が起動予約された場合、この回がチェックアウトした
+          # 時点の main には前の回の生成結果がまだ無い。最新の main も確認して
+          # 二重生成を防ぐ（取得に失敗したらチェックアウト済みの内容だけで判定）。
+          git fetch -q --depth=1 origin "$GITHUB_REF_NAME" || true
+          if [ -f "outputs/$DATE/audit.json" ] || git cat-file -e "FETCH_HEAD:outputs/$DATE/audit.json" 2>/dev/null; then
             echo "done=true" >> "$GITHUB_OUTPUT"
             echo "本日分（$DATE）は生成済みのためスキップ"
           else

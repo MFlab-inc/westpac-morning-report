@@ -69,7 +69,7 @@ jobs:
           > [!WARNING]
           > 本日分の検収Issueがまだ起票されていません。
 
-          8:00 / 8:20 / 8:40 JST の定時実行（GitHub Actionsのスケジュールトリガー）が発火しなかった可能性があります。
+          7:40〜8:40 JST（20分おき）の定時実行（Cloudflare Workers の wmr-dispatcher からの起動）が発火しなかった可能性があります。
 
           ## 対応方法
           1. リポジトリの **Actions** タブを開く

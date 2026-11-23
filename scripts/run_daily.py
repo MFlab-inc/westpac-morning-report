@@ -11,8 +11,9 @@ run_daily.py — 日次パイプラインのオーケストレータ（GitHub Ac
 
   通知（Issue起票候補とする）はJST 8:40以降の試行、WMR_FINAL、WMR_NOTIFY_NOWの
   いずれかが真の場合のみ行う。Cloudflare Dispatcher由来のworkflow_dispatch
-  （8:00/8:20 JST）はこれらのいずれにも該当しないため、通知候補とせず
-  サイレントにリトライする。
+  （7:40/8:00/8:20/8:40 JST の20分おき。2026-11-24〜）のうち、7:40〜8:20 の回は
+  これらのいずれにも該当しないため、通知候補とせずサイレントにリトライする。
+  最後の 8:40 の回で未発行なら【未発行】を通知する。
 
   重複ガードはaudit.json（＝生成済み）の有無のみで行う。本日分を既に
   【未発行】【エラー】で通知済みであっても、取得の再試行（定時実行・
@@ -41,8 +42,8 @@ def env_true(name):
 
 
 def after_840_jst():
-    """JST 8:40以降かどうか（最後のscheduled cron 8:43より前・Cloudflare Dispatcherの
-    8:00/8:20より後の、十分に試行が出揃ったであろう時刻を通知の下限とする）"""
+    """JST 8:40以降かどうか（Cloudflare Dispatcherの最後の回＝8:40。7:40〜8:20の
+    試行が出揃った時刻を通知の下限とする）"""
     now = dt.datetime.now(ZoneInfo("Asia/Tokyo"))
     return (now.hour, now.minute) >= (8, 40)
 
@@ -121,7 +122,7 @@ def main():
             if notify:
                 write_notice(ddir, f"【未発行】{slash} Westpac Morning Report", [
                     "> [!WARNING]",
-                    f"> 8:00〜8:40 JSTの全試行で当日のMorning Reportを確認できませんでした。",
+                    f"> 7:40〜8:40 JST（20分おき）の全試行で当日のMorning Reportを確認できませんでした。",
                     "",
                     "考えられる理由: 豪州の祝日 / 発行遅延 / サイト構造の変更。",
                     "",
