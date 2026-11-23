@@ -9,7 +9,7 @@ Manus用スキルからの主な変更点: ①チャートサイトは実サイ�
 1. **PDF取得** `scripts/fetch_westpac.py`
    - 必ず https://www.westpaciq.com.au/topic.morningreport から当日リンクを探す（一覧・記事ともJS描画のためPlaywright必須）
    - **PDFのURLを直打ちで推測しない**（月替わりでパスが変わる）
-   - 当日分が見つからなければ「未発行」として扱う（8:00→8:20→8:40の3回試行）
+   - 当日分が見つからなければ「未発行」として扱う（7:40→8:00→8:20→8:40の4回試行。2026-11-24〜）
 2. **チャート撮影** `scripts/capture_charts.py`
    - https://6forex.netlify.app/ を1920×1080で撮影（**8ペア**: USD/JPY・AUD/USD・XAU/USD・EUR/USD・GBP/USD・USD/CAD・USD/CHF・NZD/USD、1H足・表示期間はサイト初期値のまま）
    - 自作チャートでの代替は禁止

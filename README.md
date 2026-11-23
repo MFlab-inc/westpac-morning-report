@@ -1,10 +1,10 @@
 # Westpac Morning Report 自動生成パイプライン（フェーズ1）
 
-毎朝8時台に **Westpac IQ Morning Report のPDFを取得 → 日本語レポート・X投稿2本・レポート画像・チャート画像を自動生成 → GitHub Issueで検収依頼** まで無人で行う仕組みです。あなたはスマホの通知を確認し、問題なければコピーしてXへ投稿するだけです（方式A）。
+毎朝7時40分から **Westpac IQ Morning Report のPDFを取得 → 日本語レポート・X投稿2本・レポート画像・チャート画像を自動生成 → GitHub Issueで検収依頼** まで無人で行う仕組みです。あなたはスマホの通知を確認し、問題なければコピーしてXへ投稿するだけです（方式A）。
 
 ```
-8:00 JST（未発行なら8:20 / 8:40に再試行）
-  │ GitHub Actions が自動起動
+7:40 JST（未発行なら8:00 / 8:20 / 8:40に再試行）
+  │ Cloudflare Workers の wmr-dispatcher が GitHub Actions を起動
   ├ 1. westpaciq.com.au から当日PDFを取得・テキスト抽出
   ├ 2. 6forex.netlify.app のチャートをスクリーンショット
   ├ 3. Claude APIで本文・投稿1・投稿2・画像用データを生成
@@ -42,7 +42,7 @@
    （アプリの Settings → Notifications でプッシュ通知をON）
 
 ## 毎朝の運用（方式A）
-1. 8時台にスマホへ「【検収】YYYY/MM/DD Westpac Morning Report」の通知
+1. 7時台後半〜8時台にスマホへ「【検収】YYYY/MM/DD Westpac Morning Report」の通知
 2. Issueを開き、画像2枚と投稿文・検証結果（G1〜G8）を確認
 3. 投稿1・投稿2をコピー → Xアプリで投稿（投稿1にレポート画像、投稿2にチャート画像を添付）
 4. Issue下部のチェックボックスを付けて **Close**
