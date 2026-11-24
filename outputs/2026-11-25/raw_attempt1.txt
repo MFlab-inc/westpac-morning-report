@@ -1,0 +1,377 @@
+I'll systematically analyze the source text and construct the JSON output.
+
+**Key data extraction:**
+
+**FX rates:**
+- AUD/USD: 0.6641, +0.2%
+- AUD/JPY: 105.71, +0.3%
+- AUD/GBP: 0.5063, -0.5%
+- EUR/USD: 1.0967, +0.6%
+- USD/JPY: 159.18, +0.1%
+- USD Index: 103.81, -0.5%
+
+**Direction analysis:**
+- USD/JPY: +0.1% → up (ドル高・円安)
+- AUD/USD: +0.2% → up
+- XAU/USD: Gold fell 2.2% to ~US$3,550/oz (data table shows 3551.16, -2.3%) → down
+- EUR/USD: +0.6% → up
+- GBP/USD: Sterling +0.7% (原文に直接記載) → up
+
+**International Data section indicators:**
+1. US FHFA house price index: no change in September
+2. US S&P/CS house price index: +0.13% in September, annual growth 2.6%yr
+3. Richmond Fed manufacturing index: rose from -2 to +3 in November
+4. Conference Board consumer confidence: jumped from 91.9 to 103.3 in November
+5. US tariff announcement (not an indicator per se, but a key event)
+6. Germany IFO Business Climate Index: edged up from 90.1 to 90.6 in November
+
+**Event table (AEST times, subtract 2 hours for JST):**
+- 11:30 AEST → 9:30 JST: AU CPI Oct, AU Construction Work Done Q3
+- 0:30 AEST (next day) → 22:30 JST (same day, previous night... wait)
+
+The events listed are for "Today's key data and events" - these are upcoming events. The times are AEST. Subtracting 2 hours:
+- 11:30 AEST → 9:30 JST (AU CPI Oct, AU Construction Work Done Q3)
+- US Building Permits Oct Final: no time listed
+- 0:30 AEST → 22:30 JST (前日) - wait, these are future events for the day. If the report is dated 25 Nov, then 0:30 AEST on 25 Nov = 22:30 JST on 24 Nov (前日). But 11:30 AEST on 25 Nov = 9:30 JST on 25 Nov.
+
+Actually, for a morning report dated 25 Nov, the events at 0:30 AEST would be early morning of 25 Nov AEST = 22:30 JST on 24 Nov (前日). The events at 11:30 AEST = 9:30 JST on 25 Nov.
+
+Wait - let me reconsider. The US events at 0:30 AEST on 25 Nov = 22:30 JST on 24 Nov. That's the previous evening JST. So these would be marked (前日).
+
+Events:
+- 0:30 AEST → 22:30 JST (前日): US Personal Income Oct, US Personal Spending Oct, US PCE Deflator Oct, US Core PCE Deflator Oct, US GDP Q3 (Second Est.), US Initial Jobless Claims 21/11/2026, US Durable Goods Orders Oct Prel.
+- 2:00 AEST → 0:00 JST (翌日? No - 2:00 AEST on 25 Nov = 0:00 JST on 25 Nov... 2:00 - 2:00 = 0:00 JST same day)
+
+Actually: AEST is UTC+10, JST is UTC+9. So AEST - 1 hour = JST. But the instruction says "必ず2時間引く". So I follow the rule: subtract 2 hours regardless.
+
+- 11:30 AEST → 9:30 JST
+- 0:30 AEST → 22:30 JST (前日) [0:30 - 2:00 = -1:30, so previous day 22:30]
+- 2:00 AEST → 0:00 JST [2:00 - 2:00 = 0:00, same day]
+- US Building Permits: no time → 時刻未確認
+
+Sorting by JST time:
+1. 22:30 (前日): US events (multiple rows)
+2. 0:00: US New Home Sales Oct
+3. 9:30: AU CPI Oct, AU Construction Work Done Q3
+4. 末尾: US Building Permits (時刻未確認)
+
+**Themes:**
+1. 米追加関税・AI株安でリスクオフ (market)
+2. 豪10月CPI発表（RBA利下げ観測） (percent)
+3. 米国債利回り低下・ドル安 (bank)
+
+**pairs_image - 3 most important:**
+1. USD/JPY (up, +0.1%, ドル高・円安)
+2. XAU/USD (down, -2.3%, 金急落)
+3. EUR/USD (up, +0.6%, ユーロ高)
+
+**Self-check on directions:**
+- USD/JPY: +0.1% → up ✓
+- AUD/USD: +0.2% → up
+- XAU/USD: -2.3% → down ✓
+- EUR/USD: +0.6% → up ✓
+- GBP/USD: Sterling +0.7% (原文直接記載) → up ✓
+
+**headline (14文字以内):** 「米追加関税でリスクオフ」= 12文字 ✓
+**alert (12文字以内):** 「金2.3%下落」= 7文字 ✓ or 「銅5.3%急落」
+
+Let me check: Gold fell 2.2% in text, but table shows -2.3%. I'll use the table value -2.3% as "current change". Alert: 「金2.3%下落」
+
+**themes icons - all different:**
+- theme1: market (株安・リスクオフ)
+- theme2: percent (CPI)
+- theme3: bank (金利・ドル)
+
+**pairs_image reason (42文字以内):**
+- USD/JPY: 「円は対ドルで0.1%下落。DXY-0.5%も円は独歩安。米10年債-4bp。」= 30文字 ✓
+- XAU/USD: 「金は2.3%下落し3,551ドル。銅も5.3%下落し商品全般軟調。」= 33文字 ✓
+- EUR/USD: 「ユーロは対ドルで0.6%上昇し1.0967。DXY-0.5%。」= 27文字 ✓
+
+**badge (16文字以内):**
+- USD/JPY: "YEN WEAKNESS" = 12文字 ✓
+- XAU/USD: "RISK OFF" = 8文字 ✓
+- EUR/USD: "USD SELLOFF" = 11文字 ✓
+
+**post1 hashtags:** #ドル円 #米関税
+
+**Checking International Data count:**
+1. US FHFA house price (no change in Sep)
+2. US S&P/CS house price (+0.13%, 2.6%yr)
+3. Richmond Fed manufacturing (-2 to +3 in Nov)
+4. Conference Board consumer confidence (91.9 to 103.3 in Nov)
+5. US tariff announcement (policy, not indicator - but it's in International Data section)
+6. Germany IFO Business Climate (90.1 to 90.6 in Nov)
+
+The tariff announcement is more of a news item than an economic indicator. I'll include it as a key development in ## 1.
+
+**Checking event table times again carefully:**
+
+Original times (AEST), subtract 2 for JST:
+- 11:30 → 9:30 JST (AU CPI Oct, AU Construction Work Done Q3) - same day
+- US Building Permits Oct Final: no time given
+- 0:30 → 22:30 JST (前日) for: US Personal Income, Personal Spending, PCE Deflator, Core PCE Deflator, GDP Q3, Initial Jobless Claims, Durable Goods Orders
+- 2:00 → 0:00 JST for: US New Home Sales Oct
+
+Sorted:
+1. 22:30(前日): US Personal Income Oct
+2. 22:30(前日): US Personal Spending Oct
+3. 22:30(前日): US PCE Deflator Oct
+4. 22:30(前日): US Core PCE Deflator Oct
+5. 22:30(前日): US GDP Q3 (Second Est.)
+6. 22:30(前日): US Initial Jobless Claims 21/11/2026
+7. 22:30(前日): US Durable Goods Orders Oct Prel.
+8. 0:00: US New Home Sales Oct
+9. 9:30: AU CPI Oct
+10. 9:30: AU Construction Work Done Q3
+11. 末尾: US Building Permits Oct Final (時刻未確認)
+
+**Checking GBP/USD direction:**
+Original text: "Sterling (+0.7%)" - direct statement. GBP/USD up ✓
+
+**Checking all direction consistency for GBP/USD:**
+- report_md ## 2: 上昇(↑)
+- pairs_image: not selected (USD/JPY, XAU/USD, EUR/USD selected)
+- post2: ↑ 上昇
+
+**Self-check on themes impact_dir:**
+- theme1 (リスクオフ): down (株安)
+- theme2 (豪CPI): flat (発表待ち)
+- theme3 (米国債・ドル安): down (ドル安)
+
+**Checking headline/alert character counts:**
+- headline: 「米追加関税でリスクオフ」= 米(1)追(2)加(3)関(4)税(5)で(6)リ(7)ス(8)ク(9)オ(10)フ(11) = 11文字 ✓
+- alert: 「金2.3%下落」= 金(1)2(2).(3)3(4)%(5)下(6)落(7) = 7文字 ✓
+
+**Checking post1/post2 for US$ and /oz etc.:**
+Must use 「ドル」format, not US$/oz.
+
+**Checking billion conversions:** No billion figures in this report.
+
+**Checking bond yield changes - bp not bps:**
+- 2Y down 2bps → 2bp
+- 10Y down 4bps → 4bp
+- 30Y down 1bp → 1bp
+- JGB down 7bps → 7bp
+- Bund down 2bps → 2bp
+- Gilt down 2bps → 2bp
+- ACGB 3Y down 4bps → 4bp, 10Y down 6bps → 6bp
+
+**Checking coking coal / thermal coal:**
+- Coal (coking) 249.75 → 原料炭
+- Coal (thermal) 150.50 → 一般炭
+
+**Checking "急" usage:**
+- Copper -5.3%: 原文 "jolting 5.3% and 3.1% lower" - "jolting" implies sharp move. I can use 急落 for copper.
+- Gold -2.2%/-2.3%: 原文 "fell 2.2%" - no "jolting" or "plunged". Don't use 急落.
+- NASDAQ -1.9%: not 急落.
+
+**Checking person names:**
+- Jensen Huang: NVIDIAのCEO。日本語では「ジェンスン・フアン」が一般的だが、原文のローマ字表記をそのまま使う規定。ただし厳守事項8は「日本の公人」について。Jensen Huangは台湾系米国人の企業人。音訳してよい。→「ジェンスン・フアン」
+- Macklem (BoC): カナダ中央銀行総裁。「マックレム総裁」
+
+**Checking "since the end of last month" type expressions:** Not present in this text.
+
+**Checking Conference Board vs University of Michigan:**
+- Conference Board consumer confidence: 「コンファレンス・ボード消費者信頼感指数」
+- University of Michigan: 「ミシガン大学消費者態度指数」
+Both mentioned in the text. ✓
+
+**Now constructing the full JSON:**
+
+For report_md ## 1, I need to cover all International Data indicators:
+1. FHFA house price: no change in Sep
+2. S&P/CS house price: +0.13% in Sep, 2.6%yr
+3. Richmond Fed manufacturing: -2 → +3 in Nov
+4. Conference Board consumer confidence: 91.9 → 103.3 in Nov
+5. US tariff announcement (key theme)
+6. Germany IFO Business Climate: 90.1 → 90.6 in Nov
+
+Also Local Data: no major data in AU or NZ.
+
+**Checking themes title character counts (12-18文字):**
+- theme1: 「米関税・AI株安でリスクオフ」= 14文字 ✓
+- theme2: 「豪10月CPI発表とRBA利下げ観測」= 16文字 ✓  
+- theme3: 「ドル安・米国債利回り低下」= 13文字 ✓
+
+**Checking themes desc (各行18-24文字):**
+Need to be careful here.
+
+**Checking pairs_image label (8文字以内):**
+- USD/JPY: 「円安継続」= 4文字 ✓
+- XAU/USD: 「金下落」= 3文字 ✓
+- EUR/USD: 「ユーロ上昇」= 5文字 ✓
+
+**Final self-check on direction consistency:**
+
+USD/JPY: +0.1% → up
+- report_md ## 2: 上昇(↑) ✓
+- pairs_image dir: up ✓
+- post2: ↑ ✓
+
+AUD/USD: +0.2% → up
+- report_md ## 2: 上昇(↑) ✓
+- post2: ↑ ✓
+
+XAU/USD: -2.3% → down
+- report_md ## 2: 下落(↓) ✓
+- pairs_image dir: down ✓
+- post2: ↓ ✓
+
+EUR/USD: +0.6% → up
+- report_md ## 2: 上昇(↑) ✓
+- pairs_image dir: up ✓
+- post2: ↑ ✓
+
+GBP/USD: Sterling +0.7% → up
+- report_md ## 2: 上昇(↑) ✓
+- post2: ↑ ✓
+
+**Checking post1/post2 for US$/oz etc.:**
+Gold: 「3,551ドル」not「US$3,550/oz」
+Oil: 「90.9ドル」not「US$90.9/bbl」
+
+**Checking event table for US Building Permits - no time:**
+Place at end of table.
+
+**Checking Brent price:** 原文 "Brent rose 1.7% to around US$90.9/bbl"
+
+**Now let me write the full output carefully:**
+
+For the report_md event table, I need to handle multiple events at 22:30(前日). I'll list them as separate rows.
+
+Let me also double-check: the report says "Times are AEST" - I subtract 2 hours as instructed regardless of this notation.
+
+0:30 AEST - 2h = 22:30 JST (前日) ✓
+2:00 AEST - 2h = 0:00 JST ✓
+11:30 AEST - 2h = 9:30 JST ✓
+
+For 0:00 JST - is this "same day" or "翌日"? The report is dated 25 Nov. The morning report covers overnight events. 0:00 JST on 25 Nov is midnight at the start of 25 Nov. Since the report is a morning report for 25 Nov, 0:00 JST on 25 Nov is the same day. No need for (翌日) notation.
+
+Actually wait - the events listed are UPCOMING events (today's schedule). So:
+- 22:30 JST on 24 Nov (前日) - these already happened or are happening
+- 0:00 JST on 25 Nov - same day
+- 9:30 JST on 25 Nov - same day
+
+So 22:30(前日) is correct for the 0:30 AEST events.
+
+**One more check - the Brent oil price in post1:**
+「Brentは1.7%高の約90.9ドル」✓
+
+**Checking NASDAQ figure:** -1.9% (tech-heavy NASDAQ)
+**Dow Jones:** +0.6%
+
+Now let me compose the full JSON carefully.
+
+For themes[2] (ドル安・米国債利回り低下):
+- icon: must be different from "market" and "percent" → "bank" ✓
+
+For themes desc, each line 18-24 characters:
+
+Theme 1 (米関税・AI株安でリスクオフ):
+Line 1: 「米が中国・EUへの追加関税を発表へ」= 18文字 ✓
+Line 2: 「AI株安も重なりS&P500は0.7%下落」= 19文字 ✓
+
+Theme 2 (豪10月CPI発表とRBA利下げ観測):
+Line 1: 「Westpacはヘッドライン4.8%を予想」= 18文字 ✓
+Line 2: 「RBA利下げ開始時期の見極めに注目」= 17文字 → need 18+
+
+Let me recount: 「RBA利下げ開始時期の見極めに注目」
+R(1)B(2)A(3)利(4)下(5)げ(6)開(7)始(8)時(9)期(10)の(11)見(12)極(13)め(14)に(15)注(16)目(17) = 17文字
+
+Need to adjust: 「RBA利下げ開始時期の見極めが焦点」= 17文字 still...
+
+「先週の雇用統計後にRBA利下げ観測が台頭」= 20文字 ✓
+
+Theme 3 (ドル安・米国債利回り低下):
+Line 1: 「DXYは0.5%下落し103.8近辺で推移」= 18文字 ✓
+Line 2: 「米10年債利回りは4bp低下し4.91%」= 18文字 ✓
+
+Let me recount theme 1 desc:
+Line 1: 「米が中国・EUへの追加関税を発表へ」
+米(1)が(2)中(3)国(4)・(5)E(6)U(7)へ(8)の(9)追(10)加(11)関(12)税(13)を(14)発(15)表(16)へ(17) = 17文字 → need 18
+
+「米が中国・EUへの追加関税を近く発表へ」= 19文字 ✓
+
+Line 2: 「AI株安も重なりS&P500は0.7%下落」
+A(1)I(2)株(3)安(4)も(5)重(6)な(7)り(8)S(9)&(10)P(11)5(12)0(13)0(14)は(15)0(16).(17)7(18)%(19)下(20)落(21) = 21文字 ✓
+
+But wait - "重なり" implies causation. The text says the pullback in AI names AND tariff reports AND Iran chatter weighed on risk sentiment. So "重なり" is describing multiple factors occurring together, which is factual. But I need to be careful - the text does say these factors "weighed on risk sentiment" so the causation is stated. ✓
+
+Theme 2 desc:
+Line 1: 「Westpacはヘッドライン4.8%を予想」
+W(1)e(2)s(3)t(4)p(5)a(6)c(7)は(8)ヘ(9)ッ(10)ド(11)ラ(12)イ(13)ン(14)4(15).(16)8(17)%(18)を(19)予(20)想(21) = 21文字 ✓
+
+Line 2: 「先週の雇用統計後にRBA利下げ観測が台頭」
+先(1)週(2)の(3)雇(4)用(5)統(6)計(7)後(8)に(9)R(10)B(11)A(12)利(13)下(14)げ(15)観(16)測(17)が(18)台(19)頭(20) = 20文字 ✓
+
+Theme 3 desc:
+Line 1: 「DXYは0.5%下落し103.8近辺で推移」
+D(1)X(2)Y(3)は(4)0(5).(6)5(7)%(8)下(9)落(10)し(11)1(12)0(13)3(14).(15)8(16)近(17)辺(18)で(19)推(20)移(21) = 21文字 ✓
+
+Line 2: 「米10年債利回りは4bp低下し4.91%」
+米(1)1(2)0(3)年(4)債(5)利(6)回(7)り(8)は(9)4(10)b(11)p(12)低(13)下(14)し(15)4(16).(17)9(18)1(19)%(20) = 20文字 ✓
+
+**impact (12文字以内):**
+- theme1: 「株安・商品安」= 7文字 ✓
+- theme2: 「CPI次第でRBA」= 8文字 ✓
+- theme3: 「ドル安・債券高」= 8文字 ✓
+
+**impact_dir:**
+- theme1: down (株安)
+- theme2: flat (発表待ち)
+- theme3: down (ドル安)
+
+**pairs_image reason check (42文字以内):**
+
+USD/JPY: 「USD/JPYは0.1%上昇し159.18。DXY-0.5%の中、円は独歩安。」
+U(1)S(2)D(3)/(4)J(5)P(6)Y(7)は(8)0(9).(10)1(11)%(12)上(13)昇(14)し(15)1(16)5(17)9(18).(19)1(20)8(21)。(22)D(23)X(24)Y(25)-(26)0(27).(28)5(29)%(30)の(31)中(32)、(33)円(34)は(35)独(36)歩(37)安(38)。(39) = 39文字 ✓
+
+XAU/USD: 「金は2.3%下落し3,551ドル。銅も5.3%下落し商品全般軟調。」
+金(1)は(2)2(3).(4)3(5)%(6)下(7)落(8)し(9)3(10),(11)5(12)5(13)1(14)ド(15)ル(16)。(17)銅(18)も(19)5(20).(21)3(22)%(23)下(24)落(25)し(26)商(27)品(28)全(29)般(30)軟(31)調(32)。(33) = 33文字 ✓
+
+EUR/USD: 「ユーロは対ドルで0.6%上昇し1.0967。DXY-0.5%。」
+ユ(1)ー(2)ロ(3)は(4)対(5)ド(6)ル(7)で(8)0(9).(10)6(11)%(12)上(13)昇(14)し(15)1(16).(17)0(18)9(19)6(20)7(21)。(22)D(23)X(24)Y(25)-(26)0(27).(28)5(29)%(30)。(31) = 31文字 ✓
+
+**badge check (16文字以内):**
+- USD/JPY: "YEN WEAKNESS" = Y(1)E(2)N(3) (4)W(5)E(6)A(7)K(8)N(9)E(10)S(11)S(12) = 12文字 ✓
+- XAU/USD: "RISK OFF" = 8文字 ✓
+- EUR/USD: "USD SELLOFF" = U(1)S(2)D(3) (4)S(5)E(6)L(7)L(8)O(9)F(10)F(11) = 11文字 ✓
+
+Wait - for XAU/USD badge "RISK OFF": the text says gold fell, and the reason given in the text is "spooked by reports of the US planning to introduce tariffs." So the tariff news is the stated reason. But "RISK OFF" is a general characterization. The text does say "the pullback in risk sentiment weighed heavily on metals" - so risk off is stated for metals broadly. I'll keep "RISK OFF" but note it's supported by the text.
+
+Actually, re-reading: "the pullback in risk sentiment weighed heavily on metals, with both LME copper and aluminium jolting 5.3% and 3.1% lower respectively" - this is about copper and aluminium. For gold: "Gold prices meanwhile fell 2.2% to around US$3,550/oz, spooked by reports of the US planning to introduce tariffs." So gold's reason is tariff reports. Badge could be "TARIFF RISK" instead.
+
+"TARIFF RISK" = T(1)A(2)R(3)I(4)F(5)F(6) (7)R(8)I(9)S(10)K(11) = 11文字 ✓
+
+But the reason field says "商品全般軟調" which is fine as a factual statement. The badge "TARIFF RISK" is also factual per the text. Let me use "TARIFF RISK" for XAU/USD since the text explicitly states gold was "spooked by reports of the US planning to introduce tariffs."
+
+**Now checking post2 根拠 for causation issues:**
+
+USD/JPY: 「USD/JPYは0.1%上昇（ドル高・円安）。DXY-0.5%の中、円は対ドルで独歩安となった。米10年債利回りは4bp低下し4.91%。」
+- No causation claimed ✓
+
+AUD/USD: 「AUD/USDは0.2%上昇し0.6641。DXY-0.5%の中、USD0.6660の抵抗に阻まれながらも小幅高。」
+- No causation ✓
+
+XAU/USD: 「金は2.3%下落し3,551ドル。米国の関税導入計画の報道がある中、銅も5.3%下落。」
+- The text says gold was "spooked by reports of the US planning to introduce tariffs" - so this causation IS stated in the text. I can use it. But I should be careful with "spooked by" - it's a causal statement. I'll write: 「金は2.3%下落し3,551ドル。米国の関税導入計画の報道がある中、銅も5.3%下落した。」✓
+
+EUR/USD: 「ユーロは対ドルで0.6%上昇し1.0967。DXY-0.5%の低下の中、1.09台を回復。」
+- No causation ✓
+
+GBP/USD: 「ポンドは対ドルで0.7%上昇。DXY-0.5%の低下の中、1.31台を回復。」
+- No causation ✓
+
+**Checking post1 for US$/oz etc.:**
+I need to make sure I write prices in Japanese format.
+
+**Now let me write the complete report_md:**
+
+```markdown
+# 2026年11月25日（水） Westpac IQ Morning Report
+
+## 1. ファンダメンタルズ・マクロ経済分析
+
+米国が中国・欧州連合（EU）および十数カ国以上の主要貿易相手国に対する追加関税を近く発表する見通しとなる中、主要AIハイテク株（NVIDIA、Anthropic）の下落と、米国によるイラン攻撃の可能性をめぐる観測が重なり、リスク心理が悪化した。S&P 500は0.7%下落、テクノロジー株比率の高いNASDAQは1.9%下落した一方、ダウ・ジョーンズは0.6%上昇した。欧州でもユーロ・ストックス50が1.2%下落、英FTSE100が0.1%下落した。アジアでは、NVIDIAのCEOジェンスン・フアン氏の復帰を受けた前日のテクノロジー株高の流れを引き継ぎ、日経平均が3.9%上昇、上海・ソウルも上昇した。ASX 200は1.8%上昇したが、翌朝の先物は軟調な寄り付きを示唆している。
+
+リスク回避の動きを受け、米国債は幅広く買われた。カーブのベリー（中期ゾーン）を中心に
