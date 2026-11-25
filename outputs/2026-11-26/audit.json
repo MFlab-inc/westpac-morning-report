@@ -1,0 +1,99 @@
+{
+  "run_date": "2026-11-26",
+  "mode": "LIVE",
+  "overall": "FAIL",
+  "gates": [
+    {
+      "id": "G1",
+      "name": "日付整合",
+      "status": "PASS",
+      "detail": "date_jst=2026-11-26 / 本文に「2026年11月26日」/ 投稿2と本文に「2026/11/26」を要求"
+    },
+    {
+      "id": "G2",
+      "name": "暗号通貨語の混入ゼロ",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G3",
+      "name": "対象5ペア限定",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G4",
+      "name": "プレースホルダ残存なし",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G5",
+      "name": "出典表記（本文・投稿2）",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G6",
+      "name": "規定ハッシュタグ",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G7",
+      "name": "投稿にURLなし（Intent URL禁止）",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G8",
+      "name": "数値のPDF原文照合",
+      "status": "PASS",
+      "detail": "15個の数値を照合しすべて原文に存在"
+    },
+    {
+      "id": "G9",
+      "name": "イベント時刻JST換算チェック",
+      "status": "FAIL",
+      "detail": "時差2時間で換算した期待値['09:30', '18:00']と本文イベント表['10:30', '18:00']が不一致（原文時刻['11:30', '20:00']。原文のAEST/AEDT表記は無視しzoneinfoベースの時差2時間を正としている）"
+    },
+    {
+      "id": "G10",
+      "name": "投稿2に「未確認」を含めない",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "G11",
+      "name": "通貨ペア方向感の照合",
+      "status": "PASS",
+      "detail": "4ペアの向きが原文と一致（判定対象外: GBP/USD）"
+    },
+    {
+      "id": "G12",
+      "name": "画像の見出し・注目バッジ",
+      "status": "PASS",
+      "detail": "見出し10文字・バッジ10文字（数値は原文と照合済み）"
+    },
+    {
+      "id": "I1",
+      "name": "post1 加重文字数",
+      "status": "INFO",
+      "detail": "467"
+    },
+    {
+      "id": "I2",
+      "name": "post2 加重文字数",
+      "status": "INFO",
+      "detail": "811"
+    },
+    {
+      "id": "I3",
+      "name": "post1 →行の読点過多",
+      "status": "INFO",
+      "detail": "なし"
+    }
+  ],
+  "warnings": [],
+  "verified_at_jst": "2026-11-26T07:43:12+09:00"
+}
