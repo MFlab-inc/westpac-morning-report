@@ -17,6 +17,8 @@ import re
 import sys
 from zoneinfo import ZoneInfo
 
+import event_times  # 原文のイベント表の時刻をプログラムで日本時間に換算する
+
 API_URL = "https://api.anthropic.com/v1/messages"
 DEFAULT_MODEL = "claude-sonnet-4-6"
 REQUIRED_KEYS = ["date_jst", "themes", "pairs_image", "report_md", "post1", "post2"]
@@ -125,7 +127,9 @@ def main():
         if not os.path.exists(src_txt):
             log(f"PDF抽出テキストがありません: {src_txt}（先に fetch_westpac.py を実行）")
             return 6
-        pdf_text = open(src_txt, encoding="utf-8").read()[:28000]
+        src_full = open(src_txt, encoding="utf-8").read()
+        pdf_text = src_full[:28000]
+        shift = tz_shift_hours(date)
         meta_path = os.path.join("sources", date.isoformat(), "meta.json")
         pdf_url = ""
         if os.path.exists(meta_path):
@@ -139,7 +143,9 @@ def main():
             prompt = prompt.replace("{" + k + "}", v)
         prompt = prompt.replace("{PDF_TEXT}", pdf_text)
         prompt = prompt.replace("{TAG_RULE}", TAG_RULE)
-        prompt = prompt.replace("{TZ_SHIFT_HOURS}", str(tz_shift_hours(date)))
+        prompt = prompt.replace("{TZ_SHIFT_HOURS}", str(shift))
+        # イベント時刻の換算はAIに計算させず、プログラムで計算した対応を渡す
+        prompt = prompt.replace("{EVENT_TIME_MAP}", event_times.time_map_text(src_full, shift))
 
         model = os.environ.get("WMR_MODEL", DEFAULT_MODEL)
         log(f"model: {model} / prompt: {len(prompt)} chars")
@@ -164,6 +170,17 @@ def main():
             log(f"必須キー欠落: {missing}")
             return 6
         data["date_jst"] = date.isoformat()  # 日付は実行側で確定させる
+        # 「## 3. 本日の重要イベント」の表は、AIが原文から写した events をもとに
+        # プログラムで作る（時刻の換算・並べ替え・「(翌日)」の付与）
+        if "{EVENT_TABLE}" in data["report_md"]:
+            table, notes = event_times.render_event_table(data.get("events"), src_full, shift)
+            data["report_md"] = data["report_md"].replace("{EVENT_TABLE}", table)
+            data["event_table_notes"] = notes
+            log(f"イベント表をプログラムで作成（{len(data.get('events') or [])}行）"
+                + (f"。注記: {'; '.join(notes)}" if notes else ""))
+        else:
+            data["event_table_notes"] = ["report_md に {EVENT_TABLE} が無く、AIが書いた表をそのまま使用"]
+            log("report_md に {EVENT_TABLE} が無いため、AIが書いた表をそのまま使用（G9 で照合）")
         data["pdf_url"] = pdf_url
         data.setdefault("source_label", "Westpac IQ Morning Report")
 
