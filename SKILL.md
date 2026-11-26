@@ -16,6 +16,7 @@ Manus用スキルからの主な変更点: ①チャートサイトは実サイ�
 3. **本文・投稿生成** `scripts/generate_report.py` ＋ `prompts/generate_prompt.md`
    - 情報源はPDF原文のみ。数値は原文どおり転記
    - レポート本文（3セクション＋イベント表）、投稿1（主要トピック）、投稿2（5ペア通貨別分析）、画像用データを一括生成
+   - イベント表（report_md「## 3」）は、AIが原文の時刻をそのまま写した `events` から `scripts/event_times.py` が作る（日本時間への換算・時刻順の並べ替え・「(翌日)」。2026-11-26〜）
 4. **レポート画像描画** `scripts/render_image.py`
    - 2560×1440、紺×金、太いゴシック体（Noto Sans CJK JP Black／Bold）。2026-11-20に「案A2」へリニューアル
    - 上から: 大見出し（headline）＋補足2行（themes[0].desc）＋赤い注目バッジ（alert）／数値ボックス3つ（pairs_imageの3ペア。レート・変化率は原文の表からプログラムが読み取る）／そのほかの要点2つ（themes[1]・[2]）

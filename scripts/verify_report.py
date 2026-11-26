@@ -16,6 +16,8 @@ verify_report.py — 納品前の機械検証ゲート。結果は outputs/<date
      上限以内か、含まれる数値が原文に存在するか。数値の照合はliveのみ）
 情報記録（不合格にはしない）:
   X加重文字数（全角=2換算）… Xプレミアム運用のため上限警告なし
+  I4 イベント表の作成 … 2026-11-26 以降、表の時刻は generate_report.py（event_times.py）が
+     原文の時刻から換算して作る。その際の注記（原文に無い時刻を換算した等）を表示
 
 exit codes: 0=PASS / 2=FAIL
 """
@@ -548,6 +550,12 @@ def main():
                 heavy_lines.append(f"{i}行目 読点{n}個")
     gates.append({"id": "I3", "name": "post1 →行の読点過多", "status": "INFO",
                   "detail": ", ".join(heavy_lines) if heavy_lines else "なし"})
+
+    # 情報: イベント表の作り方（generate_report.py がプログラムで作った場合の注記。FAILにはしない）
+    ev_notes = data.get("event_table_notes")
+    gates.append({"id": "I4", "name": "イベント表の作成（時刻はプログラムで換算）", "status": "INFO",
+                  "detail": ("記録なし（旧形式・サンプル）" if ev_notes is None else
+                             "; ".join(ev_notes) if ev_notes else "プログラムで作成（注記なし）")})
 
     overall = "PASS" if all(g["status"] != "FAIL" for g in gates) else "FAIL"
     audit = {
